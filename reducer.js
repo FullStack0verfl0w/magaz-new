@@ -153,8 +153,7 @@ const reducer = (state, action) => {
                     newState.cartTotalPrice += value.itemsTotalPrice;
 
                 })
-                // for( let object of newState.cartItems.values() )
-                //     newState.cartTotalPrice += object.itemsTotalPrice;
+                
             }
             else{
                 newState.cartTotalPrice = 0;
@@ -218,6 +217,27 @@ const reducer = (state, action) => {
             else
                 return state;
 
+
+            newState.cartTotalPrice = 0;
+        
+            console.log(`COMPUTE TOTAL PRICE IN MINUS`);
+
+            if(newState.cartItems.size){
+                newState.cartItems.forEach( (value)=>{
+
+                    newState.cartTotalPrice += value.itemsTotalPrice;
+
+                })
+                
+            }
+            else{
+                newState.cartTotalPrice = 0;
+                
+            }
+                    
+
+
+
             return newState;
 
             
@@ -238,6 +258,26 @@ const reducer = (state, action) => {
             else 
                 return state;
             
+
+            newState.cartTotalPrice = 0;
+    
+            console.log(`COMPUTE TOTAL PRICE IN plus`);
+
+            if(newState.cartItems.size){
+                newState.cartItems.forEach( (value)=>{
+
+                    newState.cartTotalPrice += value.itemsTotalPrice;
+
+                })
+                
+            }
+            else{
+                newState.cartTotalPrice = 0;
+                
+            }
+
+
+
             return newState;
 
             

@@ -18,7 +18,7 @@ import OurTextButton from "../../../OurTextButton";
 const address = config.getCell("StoreAddress");
 
 const totalHeight = Dimensions.get("window").height 
-const itemHeight = totalHeight / 2;
+export const itemHeight = totalHeight / 2;
 
 
 

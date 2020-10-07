@@ -7,15 +7,18 @@ import { faShoppingBasket } from "@fortawesome/free-solid-svg-icons";
 import CartItem from "./CartItem";
 import CartTotal from "./CartTotal";
 import styles from "./styles";
-import Header from "../../Header/index";
+
+import * as CartItemStyles from "./CartItem/styles";
+
 import OurTextButton from "../../OurTextButton";
 
-/** Компонент блока товаров  */
-const ItemsBlock = ({item})=> {    
-    return (
-        <CartItem productId={item.productId} count={item.count}/>
-    );
+const findProductById = (productId, cartItems) => {
+    if(cartItems.has(productId))
+        return cartItems.get(productId);
+    else
+        return null;
 };
+
 
 /** Компонент корзины */
 const Cart = (props) =>
@@ -29,6 +32,21 @@ const Cart = (props) =>
     };
     
 
+
+
+    /** Компонент блока товаров  */
+    const ItemsBlock = ({item})=> {    
+        const product = findProductById(item.productId, state.cartItems);
+        return (
+            <CartItem productId={item.productId} count={item.count} product={product}/>
+        );
+    };
+
+
+
+    const itemHeight = CartItemStyles.default.container.height;
+    
+
     return (
         <>
             <LinearGradient
@@ -36,7 +54,7 @@ const Cart = (props) =>
                 locations={[0, 1.0]}
                 colors={["#E81C1C", "#E4724F"]}/>
 
-                <Header {...props} title={"cartTitle"} titleFunc={toDeliveryDetails}/>
+                
                 <View style={styles.items}>
                     <View style={styles.cartIcon}>
                         <FontAwesomeIcon size={42} color={"#fff"} icon={faShoppingBasket}/>
@@ -45,7 +63,12 @@ const Cart = (props) =>
                         contentContainerStyle={styles.cartList}
                         data={Array.from(state.cartItems.values())}
                         renderItem={ItemsBlock}
-                        keyExtractor={(item) => String(item.productId)}/>
+                        keyExtractor={(item) => String(item.productId)}
+                        getItemLayout={(data, index) => (
+                            {length: itemHeight, offset: itemHeight * index, index}
+                          )}
+                        
+                        />
                     <CartTotal />
                     <OurTextButton
                         translate={true}

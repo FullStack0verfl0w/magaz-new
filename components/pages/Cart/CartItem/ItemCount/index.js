@@ -28,12 +28,12 @@ const ItemCount = (props) =>
     const plusPressed = (e) => {
         // Добавляем 1 товар
         dispatch(Plus(productId));
-        dispatch(ComputeTotalPrice());
+        // dispatch(ComputeTotalPrice());
     };
     const minusPressed = (e) => {
         // Вычитаем 1 товар
         dispatch(Minus(productId, dispatch, t));
-        dispatch(ComputeTotalPrice());
+        // dispatch(ComputeTotalPrice());
     };
     const deletePressed = (e) => {
         Alert.alert(t("cartDeleteTitle"), t("cartDeleteMessage"), [

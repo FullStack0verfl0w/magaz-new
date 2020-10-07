@@ -15,15 +15,7 @@ const findProductById = (productId, cartItems) => {
 /** Компонент товара в корзине */
 const CartItem = (props) =>
 {
-    const { productId } = props;
-    const state = useContext(stateContext);
-    const [product, setProduct] = useState(findProductById(productId, state.cartItems));
-
-  
-
-    useEffect( () => {
-        setProduct(findProductById(productId, state.cartItems));
-    }, [product.count]);
+    const { productId, product } = props;
 
     return (
         <>

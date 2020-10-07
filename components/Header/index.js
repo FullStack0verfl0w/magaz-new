@@ -1,5 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import { useRoute, useNavigationState } from "@react-navigation/native";
+// import { useRoute, useNavigationState } from "@react-navigation/native";
+import {useRoute, useNavigationState} from "react-native-screens/native-stack";
+
 import { View, TouchableOpacity } from "react-native";
 import { Badge } from 'native-base';
 import { stateContext, dispatchContext } from "../../contexts";
@@ -9,15 +11,18 @@ import { faChevronLeft, faShoppingBasket } from '@fortawesome/free-solid-svg-ico
 import OurIconButton from "../OurIconButton";
 
 
-const isFirstRouteInParent = ()=>{
+const isFirstRouteInParent = (navigation)=>{
 
-    const route = useRoute();
-    const isFirstRouteInParent = useNavigationState(
-        state => state.routes[0].key === route.key
-    );
+    // const route = useRoute();
+    // const isFirstRouteInParent = useNavigationState(
+    //     state => state.routes[0].key === route.key
+    // );
 
-    return isFirstRouteInParent;
+    // return isFirstRouteInParent;
 
+    console.log(JSON.stringify(navigation));
+
+    return true;
 
 }
 
@@ -26,16 +31,20 @@ const isFirstRouteInParent = ()=>{
 const Header = (props) =>
 {
     const {
+        backgroundColor,
         title,
         titleFunc,
         showCart,
         navigation,
     } = props;
     const showBack = (typeof(props.showBack) === "boolean")
-        ? props.showBack : !isFirstRouteInParent();
+        ? props.showBack : !isFirstRouteInParent(navigation);
     
     const state = useContext(stateContext);
     const dispatch = useContext(dispatchContext);
+
+
+    console.log(`ShowCart is ${showCart}`)
 
     const goBack = (e) => {
         navigation.goBack();
@@ -47,7 +56,7 @@ const Header = (props) =>
 
     return (
         <>
-            <View style={styles.container}>
+            <View style={[styles.container, {backgroundColor: backgroundColor}]}>
                 <View style={styles.backContainer}>
                     {
                         showBack ?

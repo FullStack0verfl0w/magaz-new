@@ -4,7 +4,7 @@ import { stateContext, dispatchContext } from "../../../contexts";
 import OurActivityIndicator from "../../OurActivityIndicator";
 import CategoryItem from "./CategoryItem";
 import styles from "./styles";
-import Header from "../../Header/index";
+
 import config from "../../../config";
 
 import {
@@ -95,12 +95,7 @@ const CategoryList = (props) =>
                 style={styles.background}
                 locations={[0, 1.0]}
                 colors={['#078998', '#65B7B9']} />
-            {
-                state?.categories?.length ?
-                    <Header {...props} showCart={true}/>
-                    : error ? <Header {...props} showCart={false}/>
-                        : <></>
-            }
+           
             {
                 ( loading || error) ?
                     <OurActivityIndicator error />

@@ -1,4 +1,5 @@
 import React from "react";
+import {Text} from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import CategoryList from "./components/pages/CategoryList";
 import Cart from "./components/pages/Cart";
@@ -6,7 +7,7 @@ import ProductList from "./components/pages/ProductsList";
 import DeliveryDetails from "./components/Delivery";
 import Editor from "./components/Orders/editor";
 import Orders from "./components/Orders";
-import Header from "./components/Header";
+
 
 
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
@@ -26,8 +27,7 @@ const AppStackNavigator = ()=>{
             backBehavior="history"
             mode='modal'
             headerMode='screen'
-            defaultNavigationOptions={
-            {tabBarVisible: true}}
+            
         
         >
             <Screen 
@@ -38,15 +38,12 @@ const AppStackNavigator = ()=>{
             <Screen 
                 name="Cart"
                 component={Cart}
+                options={{headerShown:false}}
             />
             <Screen 
                 name="ProductList"
                 component={ProductList}
-                options={{
-                    header: (props)=><Header {...props} showCart={true}/>
-                    
-
-                }}
+                
             />
             <Screen 
                 name="DeliveryDetails"

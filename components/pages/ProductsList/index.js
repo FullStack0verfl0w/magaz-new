@@ -1,10 +1,11 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
 import { stateContext, dispatchContext } from "../../../contexts";
 import { Animated } from "react-native";
 import styles from "./styles";
 import Header from "./../../Header/index";
 import { LinearGradient } from 'expo-linear-gradient';
 import ProductsItem from './ProductsItem/index';
+import {itemHeight} from './ProductsItem/index';
 import config from "../../../config";
 
 import {
@@ -41,6 +42,10 @@ const LocallyAnimatedFlatList = ({data})=>{
         data={data}
         renderItem={ renderProductItem }
         keyExtractor={item => String(item.productId)}
+        getItemLayout={(data, index) => (
+            {length: itemHeight, offset: itemHeight * index, index}
+          )}
+        
         {...{ onScroll }} />
     )
 
@@ -51,8 +56,24 @@ const MemoedLocallyAnimatedFlatList = React.memo(LocallyAnimatedFlatList);
 /**Список товаров той или иной категории */
 const ProductsList = (props) =>
 {
-    // const { navigation } = props;
-  
+    const { navigation } = props;
+    
+    //'#2454e5', '#499eda'
+    const startGradient = '#2454e5';
+    const endGradient = '#499eda';
+
+    useLayoutEffect( ()=>{
+
+        navigation.setOptions({
+            headerCenter: (props)=><Header {...props} navigation={navigation} showCart={true} showBack={true} backgroundColor={startGradient}/>,
+            headerLeft: (props)=>{},
+            headerRight: (props)=>{}
+            
+            
+
+        })
+
+    }, [navigation])
     
     const dispatch = useContext(dispatchContext);
     const [error, setError] = useState(false);
@@ -95,8 +116,8 @@ const ProductsList = (props) =>
             <LinearGradient
                 style={styles.productList}
                 locations={[0, 1.0]}
-                colors={['#2454e5', '#499eda']} />
-            {/* <Header {...props} showCart={true}/> */}
+                colors={[startGradient, endGradient]} />
+            
             {
                 data ?
                     <MemoedLocallyAnimatedFlatList data={data}/> 
