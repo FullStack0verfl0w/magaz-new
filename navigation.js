@@ -33,7 +33,7 @@ const AppStackNavigator = ()=>{
             <Screen 
                 name="CategoryList"
                 component={CategoryList}
-                options={{headerShown:false}}
+                
             />
             <Screen 
                 name="Cart"

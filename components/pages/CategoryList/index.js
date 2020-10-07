@@ -1,9 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
 import { LinearGradient } from 'expo-linear-gradient';
 import { stateContext, dispatchContext } from "../../../contexts";
 import OurActivityIndicator from "../../OurActivityIndicator";
 import CategoryItem from "./CategoryItem";
 import styles from "./styles";
+import Header from "./../../Header/index";
 
 import config from "../../../config";
 
@@ -27,6 +28,25 @@ const CategoryList = (props) =>
             <CategoryItem navigation={navigation} name={item.name} id={item.productCategoryId} imageUrl={item?.image?.mediaDetails?.file} cached={item.cached}/>
         )
     };
+
+
+    //'#2454e5', '#499eda'
+    const startGradient = '#2454e5';
+    const endGradient = '#499eda';
+
+    useLayoutEffect( ()=>{
+
+        navigation.setOptions({
+            headerCenter: (props)=><Header {...props} navigation={navigation} showCart={true} backgroundColor={startGradient}/>,
+            headerLeft: (props)=>{},
+            headerRight: (props)=>{}
+            
+            
+
+        })
+
+    }, [navigation])
+
 
     const state = useContext(stateContext);
     const dispatch = useContext(dispatchContext);
