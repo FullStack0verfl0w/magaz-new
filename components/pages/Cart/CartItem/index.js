@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { ShowModal } from "~/redux/ModalReducer/actions";
+import { ChangeProductQuantity, DeleteProductFromCart } from "~/redux/CartReducer/actions";
 import { Animated, View, LayoutAnimation } from "react-native";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,11 +26,15 @@ const linear = LayoutAnimation.create(
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = Infinity;
 
+const QUANTITY_CHANGE_DELAY = 1000;
+
 /** Компонент товара в корзине */
 const CartItem = (props) => {
-    const { productId, name, price, productQuantity, imageLink } = props;
+    const { id, productId, name, price, productQuantity, imageLink } = props;
     const [isModalVisible, setModalVisible] = useState(false);
     const [quantity, setQuantity] = useState(productQuantity || MIN_QUANTITY);
+    const [loading, setLoading] = useState(false);
+    const [timer, setTimer] = useState(null);
     const opacity = useRef(new Animated.Value(1)).current;
     const dispatch = useDispatch();
 
@@ -41,6 +46,13 @@ const CartItem = (props) => {
             quantity = Number(quantity.replace(/[^0-9]/g, ''));
 
         setQuantity(Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY));
+
+        if ( timer ) {
+            clearTimeout(timer);
+        }
+        setTimer( setTimeout( () => {
+            dispatch(ChangeProductQuantity(id, quantity))
+        }, QUANTITY_CHANGE_DELAY) );
     };
 
     const onRemove = () => {
@@ -59,13 +71,7 @@ const CartItem = (props) => {
                 {
                     text: "ok",
                     onPress: (e) => {
-                        Animated.timing(opacity, {
-                            toValue: 0,
-                            duration: ANIMATION_DURATION,
-                            useNativeDriver: true,
-                        }).start(() => {
-                            // TODO
-                        });
+                        dispatch(ChangeProductQuantity(id, 0));
                     },
                 },
             ],

@@ -17,7 +17,7 @@ import styles from "./styles";
 const LocallyAnimatedFlatList = ({data}) => {
     const renderItemsBlock = ({item, index}) => {
         return (
-            <CartItem productId={item.product.databaseId} name={item.product.name} price={item.total} productQuantity={item.quantity} imageLink={item.product.image.mediaDetails.file}/>
+            <CartItem id={item.key} productId={item.product.databaseId} name={item.product.name} price={item.total} productQuantity={item.quantity} imageLink={item.product.image.mediaDetails.file}/>
         );
     };
 

@@ -186,3 +186,19 @@ export const QUERY_GET_CART = gql`
         }
     }
 `;
+
+export const MUTATION_UPDATE_PRODUCT_QUANTITY = gql`
+    mutation updateProductQuantity( $clientMutationId: String!, $key: ID!, $quantity: Int! ) {
+        updateItemQuantities( input: { clientMutationId: $clientMutationId, items: { key: $key, quantity: $quantity } } ) {
+            clientMutationId
+        }
+    }
+`;
+
+export const MUTATION_DELETE_PRODUCT_FROM_CART = gql`
+    mutation removeItemFromCart( $clientMutationId: String!, $keys: [ID!] ) {
+        removeItemsFromCart( input: { clientMutationId: $clientMutationId, keys: $keys, all: false } ) {
+            clientMutationId
+        }
+    }
+`;

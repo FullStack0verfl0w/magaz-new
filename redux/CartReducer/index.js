@@ -1,4 +1,4 @@
-import { CART_SET_PRODUCT_LIST, CART_SET_LOADING, CART_SET_ERROR } from "./types";
+import { CART_SET_PRODUCT_LIST, CART_SET_LOADING, CART_SET_ERROR, CART_DELETE_PRODUCT } from "./types";
 
 export const initialCartState = {
     productList: new Map(), // Список товаров
@@ -42,6 +42,11 @@ const cartReducer = ( state = initialCartState, action ) => {
 
             newState.error = error;
             return newState;
+        }
+
+        case CART_DELETE_PRODUCT: {
+            const newState = {...state};
+            const { id } = action;
         }
 
         default: {

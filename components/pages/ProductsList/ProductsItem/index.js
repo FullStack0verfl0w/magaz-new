@@ -18,6 +18,8 @@ import OurPicker from "~/components/OurPicker";
 import OurCounter from "~/components/OurCounter";
 import OurImageSlider from "~/components/OurImageSlider";
 import styles from "./styles";
+import client from "~/apollo";
+import { MUTATION_UPDATE_ITEM_QUANTITY } from "~/apollo/queries";
 
 
 const totalHeight = Dimensions.get("window").height;
@@ -27,7 +29,6 @@ const itemHeight2 = itemHeight + 16;
 
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 999;
-
 
 /** Список товаров той или иной категории */
 const ProductsItem = (props) => {
@@ -66,7 +67,7 @@ const ProductsItem = (props) => {
     const [translate, scale, opacity] = ListAnimation(y, totalHeight, itemHeight2, itemWidth, index);
 
     return (
-        <Animated.View style={[styles.mainContainer, {height: itemHeight}, { opacity, transform: [{ translateX: translate }, { scale }] }]}>
+        <Animated.View style={[styles.mainContainer]}>
             <View style={styles.titleContainer}>
                 <OurText style={styles.title}>{name}</OurText>
             </View>
@@ -114,7 +115,7 @@ const ProductsItem = (props) => {
                 </View>
             </View>
             <View style={styles.descriptionContainer}>
-                <OurText style={styles.descriptionText}>{data.description?.replace(HTML_PATTERN, "") || ""}</OurText>
+                <OurText numberOfLines={2} style={styles.descriptionText}>{data.description?.replace(HTML_PATTERN, "") || ""}</OurText>
             </View>
         </Animated.View>
     );

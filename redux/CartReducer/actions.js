@@ -1,5 +1,5 @@
 import client from "~/apollo";
-import { QUERY_GET_CART, MUTATION_ADD_TO_CART } from "~/apollo/queries";
+import { QUERY_GET_CART, MUTATION_ADD_TO_CART, MUTATION_UPDATE_PRODUCT_QUANTITY, MUTATION_DELETE_PRODUCT_FROM_CART } from "~/apollo/queries";
 import { AddToast } from "../ToastReducer/actions";
 import { CART_SET_LOADING, CART_SET_PRODUCT_LIST } from "./types";
 import { faShoppingBasket } from "@fortawesome/free-solid-svg-icons";
@@ -74,4 +74,69 @@ export const AddProductToCart = (productId, productName, quantity=1, setLoading=
         dispatch(AddToast(toast, "PRODUCT_ADDING_ERROR"));
         setLoading(false);
     }
+};
+
+export const DeleteProductFromCart = (id, setLoading, anim) => async (dispatch) => {
+    setLoading(true);
+    try {
+        let mutationId = SyncStorage.get("user-uuid");
+        if ( !mutationId ) {
+            mutationId = uuidv4();
+            SyncStorage.set("user-uuid", mutationId);
+        }
+
+        await client.mutate({
+            mutation: MUTATION_DELETE_PRODUCT_FROM_CART,
+            variables: {
+                clientMutationId: mutationId,
+                keys: id
+            }
+        });
+        anim.start(() => {
+            dispatch(FetchCartProductList);
+        });
+    } catch (e) {
+        console.log("ERROR", e)
+        const toast = {
+            icon: faShoppingBasket,
+            text: i18n.t("activityError2"),
+            duration: 3000,
+            color: "#fc0341",
+        };
+        dispatch(AddToast(toast, "PRODUCT_REMOVING_ERROR"));
+        setLoading(false);
+    }
+};
+
+export const ChangeProductQuantity = (id, quantity) => async (dispatch) => {
+    dispatch(SetCartLoading(true));
+    try {
+        
+        let mutationId = SyncStorage.get("user-uuid");
+        if ( !mutationId ) {
+            mutationId = uuidv4();
+            SyncStorage.set("user-uuid", mutationId);
+        }
+
+        await client.mutate({
+            mutation: MUTATION_UPDATE_PRODUCT_QUANTITY,
+            variables: {
+                clientMutationId: mutationId,
+                key: id,
+                quantity: quantity,
+            }
+        });
+    } catch (e) {
+        console.log("ERROR", e)
+        const toast = {
+            icon: faShoppingBasket,
+            text: i18n.t("activityError2"),
+            duration: 3000,
+            color: "#fc0341",
+        };
+        dispatch(AddToast(toast, "UPDATE_PRODUCT_QUANTITY_ERROR"));
+        dispatch(SetCartLoading(false));
+    }
+
+    dispatch(FetchCartProductList);
 };
