@@ -7,6 +7,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { STORE_ADDRESS } from "~/utils/config";
 
+import OurActivityIndicator from "~/components/OurActivityIndicator";
 import OurText from "~/components/OurText";
 import OurIconButton from "~/components/OurIconButton";
 import OurImage from "~/components/OurImage";
@@ -45,7 +46,9 @@ const CartItem = (props) => {
         if ( typeof quantity === "string")
             quantity = Number(quantity.replace(/[^0-9]/g, ''));
 
-        setQuantity(Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY));
+        if ( quantity < MIN_QUANTITY || quantity > MAX_QUANTITY ) return;
+
+        setQuantity(quantity);
 
         if ( timer ) {
             clearTimeout(timer);
@@ -71,6 +74,7 @@ const CartItem = (props) => {
                 {
                     text: "ok",
                     onPress: (e) => {
+                        setLoading(true);
                         dispatch(ChangeProductQuantity(id, 0));
                     },
                 },
@@ -94,7 +98,13 @@ const CartItem = (props) => {
                 <View style={styles.counterContainer}>
                     <OurCounter onChange={onQuantityChange} value={quantity} color="#E81C1C"/>
                     {/*<OurText style={[styles.itemPrice, {marginLeft: 8}]} translate={true}>productQuantity</OurText>*/}
-                    <OurIconButton style={styles.deleteButton} onPress={onRemove} icon={faTrash} color="#E81C1C" />
+                    
+                    {
+                        loading ?
+                            <OurActivityIndicator size={32} oneState={true} containerStyle={{position: null}} />
+                        :
+                            <OurIconButton style={styles.deleteButton} disabled={loading} onPress={onRemove} icon={faTrash} color="#E81C1C" />
+                    }
                 </View>
                 <OurText style={styles.itemPrice} translate={true} params={{total: price}}>cartTotal</OurText>
             </View>

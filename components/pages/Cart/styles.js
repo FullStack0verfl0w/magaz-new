@@ -50,6 +50,23 @@ const styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 30,
     },
+    loadingContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+ 
+        backgroundColor: "#fffffffa",
+        borderRadius: 100,
+    },
 });
 
 export default styles;

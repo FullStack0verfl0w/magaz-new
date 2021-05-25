@@ -104,7 +104,7 @@ const Cart = (props) => {
                 <View style={styles.items}>
                     {
                         state.loading ?
-                            <OurActivityIndicator />
+                            <OurActivityIndicator style={styles.loadingContainer} size={64} oneState={true} color={gradStart} />
                         :
                             state.productList.size === 0 ?
                                 <OurText style={styles.emptyText}

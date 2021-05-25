@@ -7,7 +7,7 @@ import styles from "./styles";
 const ANIMATION_DURATION = 500;
 
 const OurActivityIndicator = (props) => {
-    const { error, abortController, doRefresh, buttonTextColor, size, oneState } = props;
+    const { error, abortController, doRefresh, buttonTextColor, size, oneState, color, style, containerStyle } = props;
     const opacity = useRef(new Animated.Value(0)).current;
     const posX = useRef(new Animated.Value(Dimensions.get("screen").width)).current;
 
@@ -58,7 +58,7 @@ const OurActivityIndicator = (props) => {
     });
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
             {
                 aborted && !oneState ?
                     <Animated.View style={{opacity, transform: [{ translateX: posX }]}}>
@@ -76,17 +76,19 @@ const OurActivityIndicator = (props) => {
                         }} translate={true} textStyle={{color: buttonTextColor, paddingHorizontal: 32}}>activityRefresh</OurTextButton>
                     </Animated.View>
                     :
-                        <TouchableOpacity onLongPress={onLongPress} delayLongPress={100}>
-                            <ActivityIndicator size={size || 64} style={styles.indicator} color={"#fff"}/>
-                            {
-                                !oneState ?
-                                    <Animated.View style={{ opacity: textAnim, transform: [ { translateY: textPosY } ] }}>
-                                        <OurText style={styles.abortText} translate={true}>activityLoading</OurText>
-                                    </Animated.View>
-                                :
-                                    <></>
-                            }
-                        </TouchableOpacity>
+                        <View style={style}>
+                            <TouchableOpacity onLongPress={onLongPress} delayLongPress={100}>
+                                <ActivityIndicator size={size || 64} style={styles.indicator} color={color || "#fff"}/>
+                                {
+                                    !oneState ?
+                                        <Animated.View style={{ opacity: textAnim, transform: [ { translateY: textPosY } ] }}>
+                                            <OurText style={styles.abortText} translate={true}>activityLoading</OurText>
+                                        </Animated.View>
+                                    :
+                                        <></>
+                                }
+                            </TouchableOpacity>
+                        </View>
             }
         </View>
     );
