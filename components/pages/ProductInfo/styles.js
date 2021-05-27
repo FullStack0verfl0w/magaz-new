@@ -1,0 +1,78 @@
+import { StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        minHeight: "100%",
+    },
+    background: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        minHeight: "100%",
+    },
+    productNameContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        paddingTop: 24,
+    },
+    productName: {
+        fontSize: 24,
+        color: "#fff",
+    },
+    sliderContainer: {
+        width: "100%",
+        height: 320,
+        marginTop: 24,
+    },
+    productImageContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    productImage: {
+        width: 320,
+        height: 320,
+        resizeMode: "contain",
+    },
+    productInfoContainer: {
+        paddingVertical: 24,
+        paddingHorizontal: 12,
+    },
+    descriptionContainer: {
+        paddingBottom: 12,
+        borderBottomWidth: .5,
+        borderBottomColor: "#fffa",
+    },
+    descriptionTitle: {
+        textAlign: "left",
+        fontSize: 24,
+        color: "#fff",
+    },
+    description: {
+        textAlign: "right",
+        fontSize: 16,
+        color: "#fff",
+    },
+    attributeContainer: {
+        paddingTop: 12,
+    },
+    bottomContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingTop: 24,
+    },
+    buyButtonContanier: {
+        paddingHorizontal: 64,
+    },
+    buyButtonText: {
+        color: "#fc67fa",
+    },
+    loadingIndicator: {
+        position: null,
+        marginTop: 32,
+    },
+});
+
+export default styles;

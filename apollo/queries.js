@@ -18,6 +18,31 @@ export const QUERY_CATEGORY_LIST = gql`
         }
     }`;
 
+export const QUERY_GET_PRODUCT = gql`
+    query GetProduct( $id: ID! ) {
+        product(id: $id, idType: DATABASE_ID) {
+            description(format: RAW)
+            galleryImages {
+                nodes {
+                    sourceUrl
+                }
+            }
+            ... on SimpleProduct {
+                price(format: FORMATTED)
+            }
+            ... on VariableProduct {
+                attributes {
+                    nodes {
+                        attributeId
+                        name
+                        options
+                    }
+                }
+            }
+        }
+    }
+`;
+
 /**
  * GraphQL запрос на список товаров
  */

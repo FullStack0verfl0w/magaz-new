@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Dimensions, Animated } from "react-native";
+import { View, Dimensions, Animated, TouchableOpacity } from "react-native";
 
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,8 @@ import OurImageSlider from "~/components/OurImageSlider";
 import styles from "./styles";
 import client from "~/apollo";
 import { MUTATION_UPDATE_ITEM_QUANTITY } from "~/apollo/queries";
+import SyncStorage from "sync-storage";
+import { ShowLoginModal } from "~/redux/ModalReducer/actions";
 
 
 const totalHeight = Dimensions.get("window").height;
@@ -32,7 +34,7 @@ const MAX_QUANTITY = 999;
 
 /** Список товаров той или иной категории */
 const ProductsItem = (props) => {
-    const { data, y, index, name, imageUrl } = props;
+    const { data, y, index, name, imageUrl, navigation } = props;
     const { t } = useTranslation();
     const [isModalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -53,6 +55,13 @@ const ProductsItem = (props) => {
 
     // Обрабатываем нажатие на кнопку "Купить"
     const buyProduct = (e) => {
+        const auth = SyncStorage.get("auth");
+        const refresh = SyncStorage.get("refresh-auth");
+
+        if ( !refresh && !auth ) {
+            ShowLoginModal(dispatch, navigation);
+            return;
+        }
         //                                               Обрабатываем количество
         dispatch(AddProductToCart(data.databaseId, name, Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY), setLoading));
     };
@@ -68,9 +77,11 @@ const ProductsItem = (props) => {
 
     return (
         <Animated.View style={[styles.mainContainer]}>
+            <TouchableOpacity onPress={() => navigation.navigate("ProductInfo", { name, imageUrl: url, id: data.databaseId })}>
             <View style={styles.titleContainer}>
                 <OurText style={styles.title}>{name}</OurText>
             </View>
+            </TouchableOpacity>
             <View style={styles.infoContainer}>
                 <View style={styles.infoTopContainer}>
                     <OurImage url={url}

@@ -11,3 +11,33 @@ export const CloseModal = () => {
 export const ToggleModal = (data={}) => {
     return {type: MODAL_TOGGLE, payload: data};
 };
+
+export const ShowLoginModal = (dispatch, navigation) => {
+    const data = {
+        title: { text: "cartLoginTitle", params: {} },
+        text: { text: "cartLoginMessage", params: {} },
+        animationIn: "fadeInUp",
+        animationOut: "fadeOutDown",
+        buttons: [
+            {
+                text: "welcomePageContinue",
+                textStyle: {
+                    color: "#383838",
+                },
+            },
+            {
+                text: "welcomePageRegister",
+                onPress: (e) => {
+                    navigation.navigate("RegisterPage");
+                },
+            },
+            {
+                text: "welcomePageLogin",
+                onPress: (e) => {
+                    navigation.navigate("LoginPage");
+                },
+            },
+        ],
+    };
+    dispatch(ShowModal(data));
+};

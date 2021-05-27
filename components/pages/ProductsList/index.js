@@ -13,7 +13,7 @@ import styles from "./styles";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-const LocallyAnimatedFlatList = ({data, refreshing, onRefresh}) => {
+const LocallyAnimatedFlatList = ({data, refreshing, onRefresh, navigation}) => {
     const y = useRef(new Animated.Value(0)).current;
     const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y } } }], {
         useNativeDriver: true,
@@ -25,6 +25,7 @@ const LocallyAnimatedFlatList = ({data, refreshing, onRefresh}) => {
                             index={index}
                             id={item.databaseId}
                             data={item}
+                            navigation={navigation}
                             name={item.name}
                             imageUrl={item.image?.mediaDetails?.file} />
         );
@@ -86,7 +87,7 @@ const ProductsList = (props) => {
                 ( loading || error || abortController.signal.aborted ) ?
                     <OurActivityIndicator error={error} abortController={abortController} doRefresh={refetch} buttonTextColor={gradStart}/>
                 :
-                    <MemoedLocallyAnimatedFlatList data={data?.products?.nodes} refreshing={loading} onRefresh={()=>{refetch()}}/>
+                    <MemoedLocallyAnimatedFlatList navigation={navigation} data={data?.products?.nodes} refreshing={loading} onRefresh={()=>{refetch()}}/>
             }
         </>
     );

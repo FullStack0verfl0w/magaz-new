@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FetchCartProductList } from "~/redux/CartReducer/actions";
 import { useQuery } from "@apollo/client";
 import { MUTATION_REFRESH_TOKEN, QUERY_CATEGORY_LIST } from '~/apollo/queries';
-import { ShowModal } from "~/redux/ModalReducer/actions";
+import { ShowLoginModal, ShowModal } from "~/redux/ModalReducer/actions";
 
 import { expo } from "~/app.json";
 import SyncStorage from "sync-storage";
@@ -41,6 +41,7 @@ const CategoryList = (props) => {
         dispatch(ShowModal(data));
         SyncStorage.set("session", null);
         SyncStorage.set("auth", null);
+        SyncStorage.set("refresh-auth", null);
         SyncStorage.set("user-uuid", null);
         SyncStorage.set("auth-expires-at", null);
     };
@@ -57,6 +58,7 @@ const CategoryList = (props) => {
     }, [navigation]);
 
     useEffect( () => {
+        let auth = SyncStorage.get("auth");
         let refresh = SyncStorage.get("refresh-auth");
 
         if ( refresh ) {
@@ -85,34 +87,8 @@ const CategoryList = (props) => {
             });
             dispatch(FetchCartProductList);
         }
-        if ( !refresh ) {
-            const data = {
-                title: { text: "cartLoginTitle", params: {} },
-                text: { text: "cartLoginMessage", params: {} },
-                animationIn: "fadeInUp",
-                animationOut: "fadeOutDown",
-                buttons: [
-                    {
-                        text: "welcomePageContinue",
-                        textStyle: {
-                            color: "#383838",
-                        },
-                    },
-                    {
-                        text: "welcomePageRegister",
-                        onPress: (e) => {
-                            navigation.navigate("RegisterPage");
-                        },
-                    },
-                    {
-                        text: "welcomePageLogin",
-                        onPress: (e) => {
-                            navigation.navigate("LoginPage");
-                        },
-                    },
-                ],
-            };
-            dispatch(ShowModal(data));
+        if ( !refresh && !auth ) {
+            ShowLoginModal(dispatch, navigation);
         }
     }, []);
 
