@@ -14,16 +14,17 @@ const ordersReducer = ( state = initialOrdersState, action ) => {
          */
         case ORDERS_SET_LIST: {
             const newState = {...state};
-            const { productList, total } = action;
+            const { orderList } = action;
 
-            const cart = new Map();
+            const orders = new Map();
 
-            productList.map( (v, i) => {
-                cart.set(v.product.databaseId, v);
-            });
+            if ( orderList )
+                orderList.forEach( (v, i) => {
+                    orders.set( v.databaseId, v );
+                } );
 
-            newState.productList = cart;
-            newState.total = total;
+
+            newState.orderList = orders;
             return newState;
         }
 

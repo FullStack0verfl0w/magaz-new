@@ -17,6 +17,7 @@ import OurActivityIndicator from "~/components/OurActivityIndicator";
 import OurTextButton from "~/components/OurTextButton";
 import styles from "./styles";
 import SyncStorage from "sync-storage";
+import { AUTH_TOKEN_EXPIRE_TIME } from "~/utils/config";
 
 const USERNAME_MIN_LENGTH = 4;
 
@@ -48,7 +49,10 @@ const RegisterPage = (props) => {
     const onCompleted = (data) => {
         console.log("USER REGISTERED", data);
         SyncStorage.set("user-uuid", customerId);
-        
+        SyncStorage.set("auth", data.login.authToken);
+        SyncStorage.set("refresh-auth", data.login.refreshToken);
+        SyncStorage.set("auth-expires-at", Date.now() + AUTH_TOKEN_EXPIRE_TIME);
+
         navigation.popToTop();
     };
 

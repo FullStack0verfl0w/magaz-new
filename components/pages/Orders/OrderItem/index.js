@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Animated, View, TouchableOpacity, LayoutAnimation } from "react-native";
 import { useDispatch } from "react-redux";
 
-import { ChangeOrderStatus, DeleteOrder } from "~/redux/OrdersReducer/actions";
+// import { ChangeOrderStatus, DeleteOrder } from "~/redux/OrdersReducer/actions";
 import { statusToText, ORDER_STATUS_CANCELED } from "../orderStates";
 import { STORE_ADDRESS } from "~/utils/config";
 
@@ -28,9 +28,9 @@ const OrderItem = (props) => {
     const opacity = useRef(new Animated.Value(1)).current;
     const [height, setHeight] = useState(null);
 
-    const images = Array.from(data.products.values()).map( (v, i) => {
-        return `${STORE_ADDRESS}wp-content/uploads/${v.imageLink}`;
-    });
+    // const images = Array.from(data.products.values()).map( (v, i) => {
+    //     return `${STORE_ADDRESS}wp-content/uploads/${v.imageLink}`;
+    // });
 
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -42,7 +42,7 @@ const OrderItem = (props) => {
         navigation.navigate("DeliveryDetailsCheck", { data: data.deliveryDetails, isOrderMade: true });
     }
     const cancelOrder = (e) => {
-        dispatch(ChangeOrderStatus(data.uuid, ORDER_STATUS_CANCELED));
+        // dispatch(ChangeOrderStatus(data.uuid, ORDER_STATUS_CANCELED));
     };
     const deleteOrder = (e) => {
         LayoutAnimation.configureNext(linear);
@@ -61,23 +61,23 @@ const OrderItem = (props) => {
             <View style={styles.topContainer}>
                 <View style={styles.infoContainer}>
                     <OurText style={styles.textField} translate={true}>orderStatus</OurText>
-                    <OurText style={styles.text} translate={true}>{statusToText(data.status)}</OurText>
+                    <OurText style={styles.text} translate={true}>{data.status}</OurText>
                 </View>
                 <View style={styles.infoContainer}>
-                    <OurText style={styles.textField}>{data.totalPrice}$</OurText>
+                    <OurText style={styles.textField}>{data.total}$</OurText>
                 </View>
             </View>
-            <View style={styles.middleContainer}>
-                {
-                    images.map( (url, i) => {
-                        if ( i > MAX_IMAGES - 1 )
-                            return;
-                        else
-                            return <OurImage style={styles.productImage} onPress={toggleModal} url={url} key={i} />;
-                    })
-                }
-                <OurImageSlider data={images} isModalVisible={isModalVisible} toggleModal={toggleModal} />
-            </View>
+            {/*<View style={styles.middleContainer}>*/}
+            {/*    {*/}
+            {/*        images.map( (url, i) => {*/}
+            {/*            if ( i > MAX_IMAGES - 1 )*/}
+            {/*                return;*/}
+            {/*            else*/}
+            {/*                return <OurImage style={styles.productImage} onPress={toggleModal} url={url} key={i} />;*/}
+            {/*        })*/}
+            {/*    }*/}
+            {/*    <OurImageSlider data={images} isModalVisible={isModalVisible} toggleModal={toggleModal} />*/}
+            {/*</View>*/}
             <View style={styles.bottomContainer}>
                 {
                     data.status !== ORDER_STATUS_CANCELED ?

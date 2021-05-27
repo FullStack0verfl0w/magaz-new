@@ -1,5 +1,5 @@
 import { ORDERS_SET_LIST, ORDERS_SET_LOADING } from "./types";
-import { MUTATION_CHECKOUT } from "~/apollo/queries";
+import { MUTATION_CHECKOUT, QUERY_GET_ORDERS } from "~/apollo/queries";
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { AddToast } from "../ToastReducer/actions";
 import { FetchCartProductList } from "../CartReducer/actions";
@@ -13,9 +13,20 @@ export const SetOrderList = (orderList=[]) => {
 
 export const FetchOrderList = async (dispatch) => {
     dispatch(SetOrdersLoading(true));
-
-    // TODO
-
+    try {
+        const data = await client.query({ query: QUERY_GET_ORDERS });
+        dispatch(SetOrderList(data.data?.orders?.nodes));
+    }
+    catch (e) {
+        console.log("Order fetching error", e);
+        const toast = {
+            icon: faBoxOpen,
+            text: i18n.t("activityError"),
+            duration: 3000,
+            color: "#fc0341",
+        };
+        dispatch(AddToast(toast, "ORDER_FETCH_ERROR"));
+    }
     dispatch(SetOrdersLoading(false));
 };
 

@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from "react-redux";
 import { FetchCartProductList } from "~/redux/CartReducer/actions";
 import { useQuery } from "@apollo/client";
-import { QUERY_CATEGORY_LIST } from '~/apollo/queries';
+import { MUTATION_REFRESH_TOKEN, QUERY_CATEGORY_LIST } from '~/apollo/queries';
 import { ShowModal } from "~/redux/ModalReducer/actions";
 
 import { expo } from "~/app.json";
@@ -15,6 +15,9 @@ import { HeaderTitle, HeaderCartButton } from "~/components/Header";
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import CategoryItem from "./CategoryItem";
 import styles from "./styles";
+import client from "~/apollo";
+import { v4 as uuidv4 } from "uuid";
+import { AUTH_TOKEN_EXPIRE_TIME } from "~/utils/config";
 
 
 /**Список категорий товаров*/
@@ -36,8 +39,10 @@ const CategoryList = (props) => {
             }]
         };
         dispatch(ShowModal(data));
-        SyncStorage.set("bearer-token", null);
+        SyncStorage.set("session", null);
+        SyncStorage.set("auth", null);
         SyncStorage.set("user-uuid", null);
+        SyncStorage.set("auth-expires-at", null);
     };
 
     useLayoutEffect( () => {
@@ -52,11 +57,35 @@ const CategoryList = (props) => {
     }, [navigation]);
 
     useEffect( () => {
-        const token = SyncStorage.get("bearer-token");
-        
-        if ( token ) {
+        let refresh = SyncStorage.get("refresh-auth");
+
+        if ( refresh ) {
+            let mutationId = SyncStorage.get("user-uuid");
+            if ( !mutationId ) {
+                mutationId = uuidv4();
+                SyncStorage.set("user-uuid", mutationId);
+            }
+            client.mutate({
+                mutation: MUTATION_REFRESH_TOKEN,
+                variables: {
+                    clientMutationId: mutationId,
+                    jwtRefreshToken: refresh,
+                }
+            }).then((res) => {
+                SyncStorage.set("auth", res.data.refreshJwtAuthToken.authToken);
+                SyncStorage.set("auth-expires-at", Date.now() + AUTH_TOKEN_EXPIRE_TIME);
+            }).catch((err) => {
+                console.log("Well shit! Something went wrong while updating auth token!", err);
+
+                SyncStorage.set("session", null);
+                SyncStorage.set("auth", null);
+                SyncStorage.set("refresh-auth", null);
+                SyncStorage.set("auth-expires-at", null);
+                refresh = null;
+            });
             dispatch(FetchCartProductList);
-        } else {
+        }
+        if ( !refresh ) {
             const data = {
                 title: { text: "cartLoginTitle", params: {} },
                 text: { text: "cartLoginMessage", params: {} },

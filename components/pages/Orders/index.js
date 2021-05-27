@@ -1,13 +1,15 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { Animated, FlatList, View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-import {useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { FetchOrderList } from "~/redux/OrdersReducer/actions";
 
 import { HeaderBackButton, HeaderCartButton, HeaderTitle } from "~/components/Header/index";
 import OurText from "~/components/OurText";
-import OurTextButton from "~/components/OurTextButton";
+import OurActivityIndicator from "~/components/OurActivityIndicator";
 import OrderItem from "./OrderItem";
-import styles from "./styles";
+import styles from "./styles"
+
 
 
 const LocallyAnimatedFlatList = ({data, navigation}) => {
@@ -31,10 +33,15 @@ const LocallyAnimatedFlatList = ({data, navigation}) => {
 const MemoedLocallyAnimatedFlatList = React.memo(LocallyAnimatedFlatList);
 
 const Orders = (props) => {
-    const state = useSelector(state=>state);
     const { navigation } = props;
+    const state = useSelector(state=>state);
+    const dispatch = useDispatch();
 
     const [gradStart, gradEnd] = ["#931DC4", "#F33BC8"];
+
+    useEffect( () => {
+        dispatch(FetchOrderList);
+    }, [] )
 
     useLayoutEffect( () => {
         navigation.setOptions({
@@ -52,12 +59,15 @@ const Orders = (props) => {
         <LinearGradient style={styles.background} locations={[0, 1.0]} colors={[gradStart, gradEnd]}/>
         <View style={styles.mainContainer}>
         {
-        	state.orders.size === 0 ?
+        	state.ordersReducer.orderList.size === 0 ?
         		<View style={styles.emptyTextContainer}>
         			<OurText style={styles.emptyText} translate={true}>ordersEmpty</OurText>
         		</View>
-        	:
-        		<MemoedLocallyAnimatedFlatList navigation={navigation} data={Array.from(state.orders.values())}/>
+            :
+        	state.ordersReducer.loading ?
+                <OurActivityIndicator />
+            :
+        		<MemoedLocallyAnimatedFlatList navigation={navigation} data={Array.from(state.ordersReducer.orderList.values())}/>
         }
         </View>
         </>

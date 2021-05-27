@@ -58,7 +58,7 @@ const ProductsItem = (props) => {
     };
 
     const onQuantityChange = (quantity) => {
-        if ( typeof quantity === "string")
+        if ( typeof quantity === "string" )
             quantity = Number(quantity.replace(/[^0-9]/g, ''));
 
         setQuantity(Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY));

@@ -19,8 +19,8 @@ const cartReducer = ( state = initialCartState, action ) => {
 
             const cart = new Map();
 
-            productList.map( (v, i) => {
-                cart.set(v.product.databaseId, v);
+            productList.forEach( (v, i) => {
+                cart.set(v.product.node.databaseId, v);
             });
 
             newState.productList = cart;

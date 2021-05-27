@@ -9,7 +9,7 @@ import store from "./redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { enableScreens } from "react-native-screens";
 
-import AppStackNavigator from "./navigation";
+import AppStackNavigator from "./Navigation";
 import OurModal from "./components/OurModal";
 import OurToast from "./components/OurToast";
 

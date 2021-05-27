@@ -104,13 +104,14 @@ export const MUTATION_LOGIN_USER = gql`
     }
 `;
 
-export const MUTATION_CREATE_ORDER = gql`
-    mutation CreateOrder($clientMutationId: String!, $customerId: Int!) {
-        createOrder(input:{clientMutationId: $clientMutationId, customerId: $customerId}){
-            clientMutationId
-            order {
-                orderKey
-            }
+export const MUTATION_REFRESH_TOKEN = gql`
+    mutation RefreshAuthToken( $clientMutationId: String!, $jwtRefreshToken: String! ) {
+        refreshJwtAuthToken(
+            input: {
+                clientMutationId: $clientMutationId
+                jwtRefreshToken: $jwtRefreshToken,
+        }) {
+            authToken
         }
     }
 `;
@@ -151,7 +152,9 @@ export const MUTATION_ADD_TO_CART = gql`
             cartItem {
                 key
                 product {
-                    name
+                    node {
+                        name
+                    }
                 }
                 quantity
                 subtotal
@@ -170,13 +173,15 @@ export const QUERY_GET_CART = gql`
                 nodes {
                     key
                     product {
-                        databaseId
-                        name
-                        image {
-                            mediaDetails {
-                                file
+                        node {
+                            databaseId
+                            name
+                            image {
+                                mediaDetails {
+                                    file
+                                }
                             }
-                        }   
+                        }
                     }
                     quantity
                     total
@@ -199,6 +204,26 @@ export const MUTATION_DELETE_PRODUCT_FROM_CART = gql`
     mutation removeItemFromCart( $clientMutationId: String!, $keys: [ID!] ) {
         removeItemsFromCart( input: { clientMutationId: $clientMutationId, keys: $keys, all: false } ) {
             clientMutationId
+        }
+    }
+`;
+
+export const QUERY_GET_ORDERS = gql`
+    query getOrders {
+        orders {
+            nodes {
+                databaseId
+                orderKey
+                total
+                lineItems {
+                    nodes {
+                        product {
+                            name
+                        }
+                    }
+                }
+                status
+            }
         }
     }
 `;
