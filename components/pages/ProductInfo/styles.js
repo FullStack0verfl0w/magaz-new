@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 const styles = StyleSheet.create({
     mainContainer: {
@@ -25,8 +25,10 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 320,
         marginTop: 24,
+        paddingBottom: 16,
     },
     productImageContainer: {
+        width: Dimensions.get("screen").width,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -45,17 +47,24 @@ const styles = StyleSheet.create({
         borderBottomColor: "#fffa",
     },
     descriptionTitle: {
-        textAlign: "left",
         fontSize: 24,
         color: "#fff",
     },
     description: {
-        textAlign: "right",
+        textAlign: "justify",
         fontSize: 16,
         color: "#fff",
     },
     attributeContainer: {
         paddingTop: 12,
+        paddingHorizontal: 8,
+    },
+    counterContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingTop: 12,
+        paddingHorizontal: 8,
     },
     bottomContainer: {
         flexDirection: "row",
@@ -63,8 +72,20 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingTop: 24,
     },
+    quantity: {
+        color: "#fff",
+        fontSize: 20,
+    },
+    price: {
+        color: "#fff",
+        fontSize: 20,
+        marginLeft: 16,
+    },
     buyButtonContanier: {
-        paddingHorizontal: 64,
+        marginRight: 16,
+        padding: 16,
+        borderRadius: 100,
+        backgroundColor: "#fff",
     },
     buyButtonText: {
         color: "#fc67fa",

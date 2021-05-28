@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { ShowModal } from "~/redux/ModalReducer/actions";
 import { ChangeProductQuantity, DeleteProductFromCart } from "~/redux/CartReducer/actions";
-import { Animated, View, LayoutAnimation } from "react-native";
+import { Animated, View, LayoutAnimation, TouchableOpacity } from "react-native";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { STORE_ADDRESS } from "~/utils/config";
@@ -31,7 +31,7 @@ const QUANTITY_CHANGE_DELAY = 1000;
 
 /** Компонент товара в корзине */
 const CartItem = (props) => {
-    const { id, productId, name, price, productQuantity, imageLink } = props;
+    const { id, productId, name, price, productQuantity, imageLink, variationName, navigation } = props;
     const [isModalVisible, setModalVisible] = useState(false);
     const [quantity, setQuantity] = useState(productQuantity || MIN_QUANTITY);
     const [loading, setLoading] = useState(false);
@@ -89,11 +89,10 @@ const CartItem = (props) => {
 
     return (
         <Animated.View style={[styles.mainContainer, { opacity }]}>
-            <View style={styles.topContainer}>
-                <OurText style={styles.itemName}>{name}</OurText>
-                <OurImage style={styles.productImage} url={`${STORE_ADDRESS}wp-content/uploads/${imageLink}`} onPress={toggleModal}/>
-                <OurImageSlider data={[`${STORE_ADDRESS}wp-content/uploads/${imageLink}`]} isModalVisible={isModalVisible} toggleModal={toggleModal} />
-            </View>
+            <TouchableOpacity style={styles.topContainer}  onPress={() => navigation.navigate("ProductInfo", { name, imageUrl: imageLink, id: productId })}>
+                <OurText style={styles.itemName}>{variationName || name}</OurText>
+                <OurImage style={styles.productImage} url={imageLink} disabled={true}/>
+            </TouchableOpacity>
             <View style={styles.bottomContainer}>
                 <View style={styles.counterContainer}>
                     <OurCounter onChange={onQuantityChange} value={quantity} color="#E81C1C"/>

@@ -79,13 +79,13 @@ const OrderItem = (props) => {
             {/*    <OurImageSlider data={images} isModalVisible={isModalVisible} toggleModal={toggleModal} />*/}
             {/*</View>*/}
             <View style={styles.bottomContainer}>
-                {
-                    data.status !== ORDER_STATUS_CANCELED ?
-                        <OurTextButton style={styles.button} onPress={cancelOrder} textStyle={{color: gradEnd}} translate={true}>orderCancel</OurTextButton>
-                    :
-                        <OurTextButton style={styles.button} onPress={deleteOrder} textStyle={{color: gradEnd}} translate={true}>orderDelete</OurTextButton>
-                }
-                <OurTextButton style={styles.button} onPress={viewInfo} textStyle={{color: gradEnd}} translate={true}>orderViewInfo</OurTextButton>
+                {/*{*/}
+                {/*    data.status !== ORDER_STATUS_CANCELED ?*/}
+                {/*        <OurTextButton style={styles.button} onPress={cancelOrder} textStyle={{color: gradEnd}} translate={true}>orderCancel</OurTextButton>*/}
+                {/*    :*/}
+                {/*        <OurTextButton style={styles.button} onPress={deleteOrder} textStyle={{color: gradEnd}} translate={true}>orderDelete</OurTextButton>*/}
+                {/*}*/}
+                {/*<OurTextButton style={styles.button} onPress={viewInfo} textStyle={{color: gradEnd}} translate={true}>orderViewInfo</OurTextButton>*/}
             </View>
             <View style={styles.borderContainer}>
                 <View style={styles.itemBorder}/>

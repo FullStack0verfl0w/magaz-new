@@ -79,8 +79,12 @@ const ru = {
         productPrice: "Цена: {{price}}",
         productFree: "Бесплатно",
         productBuy: "Купить",
+        productAddToCart: "Добавить в корзину",
+        productDescription: "Описание",
+        productNoDescription: "Описания нет",
         productQuantity: "Количество",
         productAddedMessage: "Товар {{product}} добавлен в вашу корзину!",
+        productVariations: "Вариации",
         productsPickerSearch: "Найти...",
 
         errorFetch: "Произошла ошибка при получении данных. Проверьте интернет соединение и повторите попытку.",

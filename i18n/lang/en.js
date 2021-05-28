@@ -78,8 +78,12 @@ const en = {
         productPrice: "Price: {{price}}",
         productFree: "Free",
         productBuy: "Buy",
+        productAddToCart: "Add to cart",
+        productDescription: "Description",
+        productNoDescription: "No description",
         productQuantity: "Quantity",
         productAddedMessage: "{{product}} added to your cart!",
+        productVariations: "Variations",
         productsPickerSearch: "Search...",
 
         errorFetch: "An error occurred while fetching data. Check internet connection and try again.",

@@ -14,11 +14,30 @@ import OurTextButton from "~/components/OurTextButton";
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import styles from "./styles";
 
-const LocallyAnimatedFlatList = ({data}) => {
+const LocallyAnimatedFlatList = ({data, navigation}) => {
     const renderItemsBlock = ({item, index}) => {
         return (
-            <CartItem id={item.key} productId={item.product.node.databaseId} name={item.product.node.name} price={item.total} productQuantity={item.quantity} imageLink={item.product.node.image.mediaDetails.file}/>
-        );
+            <>
+            {
+            item.variation ?
+                <CartItem id={item.key}
+                          productId={item.product.node.databaseId}
+                          name={item.product.node.name}
+                          variationName={item.variation.node.name}
+                          price={item.total}
+                          productQuantity={item.quantity}
+                          navigation={navigation}
+                          imageLink={item.variation.node.image.sourceUrl}/>
+            :
+                <CartItem id={item.key}
+                          productId={item.product.node.databaseId}
+                          name={item.product.node.name}
+                          price={item.total}
+                          productQuantity={item.quantity}
+                          navigation={navigation}
+                          imageLink={item.product.node.image.sourceUrl}/>
+        }
+        </>);
     };
 
     return (
@@ -27,7 +46,7 @@ const LocallyAnimatedFlatList = ({data}) => {
             contentContainerStyle={styles.cartList}
             data={data}
             renderItem={renderItemsBlock}
-            keyExtractor={(item) => String(item.product.node.databaseId)}
+            keyExtractor={(item) => item.key}
         />
     )
 };
@@ -112,7 +131,7 @@ const Cart = (props) => {
                             : <></>
                         
                     }
-                    <MemoedLocallyAnimatedFlatList data={Array.from(state.productList.values())}/>
+                    <MemoedLocallyAnimatedFlatList data={Array.from(state.productList.values())} navigation={navigation}/>
                     <CartTotal total={state.total} />
                     <View style={styles.bottomContainer}>
                     <OurTextButton

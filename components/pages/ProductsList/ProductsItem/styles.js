@@ -44,12 +44,15 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     infoPrice: {
-        width: 110,
         color: "#fff",
         fontSize: 16,
         textAlign: "center",
     },
     buyButton: {
+        paddingHorizontal: 32,
+        paddingVertical: 12,
+        backgroundColor: "#fff",
+        borderRadius: 10,
     },
     buyButtonText: {
         color: "#078998",
@@ -65,8 +68,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     buy: {
-        flex: .9,
-        justifyContent: "center"
     },
 });
 

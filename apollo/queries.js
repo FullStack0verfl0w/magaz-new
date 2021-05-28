@@ -31,11 +31,28 @@ export const QUERY_GET_PRODUCT = gql`
                 price(format: FORMATTED)
             }
             ... on VariableProduct {
+                price(format: FORMATTED)
                 attributes {
                     nodes {
                         attributeId
                         name
                         options
+                    }
+                }
+                variations {
+                    nodes {
+                        databaseId
+                        name
+                        price(format: FORMATTED)
+                        image {
+                            sourceUrl
+                        }
+                        attributes {
+                            nodes {
+                                label
+                                value
+                            }
+                        }
                     }
                 }
             }
@@ -52,20 +69,17 @@ export const QUERY_PRODUCT_LIST = gql`
             nodes {
                 databaseId
                 name
-                description
+                shortDescription(format: RAW)
                 image {
-                    mediaDetails {
-                        file
-                    }
+                    sourceUrl
                 }
                 galleryImages {
                     nodes {
-                        mediaDetails {
-                            file
-                        }
+                        sourceUrl
                     }
                 }
                 ... on VariableProduct {
+                    price
                     variations {
                         nodes {
                             price
@@ -190,6 +204,25 @@ export const MUTATION_ADD_TO_CART = gql`
         }
     }
 `;
+export const MUTATION_ADD_TO_CART_WITH_VARIATION = gql`
+    mutation cartAdd($productId: Int!, $quantity: Int!, $clientMutationId: String!, $variationId: Int!) {
+        addToCart(input: { productId: $productId, quantity: $quantity, clientMutationId: $clientMutationId, variationId: $variationId }){
+            cartItem {
+                key
+                product {
+                    node {
+                        name
+                    }
+                }
+                quantity
+                subtotal
+                subtotalTax
+                tax
+                total
+            }
+        }
+    }
+`;
 
 export const QUERY_GET_CART = gql`
     query getCart {
@@ -202,14 +235,22 @@ export const QUERY_GET_CART = gql`
                             databaseId
                             name
                             image {
-                                mediaDetails {
-                                    file
-                                }
+                                sourceUrl
                             }
                         }
                     }
                     quantity
                     total
+                    variation {
+                        node {
+                            databaseId
+                            name
+                            price
+                            image {
+                                sourceUrl
+                            }
+                        }
+                    }
                 }
             }
             total

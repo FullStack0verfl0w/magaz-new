@@ -1,5 +1,11 @@
 import client from "~/apollo";
-import { QUERY_GET_CART, MUTATION_ADD_TO_CART, MUTATION_UPDATE_PRODUCT_QUANTITY, MUTATION_DELETE_PRODUCT_FROM_CART } from "~/apollo/queries";
+import {
+    QUERY_GET_CART,
+    MUTATION_ADD_TO_CART,
+    MUTATION_UPDATE_PRODUCT_QUANTITY,
+    MUTATION_DELETE_PRODUCT_FROM_CART,
+    MUTATION_ADD_TO_CART_WITH_VARIATION
+} from "~/apollo/queries";
 import { AddToast } from "../ToastReducer/actions";
 import { CART_SET_LOADING, CART_SET_PRODUCT_LIST } from "./types";
 import { faShoppingBasket } from "@fortawesome/free-solid-svg-icons";
@@ -34,7 +40,7 @@ export const SetCartLoading = (loading=false) => {
     return { type: CART_SET_LOADING, loading };
 };
 
-export const AddProductToCart = (productId, productName, quantity=1, setLoading=()=>{}) => async (dispatch) => {
+export const AddProductToCart = (productId, productName, quantity=1, setLoading=()=>{}, variation) => async (dispatch) => {
     // Oh no
     setLoading(true);
 
@@ -45,14 +51,26 @@ export const AddProductToCart = (productId, productName, quantity=1, setLoading=
             SyncStorage.set("user-uuid", mutationId);
         }
 
-        await client.mutate({
-            mutation: MUTATION_ADD_TO_CART,
-            variables: {
-                productId: productId,
-                quantity: quantity,
-                clientMutationId: mutationId,
-            }
-        });
+        if ( !variation ) {
+            await client.mutate({
+                mutation: MUTATION_ADD_TO_CART,
+                variables: {
+                    productId: productId,
+                    quantity: quantity,
+                    clientMutationId: mutationId,
+                }
+            });
+        } else {
+            await client.mutate({
+                mutation: MUTATION_ADD_TO_CART_WITH_VARIATION,
+                variables: {
+                    productId: productId,
+                    quantity: quantity,
+                    clientMutationId: mutationId,
+                    variationId: variation.id,
+                }
+            });
+        }
         const toast = {
             icon: faShoppingBasket,
             text: i18n.t("productAddedMessage", {product: productName}),

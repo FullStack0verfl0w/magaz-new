@@ -20,7 +20,7 @@ const cartReducer = ( state = initialCartState, action ) => {
             const cart = new Map();
 
             productList.forEach( (v, i) => {
-                cart.set(v.product.node.databaseId, v);
+                cart.set(v.key, v);
             });
 
             newState.productList = cart;

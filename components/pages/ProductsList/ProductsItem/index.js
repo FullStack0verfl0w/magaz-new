@@ -22,6 +22,8 @@ import client from "~/apollo";
 import { MUTATION_UPDATE_ITEM_QUANTITY } from "~/apollo/queries";
 import SyncStorage from "sync-storage";
 import { ShowLoginModal } from "~/redux/ModalReducer/actions";
+import OurIconButton from "~/components/OurIconButton";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons/faCartPlus";
 
 
 const totalHeight = Dimensions.get("window").height;
@@ -40,14 +42,12 @@ const ProductsItem = (props) => {
     const [loading, setLoading] = useState(false);
     const [quantity, setQuantity] = useState(MIN_QUANTITY);
 
+    const [gradStart, gradEnd] = ['#499eda', '#2454e5'];
+
     const state = useSelector(state=>state);
     const dispatch = useDispatch();
 
-    const itemAttributes = data?.attributes?.nodes || [];
-    const url = data?.image?.mediaDetails?.file ? `${STORE_ADDRESS}wp-content/uploads/${data?.image?.mediaDetails?.file}` : null;
-    const images = [url, ...(data?.galleryImages?.nodes.map((obj) => {
-        return `${STORE_ADDRESS}wp-content/uploads/${obj?.mediaDetails?.file}`
-    }))];
+    const url = data?.image?.sourceUrl;
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
@@ -84,26 +84,12 @@ const ProductsItem = (props) => {
             </TouchableOpacity>
             <View style={styles.infoContainer}>
                 <View style={styles.infoTopContainer}>
-                    <OurImage url={url}
-                              onPress={toggleModal} />
-                    <View style={styles.attributesContainer}>
-                        {
-                            itemAttributes.length !== 0 ?
-                                itemAttributes.map( (attr, i) => {
-                                    return <OurPicker data={attr} key={i}/>
-                                })
-                            :
-                                <></>
-                        }
-                    </View>
-                    <OurImageSlider data={images} isModalVisible={isModalVisible} toggleModal={toggleModal} />
+                    <OurImage url={url} disabled={true} />
                 </View>
                 <View style={styles.infoMiddleContainer}>
-                    <GalleryImg data={data?.galleryImages?.nodes}/>
-
                     <View style={styles.counterContainer}>
                         <OurText style={styles.infoPrice} translate={true}>productQuantity</OurText>
-                        <OurCounter maxLength={3} onChange={onQuantityChange} value={quantity} color="#499eda"/>
+                        <OurCounter maxLength={3} onChange={onQuantityChange} value={quantity} color={gradStart}/>
                     </View>
                 </View>
                 <View style={styles.infoBottomContainer}>
@@ -114,19 +100,24 @@ const ProductsItem = (props) => {
                     <View style={styles.buy} >
                     {
                         !loading ?
-                            <OurTextButton style={styles.buyButton}
-                                        textStyle={styles.buyButtonText}
-                                        translate={true}
-                                        onPress={(e) => buyProduct(e)}
-                            >productBuy</OurTextButton>
+                            <OurIconButton style={styles.buyButton}
+                                           translate={true}
+                                           icon={faCartPlus}
+                                           color={gradStart}
+                                           size={24}
+                                           onPress={(e) => buyProduct(e)} />
                         :
-                        <OurActivityIndicator oneState={true} size={48} color={"#fff"}/>
+                        <OurActivityIndicator containerStyle={{
+                            position: null,
+                            paddingHorizontal: 32,
+                            paddingVertical: 12,
+                        }} oneState={true} size={48} color={"#fff"}/>
                     }
                     </View>
                 </View>
             </View>
             <View style={styles.descriptionContainer}>
-                <OurText numberOfLines={2} style={styles.descriptionText}>{data.description?.replace(HTML_PATTERN, "") || ""}</OurText>
+                <OurText numberOfLines={2} style={styles.descriptionText}>{data.shortDescription}</OurText>
             </View>
         </Animated.View>
     );

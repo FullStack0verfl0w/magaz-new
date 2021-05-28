@@ -42,7 +42,7 @@ const OurImage = (props) => {
     
 
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={onPress && !disabled ? 0 : 1} onPress={(e) => {
+        <TouchableOpacity style={styles.container} disabled={disabled} activeOpacity={onPress && !disabled ? 0 : 1} onPress={(e) => {
             if (!disabled)
                 onPress(e);
         }}>
