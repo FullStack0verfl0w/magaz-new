@@ -29,9 +29,11 @@ export const QUERY_GET_PRODUCT = gql`
             }
             ... on SimpleProduct {
                 price(format: FORMATTED)
+                    stockQuantity
             }
             ... on VariableProduct {
                 price(format: FORMATTED)
+                    stockQuantity
                 attributes {
                     nodes {
                         attributeId
@@ -44,6 +46,7 @@ export const QUERY_GET_PRODUCT = gql`
                         databaseId
                         name
                         price(format: FORMATTED)
+                        stockQuantity
                         image {
                             sourceUrl
                         }
@@ -80,6 +83,7 @@ export const QUERY_PRODUCT_LIST = gql`
                 }
                 ... on VariableProduct {
                     price
+                    stockQuantity
                     variations {
                         nodes {
                             price
@@ -97,6 +101,7 @@ export const QUERY_PRODUCT_LIST = gql`
                 }
                 ... on SimpleProduct {
                     price
+                    stockQuantity
                 }
             }
         }

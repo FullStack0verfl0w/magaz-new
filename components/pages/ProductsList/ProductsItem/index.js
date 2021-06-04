@@ -53,7 +53,7 @@ const ProductsItem = (props) => {
         if ( typeof quantity === "string" )
             quantity = Number(quantity.replace(/[^0-9]/g, ''));
 
-        quantity = Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY)
+        quantity = Math.clamp(quantity, MIN_QUANTITY, data.stockQuantity || MAX_QUANTITY)
         setQuantity(quantity);
         return quantity;
     };
