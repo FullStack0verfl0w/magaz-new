@@ -46,7 +46,7 @@ const ProductsItem = (props) => {
     };
 
     const navigateToProductInfo = () => {
-        navigation.navigate("ProductInfo", { name, imageUrl: url, id: data.databaseId });
+        navigation.navigate("ProductInfo", { name, imageUrl: url, id: data.databaseId, quant: quantity });
     };
 
     const validateQuantity = (quantity) => {
@@ -105,7 +105,7 @@ const ProductsItem = (props) => {
                 <View style={styles.infoBottomContainer}>
                     <OurText style={styles.infoPrice}
                              params={{
-                                 price: ( data.price === 0 || !data.price ) ? t("productFree") : data.price
+                                 price: ( data.price === 0 || !data.price ) ? t("productFree") : (parseFloat(data.price) * parseInt(quantity)) + data.price.substr(-1)
                              }}>productPrice</OurText>
                     <View style={styles.buy} >
                     {

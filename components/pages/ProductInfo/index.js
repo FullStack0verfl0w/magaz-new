@@ -29,11 +29,11 @@ const QUANTITY_CHANGE_DELAY = 1500;
 
 const ProductInfo = (props) => {
     const { navigation } = props;
-    const { name, id, imageUrl } = props.route.params;
+    const { name, id, imageUrl, quant } = props.route.params;
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const [buyLoading, setLoading] = useState(false);
-    const [quantity, setQuantity] = useState(MIN_QUANTITY);
+    const [quantity, setQuantity] = useState(quant || MIN_QUANTITY);
     const [quantityTimer, setQuantityTimer] = useState(null);
     const [variation, setVariation] = useState(null);
     const [abortController, setAbortController] = useState(new AbortController());
@@ -128,7 +128,7 @@ const ProductInfo = (props) => {
                 <View style={styles.bottomContainer}>
                     <OurText style={styles.price}
                              params={{
-                                 price: ( !data?.product?.price && !variation ) ? t("productFree") : variation ? variation?.price : data?.product?.price
+                                 price: ( !data?.product?.price && !variation ) ? t("productFree") : variation ? (parseFloat(variation?.price) * parseInt(quantity)) + variation?.price.substr(-1) : (parseFloat(data?.product?.price) * parseInt(quantity) ) + data?.product?.price.substr(-1)
                              }}>productPrice</OurText>
                     <OurIconButton style={styles.buyButtonContanier}
                                    icon={faCartPlus}
