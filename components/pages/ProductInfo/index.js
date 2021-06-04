@@ -21,6 +21,7 @@ import OurPagerView from "~/components/OurPagerView";
 
 import SyncStorage from "sync-storage";
 import styles from "./styles";
+import { PRICE_PATTERN } from "~/utils/patterns";
 
 
 const MIN_QUANTITY = 1;
@@ -106,6 +107,9 @@ const ProductInfo = (props) => {
         setQuantityTimer(setTimeout(() => validateQuantity(quantity), QUANTITY_CHANGE_DELAY));
     };
 
+    const productPrice = data?.product?.price?.split(PRICE_PATTERN);
+    const variationPrice = variation?.price?.split(PRICE_PATTERN);
+
     const RenderProductData = () => {
         return (
             <>
@@ -128,7 +132,7 @@ const ProductInfo = (props) => {
                 <View style={styles.bottomContainer}>
                     <OurText style={styles.price}
                              params={{
-                                 price: ( !data?.product?.price && !variation ) ? t("productFree") : variation ? (parseFloat(variation?.price) * parseInt(quantity)) + variation?.price.substr(-1) : (parseFloat(data?.product?.price) * parseInt(quantity) ) + data?.product?.price.substr(-1)
+                                 price: ( !data?.product?.price && !variation ) ? t("productFree") : variation ? (parseFloat(variationPrice[1]) * parseInt(quantity)) + variationPrice[4] : (parseFloat(productPrice[1]) * parseInt(quantity) ) + productPrice[4]
                              }}>productPrice</OurText>
                     <OurIconButton style={styles.buyButtonContanier}
                                    icon={faCartPlus}
