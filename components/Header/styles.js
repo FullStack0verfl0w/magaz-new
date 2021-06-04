@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     },
     priceText: {
         width: 280,
+        paddingRight: 12,
         alignSelf: "flex-end",
         textAlign: "right",
         color: "#fff",
