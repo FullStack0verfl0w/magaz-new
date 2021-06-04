@@ -76,11 +76,7 @@ const ProductsItem = (props) => {
             <TouchableOpacity onPress={navigateToProductInfo}>
             <View style={styles.titleContainer}>
                 <OurText style={styles.title}>{name}</OurText>
-                <OurImage style={{
-                    width: 320,
-                    height: 320,
-                    resizeMode: "contain",
-                }} url={url} disabled={true} />
+                <OurImage style={styles.productImage} url={url} disabled={true} />
             </View>
             </TouchableOpacity>
             <View style={styles.infoContainer}>

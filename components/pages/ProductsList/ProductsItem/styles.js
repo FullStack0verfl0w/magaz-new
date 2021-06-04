@@ -23,7 +23,11 @@ const styles = StyleSheet.create({
         textAlign: "center",
         paddingBottom: 20,
     },
-
+    productImage: {
+        width: 280,
+        height: 280,
+        resizeMode: "contain",
+    },
     infoContainer: {
 
     },
