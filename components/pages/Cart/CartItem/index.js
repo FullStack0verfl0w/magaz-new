@@ -25,9 +25,9 @@ const linear = LayoutAnimation.create(
 );
 
 const MIN_QUANTITY = 1;
-const MAX_QUANTITY = Infinity;
+const MAX_QUANTITY = 999;
 
-const QUANTITY_CHANGE_DELAY = 1000;
+const QUANTITY_CHANGE_DELAY = 1500;
 
 /** Компонент товара в корзине */
 const CartItem = (props) => {
@@ -43,18 +43,20 @@ const CartItem = (props) => {
         setModalVisible(!isModalVisible);
     };
     const onQuantityChange = (quantity) => {
-        if ( typeof quantity === "string")
-            quantity = Number(quantity.replace(/[^0-9]/g, ''));
 
-        if ( quantity < MIN_QUANTITY || quantity > MAX_QUANTITY ) return;
+        if ( quantity !== 0 )
+            setQuantity(quantity);
 
-        setQuantity(quantity);
-
-        if ( timer ) {
+        if ( timer )
             clearTimeout(timer);
-        }
+
         setTimer( setTimeout( () => {
-            dispatch(ChangeProductQuantity(id, quantity))
+            if ( typeof quantity === "string")
+                quantity = Number(quantity.replace(/[^0-9]/g, ''));
+
+            quantity = Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY);
+            setQuantity(quantity);
+            dispatch(ChangeProductQuantity(id, quantity));
         }, QUANTITY_CHANGE_DELAY) );
     };
 

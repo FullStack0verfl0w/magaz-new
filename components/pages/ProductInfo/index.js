@@ -25,6 +25,7 @@ import styles from "./styles";
 
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 999;
+const QUANTITY_CHANGE_DELAY = 1500;
 
 const ProductInfo = (props) => {
     const { navigation } = props;
@@ -33,6 +34,7 @@ const ProductInfo = (props) => {
     const dispatch = useDispatch();
     const [buyLoading, setLoading] = useState(false);
     const [quantity, setQuantity] = useState(MIN_QUANTITY);
+    const [quantityTimer, setQuantityTimer] = useState(null);
     const [variation, setVariation] = useState(null);
     const [abortController, setAbortController] = useState(new AbortController());
 
@@ -70,6 +72,15 @@ const ProductInfo = (props) => {
         });
     }, [navigation]);
 
+    const validateQuantity = (quantity) => {
+        if ( typeof quantity === "string" )
+            quantity = Number(quantity.replace(/[^0-9]/g, ''));
+
+        quantity = Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY);
+        setQuantity(quantity);
+        return quantity;
+    };
+
     // Обрабатываем нажатие на кнопку "Купить"
     const buyProduct = (e) => {
         if ( loading || buyLoading ) return;
@@ -82,14 +93,17 @@ const ProductInfo = (props) => {
             return;
         }
         //                                               Обрабатываем количество
-        dispatch(AddProductToCart(id, name, Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY), setLoading, variation));
+        dispatch(AddProductToCart(id, name, validateQuantity(quantity), setLoading, variation));
     };
 
     const onQuantityChange = (quantity) => {
-        if ( typeof quantity === "string" )
-            quantity = Number(quantity.replace(/[^0-9]/g, ''));
+        if ( quantity !== 0 )
+            setQuantity(quantity);
 
-        setQuantity(Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY));
+        if ( quantityTimer )
+            clearTimeout(quantityTimer);
+
+        setQuantityTimer(setTimeout(() => validateQuantity(quantity), QUANTITY_CHANGE_DELAY));
     };
 
     const RenderProductData = () => {

@@ -23,11 +23,14 @@ const itemWidth = Dimensions.get("window").width;
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 999;
 
+const QUANTITY_CHANGE_DELAY = 1500;
+
 /** Список товаров той или иной категории */
 const ProductsItem = (props) => {
     const { data, y, index, name, imageUrl, navigation } = props;
     const { t } = useTranslation();
     const [isModalVisible, setModalVisible] = useState(false);
+    const [quantityTimer, setQuantityTimer] = useState(null);
     const [loading, setLoading] = useState(false);
     const [quantity, setQuantity] = useState(MIN_QUANTITY);
 
@@ -44,7 +47,16 @@ const ProductsItem = (props) => {
 
     const navigateToProductInfo = () => {
         navigation.navigate("ProductInfo", { name, imageUrl: url, id: data.databaseId });
-    }
+    };
+
+    const validateQuantity = (quantity) => {
+        if ( typeof quantity === "string" )
+            quantity = Number(quantity.replace(/[^0-9]/g, ''));
+
+        quantity = Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY)
+        setQuantity(quantity);
+        return quantity;
+    };
 
     // Обрабатываем нажатие на кнопку "Купить"
     const buyProduct = (e) => {
@@ -61,14 +73,18 @@ const ProductsItem = (props) => {
             return;
         }
         //                                               Обрабатываем количество
-        dispatch(AddProductToCart(data.databaseId, name, Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY), setLoading));
+        dispatch(AddProductToCart(data.databaseId, name, validateQuantity(quantity), setLoading));
     };
 
-    const onQuantityChange = (quantity) => {
-        if ( typeof quantity === "string" )
-            quantity = Number(quantity.replace(/[^0-9]/g, ''));
 
-        setQuantity(Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY));
+    const onQuantityChange = (quantity) => {
+        if ( quantity !== 0 )
+            setQuantity(quantity);
+
+        if ( quantityTimer )
+            clearTimeout(quantityTimer);
+
+        setQuantityTimer(setTimeout(() => validateQuantity(quantity), QUANTITY_CHANGE_DELAY));
     };
 
     return (
