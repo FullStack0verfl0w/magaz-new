@@ -56,6 +56,7 @@ const ProductInfo = (props) => {
             const newImages = [imageUrl];
             data.product.galleryImages.nodes.forEach(node => newImages.push(node.sourceUrl));
             setImages(newImages);
+            setQuantity(Math.clamp(quantity, MIN_QUANTITY, variation?.stockQuantity || data?.product?.stockQuantity || MAX_QUANTITY));
         },
         onError: (err) => {
             console.log("Error while fetching product data", error)
@@ -93,7 +94,7 @@ const ProductInfo = (props) => {
             ShowLoginModal(dispatch, navigation);
             return;
         }
-        //                                               Обрабатываем количество
+        //                                   Обрабатываем количество
         dispatch(AddProductToCart(id, name, validateQuantity(quantity), setLoading, variation));
     };
 
