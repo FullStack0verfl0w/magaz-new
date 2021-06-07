@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, ApolloLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, HttpLink, ApolloLink, InMemoryCache } from "@apollo/client";
 import { STORE_ADDRESS } from "~/utils/config";
 import SyncStorage from "sync-storage";
 
@@ -23,8 +23,8 @@ export const middleware = new ApolloLink((operation, forward) => {
 	if ( session && auth ) {
 		operation.setContext(({ headers = {} }) => ({
 			headers: {
-				'woocommerce-session': `Session ${session}`,
-				'Authorization': `Bearer ${auth}`,
+				"woocommerce-session": `Session ${session}`,
+				"Authorization": `Bearer ${auth}`,
 			},
 		}));
 	}
@@ -42,11 +42,11 @@ export const afterware = new ApolloLink((operation, forward) => {
 		 */
 		const context = operation.getContext();
 		const { response: { headers } } = context;
-		const token = headers.get('woocommerce-session');
+		const token = headers.get("woocommerce-session");
 
 		if ( token ) {
-			if ( SyncStorage.get('session') !== token ) {
-				SyncStorage.set('session', headers.get('woocommerce-session'));
+			if ( SyncStorage.get("session") !== token ) {
+				SyncStorage.set("session", token);
 			}
 		}
 
