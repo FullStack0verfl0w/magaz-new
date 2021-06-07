@@ -55,6 +55,7 @@ const DeliveryDetailsCheck = (props) => {
             lastName: state.deliveryDetails.lastname.value,
             email: state.deliveryDetails.email.value,
             phone: state.deliveryDetails.phone.value,
+            country: state.deliveryDetails.country.value.code,
             address: state.deliveryDetails.address.value,
             postcode: state.deliveryDetails.postcode.value,
             notes: state.deliveryDetails.notes.value,
@@ -84,6 +85,8 @@ const DeliveryDetailsCheck = (props) => {
                                      text={data.email}/>
                 <DeliveryDetailsItem field={"orderFormPhone"}
                                      text={data.phone}/>
+                <DeliveryDetailsItem field={"orderFormCountry"}
+                                     text={data.country.name}/>
                 <DeliveryDetailsItem field={"orderFormAddress"}
                                      text={data.address}/>
                 <DeliveryDetailsItem field={"orderFormPostcode"}

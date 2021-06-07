@@ -17,5 +17,5 @@ i18n.use(initReactI18next)
             escapeValue: false
         }
     });
-console.log("HELLO")
+
 export default i18n;

@@ -29,9 +29,11 @@ export const QUERY_GET_PRODUCT = gql`
             }
             ... on SimpleProduct {
                 price(format: FORMATTED)
+                    stockQuantity
             }
             ... on VariableProduct {
                 price(format: FORMATTED)
+                    stockQuantity
                 attributes {
                     nodes {
                         attributeId
@@ -44,6 +46,7 @@ export const QUERY_GET_PRODUCT = gql`
                         databaseId
                         name
                         price(format: FORMATTED)
+                        stockQuantity
                         image {
                             sourceUrl
                         }
@@ -80,6 +83,7 @@ export const QUERY_PRODUCT_LIST = gql`
                 }
                 ... on VariableProduct {
                     price
+                    stockQuantity
                     variations {
                         nodes {
                             price
@@ -97,6 +101,7 @@ export const QUERY_PRODUCT_LIST = gql`
                 }
                 ... on SimpleProduct {
                     price
+                    stockQuantity
                 }
             }
         }
@@ -159,8 +164,13 @@ export const MUTATION_CHECKOUT = gql`
     mutation Checkout(
             $clientMutationId: String!,
             $isPaid: Boolean!,
-            $address: String!,
+            $customerNote: String!,
+            $address1: String!,
+            $address2: String!,
+            $country: CountriesEnum,
+            $city: String!,
             $email: String!,
+            $state: String!,
             $firstName: String!,
             $lastName: String!,
             $postcode: String!,
@@ -171,13 +181,18 @@ export const MUTATION_CHECKOUT = gql`
             clientMutationId: $clientMutationId,
             isPaid: $isPaid,
             paymentMethod: $paymentMethod,
+            customerNote: $customerNote,
             billing: {
-                address1: $address,
+                address1: $address1,
+                address2: $address2,
+                city: $city,
+                country: $country,
                 email: $email,
                 firstName: $firstName,
                 lastName: $lastName,
+                phone: $phone,
                 postcode: $postcode,
-                phone: $phone
+                state: $state,
             }
         } ) {
             clientMutationId
@@ -281,14 +296,54 @@ export const QUERY_GET_ORDERS = gql`
                 databaseId
                 orderKey
                 total
-                lineItems {
-                    nodes {
-                        product {
-                            name
+                status
+            }
+        }
+    }
+`;
+
+export const QUERY_GET_ORDER = gql`
+    query MyQuery( $id: ID! ) {
+        order(id: $id, idType: DATABASE_ID) {
+            lineItems {
+                nodes {
+                    databaseId
+                    product {
+                        databaseId
+                        name
+                        image {
+                            sourceUrl
+                        }
+                        ... on SimpleProduct {
+                            price(format: FORMATTED)
+                        }
+                        ... on VariableProduct {
+                            price(format: FORMATTED)
                         }
                     }
+                    variation {
+                        databaseId
+                        name
+                        price(format: FORMATTED)
+                        image {
+                            sourceUrl
+                        }
+                    }
+                    quantity
                 }
-                status
+            }
+            status
+            billing {
+                address1
+                address2
+                city
+                country
+                email
+                firstName
+                lastName
+                phone
+                postcode
+                state
             }
         }
     }

@@ -40,7 +40,6 @@ const LoginPage = (props) => {
         console.log("ERROR LOGINING IN CUSTOMER:", err);
     };
     const onCompleted = (data) => {
-        console.log("USER LOGGED IN", data);
         SyncStorage.set("user-uuid", customerId);
         SyncStorage.set("auth", data.login.authToken);
         SyncStorage.set("refresh-auth", data.login.refreshToken);

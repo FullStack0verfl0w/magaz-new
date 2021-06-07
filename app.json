@@ -26,7 +26,8 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.code26.magaz_new"
+      "package": "com.code26.magaz_new",
+      "permissions":["INTERNET"]
     },
     "description": ""
   }

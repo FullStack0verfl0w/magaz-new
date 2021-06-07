@@ -11,12 +11,12 @@ const VariationPicker = (props) => {
     const [variation, setVariation] = props.model;
 
     useEffect(() => {
-        console.log("VARIATION IS", variation)
         if ( !variation )
             setVariation({
                 name: data[0].name,
                 price: data[0].price,
                 id: data[0].databaseId,
+                stockQuantity: data[0].stockQuantity,
             });
     }, []);
 
@@ -25,6 +25,7 @@ const VariationPicker = (props) => {
         const name = v.name;
         const price = v.price;
         const image = v.image.sourceUrl;
+        const stockQuantity = v.stockQuantity;
         const disabled = variation && variation.id === id;
 
 
@@ -33,6 +34,7 @@ const VariationPicker = (props) => {
                 name,
                 price,
                 id,
+                stockQuantity
             });
         };
 

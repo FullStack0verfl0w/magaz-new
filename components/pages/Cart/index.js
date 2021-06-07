@@ -79,7 +79,7 @@ const Cart = (props) => {
 
     const toDeliveryDetails = (e) => {
         if ( state.productList?.size ) {
-            if ( !SyncStorage.get("session") ) {
+            if ( !SyncStorage.get("session") && !SyncStorage.get("refresh-auth") ) {
                 const loginModalData = {
                     title: { text: "cartLoginTitle", params: {} },
                     text: { text: "cartLoginMessage", params: {} },

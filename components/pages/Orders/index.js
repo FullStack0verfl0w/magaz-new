@@ -13,7 +13,6 @@ import styles from "./styles"
 
 
 const LocallyAnimatedFlatList = ({data, navigation}) => {
-    
     const renderItemsBlock = ({item, index}) => {
         return (
             <OrderItem navigation={navigation} data={item}/>
@@ -41,7 +40,7 @@ const Orders = (props) => {
 
     useEffect( () => {
         dispatch(FetchOrderList);
-    }, [] )
+    }, [] );
 
     useLayoutEffect( () => {
         navigation.setOptions({
@@ -65,7 +64,7 @@ const Orders = (props) => {
         		</View>
             :
         	state.ordersReducer.loading ?
-                <OurActivityIndicator />
+                <OurActivityIndicator size={64} color={"#fff"} />
             :
         		<MemoedLocallyAnimatedFlatList navigation={navigation} data={Array.from(state.ordersReducer.orderList.values())}/>
         }

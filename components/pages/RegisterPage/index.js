@@ -47,7 +47,6 @@ const RegisterPage = (props) => {
         console.log("ERROR REGISTERING CUSTOMER:", err);
     };
     const onCompleted = (data) => {
-        console.log("USER REGISTERED", data);
         SyncStorage.set("user-uuid", customerId);
         SyncStorage.set("auth", data.login.authToken);
         SyncStorage.set("refresh-auth", data.login.refreshToken);

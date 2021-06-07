@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     counterContainer: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
     },
     titleContainer: {
         alignItems: "center",
@@ -21,8 +21,13 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 26,
         textAlign: "center",
+        paddingBottom: 20,
     },
-
+    productImage: {
+        width: 280,
+        height: 280,
+        resizeMode: "contain",
+    },
     infoContainer: {
 
     },
@@ -45,7 +50,7 @@ const styles = StyleSheet.create({
     },
     infoPrice: {
         color: "#fff",
-        fontSize: 16,
+        fontSize: 24,
         textAlign: "center",
     },
     buyButton: {

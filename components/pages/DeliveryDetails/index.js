@@ -12,6 +12,9 @@ import OurText from "~/components/OurText";
 import OurTextButton from "~/components/OurTextButton";
 import OurTextField from "~/components/OurTextField";
 import styles from "./styles";
+import i18n from "~/i18n";
+import countries from "~/CountriesEnum.json";
+import OurCountryPicker from "~/components/OurCountryPicker";
 
 const DeliveryDetails = (props) => {
     const state = useSelector(state=>state.deliveryDetailsReducer);
@@ -63,6 +66,7 @@ const DeliveryDetails = (props) => {
             lastname: state.deliveryDetails.lastname.value,
             email: state.deliveryDetails.email.value,
             phone: state.deliveryDetails.phone.value,
+            country: state.deliveryDetails.country.value,
             address: state.deliveryDetails.address.value,
             postcode: state.deliveryDetails.postcode.value,
             notes: state.deliveryDetails.notes.value,
@@ -98,6 +102,7 @@ const DeliveryDetails = (props) => {
                                 defValue={state.deliveryDetails.phone.value}
                                 onValidate={validateFormPhone}
                                 placeholder={t("orderFormPhone")}/>
+                    <OurCountryPicker />
                     <OurTextField name="address"
                                 autoCompleteType="street-address"
                                 defValue={state.deliveryDetails.address.value}

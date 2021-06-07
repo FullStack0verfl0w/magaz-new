@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         height: 40.5,
     },
     iconCart: {
-        width: 64,
+        minWidth: 64,
         height: 40.5,
         flexDirection: "column",
         alignItems: "center",
@@ -53,6 +53,10 @@ const styles = StyleSheet.create({
         textShadowOffset: {width: .5, height: .5},
     },
     priceText: {
+        width: 280,
+        paddingRight: 12,
+        alignSelf: "flex-end",
+        textAlign: "right",
         color: "#fff",
         textShadowRadius: 1,
         textShadowOffset: {width: 1, height: 1},

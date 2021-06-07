@@ -1,4 +1,7 @@
 import { DELIVERY_CHANGE_FIELD, DELIVERY_CLEAR } from "./types";
+import countries from "~/CountriesEnum.json";
+import i18n from "~/i18n";
+
 
 const deliveryDetailsInitialState = {
     deliveryDetails: {
@@ -25,6 +28,12 @@ const deliveryDetailsInitialState = {
             placeholder: "orderFormEmail",
             value: "",
             valid: false,
+        },
+        country: {
+            name: "country",
+            placeholder: "orderFormCountry",
+            value: countries[i18n?.language?.toUpperCase()] || countries["US"],
+            valid: true,
         },
         address: {
             name: "address",

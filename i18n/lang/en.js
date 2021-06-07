@@ -60,6 +60,7 @@ const en = {
         orderFormLastName: "Last name",
         orderFormPhone: "Phone number",
         orderFormEmail: "E-mail",
+        orderFormCountry: "Country",
         orderFormAddress: "Address",
         orderFormNotes: "Notes",
         orderFormPostcode: "Post code",
@@ -67,11 +68,18 @@ const en = {
         orderCancel: "Cancel the order",
         orderDelete: "Delete the order",
         orderViewInfo: "View the info",
+        orderNumber: "Order №{{id}}",
         orderStatus: "Status",
-        orderStatusToBeShipped: "To be shipped",
-        orderStatusShipped: "Shipped",
-        orderStatusCanceled: "Canceled",
-        
+        orderStatus_PROCESSING: "Processing",
+        orderStatus_PENDING: "Pending",
+        orderStatus_ON_HOLD: "On hold",
+        orderStatus_COMPLETED: "Completed",
+        orderStatus_CANCELED: "Canceled",
+        orderStatus_FAILED: "Failed",
+        orderStatus_REFUNDED: "Refunded",
+
+        orderInfoProducts: "Products",
+
         userCheckTitle: "Checking user data",
 
         productsTitle: "Products",
@@ -82,6 +90,7 @@ const en = {
         productDescription: "Description",
         productNoDescription: "No description",
         productQuantity: "Quantity",
+        productQuantityParam: "Quantity: {{quantity}}",
         productAddedMessage: "{{product}} added to your cart!",
         productVariations: "Variations",
         productsPickerSearch: "Search...",

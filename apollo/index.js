@@ -17,8 +17,8 @@ export const middleware = new ApolloLink((operation, forward) => {
 	const session = SyncStorage.get("session");
 	const auth = SyncStorage.get("auth");
 
-	console.log("HEY SESSION", session);
-	console.log("HEY AUTH", auth);
+	// console.log("HEY SESSION", session);
+	// console.log("HEY AUTH", auth);
 
 	if ( session && auth ) {
 		operation.setContext(({ headers = {} }) => ({

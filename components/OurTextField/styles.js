@@ -45,6 +45,17 @@ const styles = StyleSheet.create({
     	color: "#f01a",
         borderColor: "#f01a",
     },
+    countryElement: {
+	    padding: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: "#eeea",
+    },
+    countryElementText: {
+        fontSize: 16,
+    },
+    countryElementActive: {
+	    backgroundColor: "#3031"
+    },
 });
 
 export default styles;

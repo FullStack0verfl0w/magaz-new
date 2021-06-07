@@ -41,13 +41,19 @@ export const AddOrder = (data) => async (dispatch) => {
             mutationId = uuidv4();
             SyncStorage.set("user-uuid", mutationId);
         }
+        const address = data.address.split(", ");
 
         await client.mutate({
             mutation: MUTATION_CHECKOUT,
             variables: {
                 clientMutationId: mutationId,
                 isPaid: false,
-                address: data.address,
+                customerNote: data.notes,
+                country: data.country,
+                state: address[0] || "",
+                city: address[1] || "",
+                address1: address[2] || "",
+                address2: address[3] || "",
                 email: data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,

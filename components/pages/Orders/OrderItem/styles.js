@@ -6,9 +6,13 @@ const styles = StyleSheet.create({
         paddingBottom: 12,
         overflow: "hidden",
     },
-    topContainer: {
+    orderInfoContainer: {
         flexDirection: "row",
+        alignItems: "center",
         justifyContent: "space-between",
+    },
+    orderMainInfo: {
+        flexDirection: "column",
         overflow: "hidden",
     },
     infoContainer: {
@@ -21,15 +25,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         overflow: "hidden",
     },
+    orderStatusContainer: {
+        flexDirection: "column",
+        alignItems: "flex-end",
+    },
     textField: {
         color: "#fffd",
         fontSize: 20,
         overflow: "hidden",
     },
-    text: {
+    orderStatus: {
         color: "#fff",
         fontSize: 16,
-        paddingLeft: 12,
     },
     textReversed: {
         color: "#fff",

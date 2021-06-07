@@ -1,44 +1,36 @@
 import React, { useState } from "react";
-import { View, Dimensions, Animated, TouchableOpacity } from "react-native";
+import { Animated, Dimensions, TouchableOpacity, View } from "react-native";
 
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { AddProductToCart } from "~/redux/CartReducer/actions";
-
-import { STORE_ADDRESS } from "~/utils/config";
-import { HTML_PATTERN }  from "~/utils/patterns";
 import { ListAnimation } from "./animation";
 
 import OurText from "~/components/OurText";
 import OurImage from "~/components/OurImage";
-import OurTextButton from "~/components/OurTextButton";
 import OurActivityIndicator from "~/components/OurActivityIndicator";
-import GalleryImg from "~/components/Gallery";
-import OurPicker from "~/components/OurPicker";
 import OurCounter from "~/components/OurCounter";
-import OurImageSlider from "~/components/OurImageSlider";
 import styles from "./styles";
-import client from "~/apollo";
-import { MUTATION_UPDATE_ITEM_QUANTITY } from "~/apollo/queries";
 import SyncStorage from "sync-storage";
 import { ShowLoginModal } from "~/redux/ModalReducer/actions";
 import OurIconButton from "~/components/OurIconButton";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons/faCartPlus";
 
 
-const totalHeight = Dimensions.get("window").height;
+const totalHeight = 570;
 const itemWidth = Dimensions.get("window").width;
-const itemHeight = totalHeight / 2 + 16;
-const itemHeight2 = itemHeight + 16;
 
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 999;
+
+const QUANTITY_CHANGE_DELAY = 1500;
 
 /** Список товаров той или иной категории */
 const ProductsItem = (props) => {
     const { data, y, index, name, imageUrl, navigation } = props;
     const { t } = useTranslation();
     const [isModalVisible, setModalVisible] = useState(false);
+    const [quantityTimer, setQuantityTimer] = useState(null);
     const [loading, setLoading] = useState(false);
     const [quantity, setQuantity] = useState(MIN_QUANTITY);
 
@@ -53,6 +45,19 @@ const ProductsItem = (props) => {
         setModalVisible(!isModalVisible);
     };
 
+    const navigateToProductInfo = () => {
+        navigation.navigate("ProductInfo", { name, imageUrl: url, id: data.databaseId, quant: quantity });
+    };
+
+    const validateQuantity = (quantity) => {
+        if ( typeof quantity === "string" )
+            quantity = Number(quantity.replace(/[^0-9]/g, ''));
+
+        quantity = Math.clamp(quantity, MIN_QUANTITY, data.stockQuantity || MAX_QUANTITY)
+        setQuantity(quantity);
+        return quantity;
+    };
+
     // Обрабатываем нажатие на кнопку "Купить"
     const buyProduct = (e) => {
         const auth = SyncStorage.get("auth");
@@ -62,30 +67,35 @@ const ProductsItem = (props) => {
             ShowLoginModal(dispatch, navigation);
             return;
         }
+
+        if ( data.variations ) {
+            navigateToProductInfo();
+            return;
+        }
         //                                               Обрабатываем количество
-        dispatch(AddProductToCart(data.databaseId, name, Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY), setLoading));
+        dispatch(AddProductToCart(data.databaseId, name, validateQuantity(quantity), setLoading));
     };
+
 
     const onQuantityChange = (quantity) => {
-        if ( typeof quantity === "string" )
-            quantity = Number(quantity.replace(/[^0-9]/g, ''));
+        if ( quantity !== 0 )
+            setQuantity(quantity);
 
-        setQuantity(Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY));
+        if ( quantityTimer )
+            clearTimeout(quantityTimer);
+
+        setQuantityTimer(setTimeout(() => validateQuantity(quantity), QUANTITY_CHANGE_DELAY));
     };
 
-    const [translate, scale, opacity] = ListAnimation(y, totalHeight, itemHeight2, itemWidth, index);
-
     return (
-        <Animated.View style={[styles.mainContainer]}>
-            <TouchableOpacity onPress={() => navigation.navigate("ProductInfo", { name, imageUrl: url, id: data.databaseId })}>
+        <Animated.View style={styles.mainContainer}>
+            <TouchableOpacity onPress={navigateToProductInfo}>
             <View style={styles.titleContainer}>
                 <OurText style={styles.title}>{name}</OurText>
+                <OurImage style={styles.productImage} url={url} disabled={true} />
             </View>
             </TouchableOpacity>
             <View style={styles.infoContainer}>
-                <View style={styles.infoTopContainer}>
-                    <OurImage url={url} disabled={true} />
-                </View>
                 <View style={styles.infoMiddleContainer}>
                     <View style={styles.counterContainer}>
                         <OurText style={styles.infoPrice} translate={true}>productQuantity</OurText>
@@ -95,7 +105,7 @@ const ProductsItem = (props) => {
                 <View style={styles.infoBottomContainer}>
                     <OurText style={styles.infoPrice}
                              params={{
-                                 price: ( data.price === 0 || !data.price ) ? t("productFree") : data.price
+                                 price: ( data.price === 0 || !data.price ) ? t("productFree") : (parseFloat(data.price) * parseInt(quantity)) + data.price.substr(-1)
                              }}>productPrice</OurText>
                     <View style={styles.buy} >
                     {
