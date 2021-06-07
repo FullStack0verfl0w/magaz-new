@@ -3,7 +3,7 @@ import { Text } from "react-native";
 import { useTranslation } from "react-i18next";
 import { isLoaded } from "expo-font";
 
-const DEFAULT_FONT = "Gilroy-Regular";
+const DEFAULT_FONT = "Gilroy-Light";
 
 const OurText = (props) =>
 {
