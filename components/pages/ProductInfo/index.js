@@ -133,7 +133,7 @@ const ProductInfo = (props) => {
                 <View style={styles.bottomContainer}>
                     <OurText style={styles.price}
                              params={{
-                                 price: ( !data?.product?.price && !variation ) ? t("productFree") : variation ? (parseFloat(variationPrice[1]) * parseInt(quantity)) + variationPrice[4] : (parseFloat(productPrice[1]) * parseInt(quantity) ) + productPrice[4]
+                                 price: ( !data?.product?.price && !variation ) ? t("productFree") : variation ? (parseFloat(variationPrice && variationPrice[1] || productPrice[1]) * parseInt(quantity)) + ( variationPrice && variationPrice[4] || productPrice[4]) : (parseFloat(productPrice[1]) * parseInt(quantity) ) + productPrice[4]
                              }}>productPrice</OurText>
                     <OurIconButton style={styles.buyButtonContanier}
                                    icon={faCartPlus}
