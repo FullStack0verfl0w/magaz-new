@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: 48,
+        fontFamily: "Gilroy-Regular",
         textAlign: "center",
         paddingVertical: 2,
         backgroundColor: "#fff",

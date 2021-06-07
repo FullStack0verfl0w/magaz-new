@@ -17,12 +17,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16,
         textAlign: "center",
+        textShadowRadius: 0,
     },
     middleContainer: {
     },
     text: {
         fontSize: 16,
         textAlign: "center",
+        textShadowRadius: 0,
     },
     bottomContainer: {
         flexDirection: "row",
@@ -33,20 +35,13 @@ const styles = StyleSheet.create({
         borderRadius: 1,
         paddingHorizontal: 10,
         margin: 2,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowOpacity: 0,
-        shadowRadius: 0,
-
-        elevation: 0,
         backgroundColor: null,
+        elevation: 0,
     },
     buttonText: {
         color: "#fc0341",
         textTransform: "uppercase",
+        textShadowRadius: 0,
     },
 });
 

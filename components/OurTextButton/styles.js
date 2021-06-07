@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     textButton: {
         fontSize: 16,
         textAlign: "center",
+        textShadowRadius: 0,
     },
 });
 

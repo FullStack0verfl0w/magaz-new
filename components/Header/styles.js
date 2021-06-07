@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {},
     title: {
+        fontFamily: "Gilroy-Medium",
         fontSize: 25,
         color: "#fff",
         textAlign: "center",
