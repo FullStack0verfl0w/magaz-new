@@ -64,13 +64,13 @@ const OrderInfo = (props) => {
     });
 
     useEffect(() => {
-        setInterval(() => {
-            const a = {
-                latitude: Math.random() * 37.78825,
-                longitude: Math.random() * -122.4324,
-            }
-            setCoord(a)
-        }, Math.random() * 2000 )
+        // setInterval(() => {
+        //     const a = {
+        //         latitude: Math.random() * 37.78825,
+        //         longitude: Math.random() * -122.4324,
+        //     }
+        //     setCoord(a)
+        // }, Math.random() * 2000 )
     }, [])
 
     const [gradStart, gradEnd] = ["#fdc830", "#f37335"];

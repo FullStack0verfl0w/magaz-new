@@ -15,8 +15,9 @@ import OurActivityIndicator from "~/components/OurActivityIndicator";
 import styles from "./styles";
 import OurIconButton from "~/components/OurIconButton";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
+import { FetchOrderList } from "~/redux/OrdersReducer/actions";
 
-const LocallyAnimatedFlatList = ({data, navigation}) => {
+const LocallyAnimatedFlatList = ({data, navigation, refreshing, onRefresh}) => {
     const renderItemsBlock = ({item, index}) => {
         return (
             <>
@@ -47,6 +48,8 @@ const LocallyAnimatedFlatList = ({data, navigation}) => {
             style={styles.flatList}
             contentContainerStyle={styles.cartList}
             data={data}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
             renderItem={renderItemsBlock}
             keyExtractor={(item) => item.key}
         />
@@ -106,16 +109,12 @@ const Cart = (props) => {
 
                 <View style={styles.items}>
                     {
-                        state.loading ?
-                            <OurActivityIndicator style={styles.loadingContainer} size={64} oneState={true} color={gradStart} />
-                        :
-                            state.productList.size === 0 ?
-                                <OurText style={styles.emptyText}
-                                    translate={true}>cartEmpty</OurText>
-                            : <></>
-                        
+                        state.productList.size === 0 ?
+                            <OurText style={styles.emptyText}
+                                translate={true}>cartEmpty</OurText>
+                        : <></>
                     }
-                    <MemoedLocallyAnimatedFlatList data={Array.from(state.productList.values())} navigation={navigation}/>
+                    <MemoedLocallyAnimatedFlatList refreshing={state.loading} onRefresh={() => dispatch(FetchCartProductList)} data={Array.from(state.productList.values())} navigation={navigation}/>
                     <CartTotal total={state.total} />
                     <View style={styles.bottomContainer}>
                     <OurTextButton

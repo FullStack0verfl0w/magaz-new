@@ -16,7 +16,7 @@ import { ShowLoginModal } from "~/redux/ModalReducer/actions";
 
 
 
-const LocallyAnimatedFlatList = ({data, navigation}) => {
+const LocallyAnimatedFlatList = ({data, navigation, refreshing, onRefresh}) => {
     const renderItemsBlock = ({item, index}) => {
         return (
             <OrderItem navigation={navigation} data={item}/>
@@ -28,6 +28,8 @@ const LocallyAnimatedFlatList = ({data, navigation}) => {
             style={styles.flatList}
             data={data}
             renderItem={renderItemsBlock}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
             keyExtractor={(item, index) => String(index)}
         />
     )
@@ -65,23 +67,19 @@ const Orders = (props) => {
             },
         });
     }, [navigation]);
-
+    console.log("LOADING?", state.loading)
     return (
         <>
         <LinearGradient style={styles.background} locations={[0, 1.0]} colors={[gradStart, gradEnd]}/>
         <View style={styles.mainContainer}>
-        {
-            state.loading ?
-                <OurActivityIndicator style={styles.loadingContainer} size={64} oneState={true} color={gradEnd} />
-            :
-        	state.orderList.size === 0 ?
-        		<View style={styles.emptyTextContainer}>
-        			<OurText style={styles.emptyText} translate={true}>ordersEmpty</OurText>
-        		</View>
-            : <></>
-        }
-        <MemoedLocallyAnimatedFlatList navigation={navigation} data={Array.from(state.orderList.values())}/>
-
+            {
+                state.orderList.size === 0 ?
+                    <View style={styles.emptyTextContainer}>
+                        <OurText style={styles.emptyText} translate={true}>ordersEmpty</OurText>
+                    </View>
+                : <></>
+            }
+            <MemoedLocallyAnimatedFlatList refreshing={state.loading} onRefresh={() => dispatch(FetchOrderList)} navigation={navigation} data={Array.from(state.orderList.values())}/>
         </View>
         </>
     );
