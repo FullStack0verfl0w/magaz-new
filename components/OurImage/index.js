@@ -9,7 +9,7 @@ import styles from "./styles";
 const placeholder = require("~/assets/image_placeholder.png");
 
 const OurImage = (props) => {
-    const {url, title, onPress, style, disabled} = props;
+    const {url, title, onPress, style, titleStyle, disabled} = props;
     const [image, setImage] = useState(Image.resolveAssetSource(placeholder).uri);
     const onSuccess = ( tr, result ) => {
         if ( !result.rows.length ) {
@@ -49,7 +49,7 @@ const OurImage = (props) => {
             <Image style={style || styles.image} source={{uri: image}}/>
             {
                 title ?
-                    <OurText style={styles.title}>{title}</OurText> :
+                    <OurText style={[styles.title, titleStyle]}>{title}</OurText> :
                     <></>
             }
         </TouchableOpacity>

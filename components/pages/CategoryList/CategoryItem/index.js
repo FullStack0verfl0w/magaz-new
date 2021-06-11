@@ -22,6 +22,8 @@ const CategoryItem = (props) =>
     return (
         <View style={styles.view}>
             <OurImage
+                style={styles.picture}
+                titleStyle={styles.title}
                 url={url}
                 title={name}
                 onPress={onPress}
