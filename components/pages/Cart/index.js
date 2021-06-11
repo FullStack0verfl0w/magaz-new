@@ -90,33 +90,7 @@ const Cart = (props) => {
     const toDeliveryDetails = (e) => {
         if ( state.productList?.size ) {
             if ( !SyncStorage.get("session") && !SyncStorage.get("refresh-auth") ) {
-                const loginModalData = {
-                    title: { text: "cartLoginTitle", params: {} },
-                    text: { text: "cartLoginMessage", params: {} },
-                    animationIn: "fadeInUp",
-                    animationOut: "fadeOutDown",
-                    buttons: [
-                        {
-                            text: "cancel",
-                            textStyle: {
-                                color: "#383838",
-                            },
-                        },
-                        {
-                            text: "welcomePageRegister",
-                            onPress: (e) => {
-                                navigation.navigate("RegisterPage");
-                            },
-                        },
-                        {
-                            text: "welcomePageLogin",
-                            onPress: (e) => {
-                                navigation.navigate("LoginPage");
-                            },
-                        },
-                    ],
-                };
-                dispatch(ShowModal(loginModalData));
+                ShowLoginModal(dispatch, navigation);
             } else {
                 navigation.navigate("DeliveryDetails");
             }

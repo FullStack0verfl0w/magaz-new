@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
         minHeight: "100%",
     },
     mainContainer: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
     },
     flatList: {
         paddingTop: 12,
@@ -21,7 +26,26 @@ const styles = StyleSheet.create({
     emptyText: {
         color: "#fff",
         fontSize: 24,
-    }
+    },
+    loadingContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+
+        zIndex: 9999,
+
+        backgroundColor: "#fffffffa",
+        borderRadius: 100,
+    },
 });
 
 export default styles;

@@ -37,13 +37,14 @@ const MemoedLocallyAnimatedFlatList = React.memo(LocallyAnimatedFlatList);
 
 const Orders = (props) => {
     const { navigation } = props;
-    const state = useSelector(state=>state);
+    const state = useSelector(state=>state.ordersReducer);
     const dispatch = useDispatch();
 
     const [gradStart, gradEnd] = ["#931DC4", "#F33BC8"];
 
     useEffect( () => {
-        dispatch(FetchOrderList);
+        if ( !state.loading )
+            dispatch(FetchOrderList);
     }, [] );
 
     useLayoutEffect( () => {
@@ -70,16 +71,17 @@ const Orders = (props) => {
         <LinearGradient style={styles.background} locations={[0, 1.0]} colors={[gradStart, gradEnd]}/>
         <View style={styles.mainContainer}>
         {
-        	state.ordersReducer.orderList.size === 0 ?
+            state.loading ?
+                <OurActivityIndicator style={styles.loadingContainer} size={64} oneState={true} color={gradEnd} />
+            :
+        	state.orderList.size === 0 ?
         		<View style={styles.emptyTextContainer}>
         			<OurText style={styles.emptyText} translate={true}>ordersEmpty</OurText>
         		</View>
-            :
-        	state.ordersReducer.loading ?
-                <OurActivityIndicator size={64} color={"#fff"} />
-            :
-        		<MemoedLocallyAnimatedFlatList navigation={navigation} data={Array.from(state.ordersReducer.orderList.values())}/>
+            : <></>
         }
+        <MemoedLocallyAnimatedFlatList navigation={navigation} data={Array.from(state.orderList.values())}/>
+
         </View>
         </>
     );
