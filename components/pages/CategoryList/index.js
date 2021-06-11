@@ -18,12 +18,13 @@ import styles from "./styles";
 import client from "~/apollo";
 import { v4 as uuidv4 } from "uuid";
 import { AUTH_TOKEN_EXPIRE_TIME } from "~/utils/config";
+import OurIconButton from "~/components/OurIconButton";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
 
 
 /**Список категорий товаров*/
 const CategoryList = (props) => {
     const { navigation } = props;
-    const state = useSelector(state=>state);
     const dispatch = useDispatch();
     const [gradStart, gradEnd] = ["#65B7B9", "#078998"];
     const abortController = new AbortController();
@@ -50,7 +51,15 @@ const CategoryList = (props) => {
         navigation.setOptions({
             headerLeft: (props)=><HeaderTitle navigation={navigation} title={"categoryListTitle"} onPress={showAppInfo}/>,
             headerCenter: (props)=>{},
-            headerRight: (props)=><HeaderCartButton navigation={navigation}/>,
+            headerRight: (props)=> {
+                const auth = SyncStorage.get("auth");
+                const refresh = SyncStorage.get("refresh-auth");
+
+                if ( !auth || !refresh )
+                    return <OurIconButton icon={faSignInAlt} size={50} onPress={() => ShowLoginModal(dispatch, navigation)} />;
+                else
+                    return <HeaderCartButton navigation={navigation}/>;
+            },
             headerStyle: {
                 backgroundColor: gradStart,
             },
@@ -58,7 +67,7 @@ const CategoryList = (props) => {
     }, [navigation]);
 
     useEffect( () => {
-        let auth = SyncStorage.get("auth");
+        const auth = SyncStorage.get("auth");
         let refresh = SyncStorage.get("refresh-auth");
 
         if ( refresh ) {

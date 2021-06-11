@@ -18,10 +18,16 @@ import OurTextButton from "~/components/OurTextButton";
 import styles from "./styles";
 import { AUTH_TOKEN_EXPIRE_TIME } from "~/utils/config";
 
+const ERROR_TO_TRANSLATE = {
+    "invalid_username": "loginPageErrorWrongData",
+    "invalid_password": "loginPageErrorWrongData",
+    "empty_username": "loginPageEmptyUsername",
+    "empty_password": "loginPageEmptyPassword",
+};
+
 const LoginPage = (props) => {
     const { navigation } = props;
 
-    const state = useSelector(state=>state);
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -29,9 +35,10 @@ const LoginPage = (props) => {
     const customerId = uuidv4();
 
     const onError = (err) => {
+        const errorMessage = err.toString().match(/^Error: (.*)$/)[1];
         const toast = {
             icon: faInfoCircle,
-            text: "activityError",
+            text: ERROR_TO_TRANSLATE[errorMessage] || "activityError",
             translate: true,
             duration: 3000,
             color: "#fc0341",

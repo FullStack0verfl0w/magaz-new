@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
         color: "#ffffff",
+        textAlign: "justify",
         fontSize: 18,
     },
     buy: {

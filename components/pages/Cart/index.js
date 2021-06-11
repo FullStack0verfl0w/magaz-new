@@ -3,16 +3,18 @@ import { View, FlatList } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import { FetchCartProductList } from "~/redux/CartReducer/actions";
-import { ShowModal } from "~/redux/ModalReducer/actions";
+import { ShowLoginModal, ShowModal } from "~/redux/ModalReducer/actions";
 import SyncStorage from "sync-storage";
 
-import { HeaderBackButton, HeaderTitle, HeaderOrdersButton } from "~/components/Header/index";
+import { HeaderBackButton, HeaderTitle, HeaderOrdersButton, HeaderCartButton } from "~/components/Header/index";
 import CartItem from "./CartItem";
 import CartTotal from "./CartTotal";
 import OurText from "~/components/OurText";
 import OurTextButton from "~/components/OurTextButton";
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import styles from "./styles";
+import OurIconButton from "~/components/OurIconButton";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
 
 const LocallyAnimatedFlatList = ({data, navigation}) => {
     const renderItemsBlock = ({item, index}) => {
@@ -70,7 +72,15 @@ const Cart = (props) => {
         navigation.setOptions({
             headerLeft: (props) => <HeaderBackButton navigation={navigation}/>,
             headerCenter: (props) => <HeaderTitle navigation={navigation} title={"cartTitle"}/>,
-            headerRight: (props) => <HeaderOrdersButton navigation={navigation}/>,
+            headerRight: (props)=> {
+                const auth = SyncStorage.get("auth");
+                const refresh = SyncStorage.get("refresh-auth");
+
+                if ( !auth || !refresh )
+                    return <OurIconButton icon={faSignInAlt} size={50} onPress={() => ShowLoginModal(dispatch, navigation)} />;
+                else
+                    return <HeaderOrdersButton navigation={navigation}/>;
+            },
             headerStyle: {
                 backgroundColor: gradStart,
             },

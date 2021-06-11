@@ -9,6 +9,11 @@ import { HeaderBackButton, HeaderCartButton, HeaderTitle } from "~/components/He
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import ProductsItem from './ProductsItem/index';
 import styles from "./styles";
+import SyncStorage from "sync-storage";
+import OurIconButton from "~/components/OurIconButton";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
+import { ShowLoginModal } from "~/redux/ModalReducer/actions";
+import { useDispatch } from "react-redux";
 
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
@@ -56,11 +61,21 @@ const ProductsList = (props) => {
 
     const [gradStart, gradEnd] = ['#499eda', '#2454e5'];
 
+    const dispatch = useDispatch();
+
     useLayoutEffect( () => {
         navigation.setOptions({
             headerLeft: (props)=><HeaderBackButton navigation={navigation}/>,
             headerCenter: (props)=><HeaderTitle navigation={navigation} title={currentCategory.name}/>,
-            headerRight: (props)=><HeaderCartButton navigation={navigation}/>,
+            headerRight: (props)=> {
+                const auth = SyncStorage.get("auth");
+                const refresh = SyncStorage.get("refresh-auth");
+
+                if ( !auth || !refresh )
+                    return <OurIconButton icon={faSignInAlt} size={50} onPress={() => ShowLoginModal(dispatch, navigation)} />;
+                else
+                    return <HeaderCartButton navigation={navigation}/>;
+            },
             headerStyle: {
                 backgroundColor: gradStart,
             },

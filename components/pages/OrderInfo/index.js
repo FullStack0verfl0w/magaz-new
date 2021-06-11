@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -12,6 +12,13 @@ import OurText from "~/components/OurText";
 import OurImage from "~/components/OurImage";
 import styles from "./styles";
 import countries from "~/CountriesEnum.json";
+import MapView, { Marker, UrlTile } from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
+import SyncStorage from "sync-storage";
+import OurIconButton from "~/components/OurIconButton";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
+import { ShowLoginModal } from "~/redux/ModalReducer/actions";
+import { useDispatch } from "react-redux";
 
 const ProductCard = (props) => {
     const { name, imageUrl, price, quantity, id, variation, navigation } = props;
@@ -56,7 +63,15 @@ const OrderInfo = (props) => {
         navigation.setOptions({
             headerLeft: (props)=><HeaderBackButton navigation={navigation}/>,
             headerCenter: ()=>{},
-            headerRight: (props)=><HeaderCartButton navigation={navigation}/>,
+            headerRight: (props)=> {
+                const auth = SyncStorage.get("auth");
+                const refresh = SyncStorage.get("refresh-auth");
+
+                if ( !auth || !refresh )
+                    return <OurIconButton icon={faSignInAlt} size={50} onPress={() => ShowLoginModal(dispatch, navigation)} />;
+                else
+                    return <HeaderCartButton navigation={navigation}/>;
+            },
             headerStyle: {
                 backgroundColor: gradStart,
             },

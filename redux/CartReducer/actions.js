@@ -113,7 +113,6 @@ export const DeleteProductFromCart = (id, setLoading, anim) => async (dispatch) 
             dispatch(FetchCartProductList);
         });
     } catch (e) {
-        console.log("ERROR", e)
         const toast = {
             icon: faShoppingBasket,
             text: i18n.t("activityError2"),
@@ -144,7 +143,6 @@ export const ChangeProductQuantity = (id, quantity) => async (dispatch) => {
             }
         });
     } catch (e) {
-        console.log("ERROR", e)
         const toast = {
             icon: faShoppingBasket,
             text: i18n.t("activityError2"),

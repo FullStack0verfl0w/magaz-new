@@ -15,6 +15,10 @@ import styles from "./styles";
 import i18n from "~/i18n";
 import countries from "~/CountriesEnum.json";
 import OurCountryPicker from "~/components/OurCountryPicker";
+import SyncStorage from "sync-storage";
+import OurIconButton from "~/components/OurIconButton";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
+import { ShowLoginModal } from "~/redux/ModalReducer/actions";
 
 const DeliveryDetails = (props) => {
     const state = useSelector(state=>state.deliveryDetailsReducer);
@@ -27,7 +31,15 @@ const DeliveryDetails = (props) => {
         navigation.setOptions({
             headerLeft: (props)=><HeaderBackButton navigation={navigation}/>,
             headerCenter: (props)=><HeaderTitle navigation={navigation} title={"deliveryDetailsTitle"} />,
-            headerRight: (props)=><HeaderCartButton navigation={navigation}/>,
+            headerRight: (props)=> {
+                const auth = SyncStorage.get("auth");
+                const refresh = SyncStorage.get("refresh-auth");
+
+                if ( !auth || !refresh )
+                    return <OurIconButton icon={faSignInAlt} size={50} onPress={() => ShowLoginModal(dispatch, navigation)} />;
+                else
+                    return <HeaderCartButton navigation={navigation}/>;
+            },
             headerStyle: {
                 backgroundColor: gradStart,
             },

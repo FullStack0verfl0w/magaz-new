@@ -9,6 +9,10 @@ import OurText from "~/components/OurText";
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import OrderItem from "./OrderItem";
 import styles from "./styles"
+import SyncStorage from "sync-storage";
+import OurIconButton from "~/components/OurIconButton";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
+import { ShowLoginModal } from "~/redux/ModalReducer/actions";
 
 
 
@@ -46,7 +50,15 @@ const Orders = (props) => {
         navigation.setOptions({
             headerLeft: (props)=><HeaderBackButton navigation={navigation}/>,
             headerCenter: (props)=><HeaderTitle navigation={navigation} title={"ordersTitle"}/>,
-            headerRight: (props)=><HeaderCartButton navigation={navigation}/>,
+            headerRight: (props)=> {
+                const auth = SyncStorage.get("auth");
+                const refresh = SyncStorage.get("refresh-auth");
+
+                if ( !auth || !refresh )
+                    return <OurIconButton icon={faSignInAlt} size={50} onPress={() => ShowLoginModal(dispatch, navigation)} />;
+                else
+                    return <HeaderCartButton navigation={navigation}/>;
+            },
             headerStyle: {
                 backgroundColor: gradStart,
             },

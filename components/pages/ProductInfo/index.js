@@ -22,6 +22,7 @@ import OurPagerView from "~/components/OurPagerView";
 import SyncStorage from "sync-storage";
 import styles from "./styles";
 import { PRICE_PATTERN } from "~/utils/patterns";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
 
 
 const MIN_QUANTITY = 1;
@@ -67,7 +68,15 @@ const ProductInfo = (props) => {
         navigation.setOptions({
             headerLeft: ()=><HeaderBackButton navigation={navigation}/>,
             headerCenter: ()=>null,
-            headerRight: ()=><HeaderCartButton navigation={navigation}/>,
+            headerRight: (props)=> {
+                const auth = SyncStorage.get("auth");
+                const refresh = SyncStorage.get("refresh-auth");
+
+                if ( !auth || !refresh )
+                    return <OurIconButton icon={faSignInAlt} size={50} onPress={() => ShowLoginModal(dispatch, navigation)} />;
+                else
+                    return <HeaderCartButton navigation={navigation}/>;
+            },
             headerStyle: {
                 backgroundColor: gradStart,
             },
