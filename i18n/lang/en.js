@@ -8,17 +8,22 @@ const en = {
 
         registerPageTitle: "Registration",
         registerPageFormEmail: "E-mail",
-        registerPageFormUsername: "User Name",
+        registerPageFormUsername: "Username",
         registerPageFormPassword: "Password",
         registerPageFormPasswordRetype: "Re-type password",
         registerPageErrorPasswordsDontMatch: "Passwords don't match!",
         registerPageErrorPasswordNotValid: "Password must have minimum eight characters, at least one letter and one number!",
-        registerPageErrorUsernameShort: "User name is too short!",
-        registerPageErrorUsernameRegistered: "That user name is already in use!",
+        registerPageErrorNoUsername: "Enter a username!",
+        registerPageErrorNoEmail: "Enter an e-mail!",
+        registerPageErrorNoPassword: "Enter a password!",
+        registerPageErrorUsernameShort: "Username is too short!",
+        registerPageErrorUsernameRegistered: "That username is already in use!",
         registerPageErrorEmailRegistered: "That e-mail is already in use!",
 
         loginPageTitle: "Log in",
-        loginPageErrorWrongData: "Your e-mail or password are wrong!",
+        loginPageErrorWrongData: "Incorrect username or password!",
+        loginPageEmptyUsername: "Enter a username!",
+        loginPageEmptyPassword: "Enter a password!",
 
         categoryListTitle: "Edoprovod",
 
@@ -48,6 +53,7 @@ const en = {
         notAvailable: "n/a",
 
         deliveryDetailsTitle: "Delivery Details",
+        deliveryMap: "Where's my courier?",
         completedOrdersTitle: "Completed Orders",
         ordersTitle: "Orders",
         ordersEmpty: "There's too empty here(",

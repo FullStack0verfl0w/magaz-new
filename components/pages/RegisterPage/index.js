@@ -21,24 +21,41 @@ import { AUTH_TOKEN_EXPIRE_TIME } from "~/utils/config";
 
 const USERNAME_MIN_LENGTH = 4;
 
+const ERROR_TO_STRING = {
+    "A username was not provided.": "registerPageErrorNoUsername",
+    "A email was not provided.": "registerPageErrorNoEmail",
+    "A password was not provided.": "registerPageErrorNoPassword",
+    "This email is already registered, please choose another one.": "registerPageErrorEmailRegistered",
+    "This username is already registered. Please choose another one.": "registerPageErrorUsernameRegistered",
+};
+
 const RegisterPage = (props) => {
     const { navigation } = props;
 
-    const state = useSelector(state=>state);
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState("");
+    const [emailValid, setEmailValid] = useState(false);
     const [username, setUsername] = useState("");
+    const [usernameValid, setUsernameValid] = useState(false);
     const [password, setPassword] = useState("");
+    const [passwordValid, setPasswordValid] = useState(false);
     const [passwordRetype, setPasswordRetype] = useState("");
+    const [passwordRetypeValid, setPasswordRetypeValid] = useState(false);
+
     const [gradStart, gradMiddle, gradEnd] = ["#B0E8E4", "#86A8E7","#7F7FD5"];
 
     const customerId = uuidv4();
 
     const onError = (err) => {
+        let errorMessage = "";
+        Object.keys(ERROR_TO_STRING).forEach((v) => {
+            if ( err.toString().search(v) !== -1 )
+                errorMessage = v;
+        });
         const toast = {
             icon: faInfoCircle,
-            text: "activityError",
+            text: ERROR_TO_STRING[errorMessage] || "activityError",
             translate: true,
             duration: 3000,
             color: "#fc0341",
@@ -48,8 +65,8 @@ const RegisterPage = (props) => {
     };
     const onCompleted = (data) => {
         SyncStorage.set("user-uuid", customerId);
-        SyncStorage.set("auth", data.login.authToken);
-        SyncStorage.set("refresh-auth", data.login.refreshToken);
+        SyncStorage.set("auth", data.registerUser.user.jwtAuthToken);
+        SyncStorage.set("refresh-auth", data.registerUser.user.jwtRefreshToken);
         SyncStorage.set("auth-expires-at", Date.now() + AUTH_TOKEN_EXPIRE_TIME);
 
         navigation.popToTop();
@@ -71,9 +88,11 @@ const RegisterPage = (props) => {
     const validateFormEmail = (value) => {
         if ( value.trim() !== "" ) {
             if ( value.toLowerCase().match(EMAIL_PATTERN) ) {
+                setEmailValid(true);
                 return true;
             }
         }
+        setEmailValid(false);
     };
     const validateFormUsername = (value) => {
         if ( value.length < USERNAME_MIN_LENGTH ) {
@@ -85,14 +104,17 @@ const RegisterPage = (props) => {
                 color: gradEnd,
             };
             dispatch(AddToast(toast, "REG_USERNAME_TOAST"));
+            setUsernameValid(false);
             return false;
         }
+        setUsernameValid(true);
         return true;
     }
     const validateFormPassword = (value) => {
         if ( value.trim() !== "" ) {
             if ( value.toLowerCase().match(PASSWORD_PATTERN) ) {
                 setPasswordRetype("");
+                setPasswordValid(true);
                 return true;
             } else {
                 const toast = {
@@ -103,12 +125,14 @@ const RegisterPage = (props) => {
                     color: gradEnd,
                 };
                 dispatch(AddToast(toast, "REG_PASSWORD_TOAST"));
+                setPasswordValid(false);
             }
         }
     };
     const validateFormRetypePassword = (value) => {
         if ( value.trim() !== "" ) {
             if ( password === value ) {
+                setPasswordRetypeValid(true);
                 return true;
             } else {
                 const toast = {
@@ -119,6 +143,7 @@ const RegisterPage = (props) => {
                     color: gradEnd,
                 };
                 dispatch(AddToast(toast, "REG_RETYPE_PASSWORD_TOAST"));
+                setPasswordRetypeValid(false);
             }
         }
     };
@@ -159,7 +184,11 @@ const RegisterPage = (props) => {
                                                 model={[passwordRetype, setPasswordRetype]}/>
                             </ScrollView>
                             <View style={styles.bottomContainer}>
-                                <OurTextButton onPress={() => {
+                                <OurTextButton disabled={!(
+                                    emailValid &&
+                                    usernameValid &&
+                                    passwordValid &&
+                                    passwordRetypeValid)} onPress={() => {
                                     regCustomer({
                                         variables: {
                                             uuid: customerId,

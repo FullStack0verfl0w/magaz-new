@@ -18,7 +18,9 @@ const ru = {
         registerPageErrorEmailRegistered: "Данный e-mail уже занят!",
 
         loginPageTitle: "Вход",
-        loginPageErrorWrongData: "Неверный e-mail или пароль!",
+        loginPageErrorWrongData: "Неверные имя пользователя или пароль!",
+        loginPageEmptyUsername: "Введите имя пользователя!",
+        loginPageEmptyPassword: "Введите пароль!",
 
         categoryListTitle: "Едопровод",
 
@@ -48,6 +50,7 @@ const ru = {
         notAvailable: "н/д",
 
         deliveryDetailsTitle: "Детали доставки",
+        deliveryMap: "Где курьер?",
         completedOrdersTitle: "Выполненые заказы",
         ordersTitle: "Заказы",
         ordersEmpty: "Здесь пусто(",
