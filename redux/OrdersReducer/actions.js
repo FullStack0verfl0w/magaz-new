@@ -16,7 +16,6 @@ export const FetchOrderList = async (dispatch) => {
     try {
         const data = await client.query({ query: QUERY_GET_ORDERS, fetchPolicy: "no-cache" });
         dispatch(SetOrderList(data.data?.orders?.nodes));
-        console.log("HEHEHEHSHADSa", data)
     }
     catch (e) {
         console.log("Order fetching error", e);

@@ -67,7 +67,7 @@ const Orders = (props) => {
             },
         });
     }, [navigation]);
-    console.log("LOADING?", state.loading)
+
     return (
         <>
         <LinearGradient style={styles.background} locations={[0, 1.0]} colors={[gradStart, gradEnd]}/>
