@@ -39,7 +39,7 @@ const DeliveryDetailsItem = (props) => {
     return (
         <View style={styles.itemContainer}>
             <OurText style={styles.fieldText} translate={true}>{field}</OurText>
-            <OurText style={styles.text} translate={!text}>{text || "notAvailable"}</OurText>
+            <OurText style={styles.text} adjustsFontSizeToFit={true} translate={!text}>{text || "notAvailable"}</OurText>
         </View>
     );
 };
@@ -77,7 +77,7 @@ const OrderInfo = (props) => {
             console.log("Error while fetching product data", error)
         }
     });
-    
+
     return (
         <>
             <LinearGradient
@@ -97,33 +97,46 @@ const OrderInfo = (props) => {
                             </View>
                         :
                             <>
-                            <View style={styles.orderProducts}>
-                                <OurText style={styles.productsTitle} translate={true}>orderInfoProducts</OurText>
-                                {
-                                    data?.order?.lineItems?.nodes?.length && data.order.lineItems.nodes.map(v => {
-                                        return <ProductCard key={v.databaseId} navigation={navigation} variation={v.variation} id={v.product.databaseId} quantity={v.quantity}  price={v.product.price} name={v.product.name} imageUrl={v.product.image.sourceUrl} />
-                                    })
-                                }
-                            </View>
-                            <View style={styles.deliveryDetails}>
-                                <OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryDetailsTitle</OurText>
-                                <View>
-                                <DeliveryDetailsItem field={"orderFormFirstName"}
-                                                     text={data?.order?.billing?.firstName}/>
-                                <DeliveryDetailsItem field={"orderFormLastName"}
-                                                     text={data?.order?.billing?.lastName}/>
-                                <DeliveryDetailsItem field={"orderFormEmail"}
-                                                     text={data?.order?.billing?.email}/>
-                                <DeliveryDetailsItem field={"orderFormPhone"}
-                                                     text={data?.order?.billing?.phone}/>
-                                <DeliveryDetailsItem field={"orderFormCountry"}
-                                                     text={countries[data?.order?.billing?.country]?.name || null}/>
-                                <DeliveryDetailsItem field={"orderFormAddress"}
-                                                     text={data?.order?.billing?.address1}/>
-                                <DeliveryDetailsItem field={"orderFormPostcode"}
-                                                     text={data?.order?.billing?.postcode}/>
+                                <View style={styles.orderProducts}>
+                                    <OurText style={styles.productsTitle} translate={true}>orderInfoProducts</OurText>
+                                    {
+                                        data?.order?.lineItems?.nodes?.length && data.order.lineItems.nodes.map(v => {
+                                            return <ProductCard key={v.databaseId} navigation={navigation} variation={v.variation} id={v.product.databaseId} quantity={v.quantity}  price={v.product.price} name={v.product.name} imageUrl={v.product.image.sourceUrl} />
+                                        })
+                                    }
                                 </View>
-                            </View>
+                                <View style={styles.deliveryDetailsContainer}>
+                                    <OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryDetailsTitle</OurText>
+                                    <View style={styles.deliveryDetailsInfo}>
+                                        <DeliveryDetailsItem field={"orderFormFirstName"}
+                                                             text={data?.order?.billing?.firstName}/>
+                                        <DeliveryDetailsItem field={"orderFormLastName"}
+                                                             text={data?.order?.billing?.lastName}/>
+                                        <DeliveryDetailsItem field={"orderFormEmail"}
+                                                             text={data?.order?.billing?.email}/>
+                                        <DeliveryDetailsItem field={"orderFormPhone"}
+                                                             text={data?.order?.billing?.phone}/>
+                                        <DeliveryDetailsItem field={"orderFormCountry"}
+                                                             text={countries[data?.order?.billing?.country]?.name || null}/>
+                                        <DeliveryDetailsItem field={"orderFormAddress"}
+                                                             text={data?.order?.billing?.address1}/>
+                                        <DeliveryDetailsItem field={"orderFormPostcode"}
+                                                             text={data?.order?.billing?.postcode}/>
+                                    </View>
+                                </View>
+                                <View style={styles.deliveryDetailsContainer}>
+                                    <OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryMap</OurText>
+                                    <MapView
+                                        style={{width: 320, height: 320}}
+                                        initialRegion={{
+                                            latitude: 37.78825,
+                                            longitude: -122.4324,
+                                            latitudeDelta: 0.0922,
+                                            longitudeDelta: 0.0421,
+                                    }}>
+                                        <Marker coordinate={coord} />
+                                    </MapView>
+                                </View>
                             </>
                     }
                 </View>

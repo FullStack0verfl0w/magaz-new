@@ -7,7 +7,7 @@ const DEFAULT_FONT = "Gilroy-Light";
 
 const OurText = (props) =>
 {
-    const { style, children, translate, params, numberOfLines } = props;
+    const { style, children, translate, params, numberOfLines, adjustsFontSizeToFit } = props;
     const { t } = useTranslation();
 
     const mainStyle = {
@@ -19,7 +19,8 @@ const OurText = (props) =>
 
     return (
         <Text numberOfLines={numberOfLines} style={[mainStyle, style]}
-              allowFontScaling={false}>{(translate || params) ? t(children, params) : children}</Text>
+              adjustsFontSizeToFit={adjustsFontSizeToFit}
+              allowFontScaling={adjustsFontSizeToFit}>{(translate || params) ? t(children, params) : children}</Text>
     );
 };
 

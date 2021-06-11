@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
     },
-    deliveryDetails: {
+    deliveryDetailsContainer: {
         alignItems: "center",
     },
     deliveryDetailsTitle: {
@@ -64,6 +64,9 @@ const styles = StyleSheet.create({
         alignSelf: "flex-start",
         marginLeft: 16,
         paddingVertical: 16,
+    },
+    deliveryDetailsInfo: {
+        width: "100%"
     },
     itemContainer: {
         flexDirection: "row",
