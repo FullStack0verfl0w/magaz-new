@@ -58,20 +58,20 @@ const OrderInfo = (props) => {
     const dispatch = useDispatch();
 
     const [abortController, setAbortController] = useState(new AbortController());
-    const [coord, setCoord] = useState({
-        latitude: 37.78825,
-        longitude: -122.4324,
-    });
+    // const [coord, setCoord] = useState({
+    //     latitude: 37.78825,
+    //     longitude: -122.4324,
+    // });
 
-    useEffect(() => {
-        // setInterval(() => {
-        //     const a = {
-        //         latitude: Math.random() * 37.78825,
-        //         longitude: Math.random() * -122.4324,
-        //     }
-        //     setCoord(a)
-        // }, Math.random() * 2000 )
-    }, [])
+    // useEffect(() => {
+    //     setInterval(() => {
+    //         const a = {
+    //             latitude: Math.random() * 37.78825,
+    //             longitude: Math.random() * -122.4324,
+    //         }
+    //         setCoord(a)
+    //     }, Math.random() * 2000 )
+    // }, []);
 
     const [gradStart, gradEnd] = ["#fdc830", "#f37335"];
 
@@ -155,19 +155,19 @@ const OrderInfo = (props) => {
                                                              text={data?.order?.billing?.postcode}/>
                                     </View>
                                 </View>
-                                <View style={styles.deliveryDetailsContainer}>
-                                    <OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryMap</OurText>
-                                    <MapView
-                                        style={{width: 320, height: 320}}
-                                        initialRegion={{
-                                            latitude: 37.78825,
-                                            longitude: -122.4324,
-                                            latitudeDelta: 0.0922,
-                                            longitudeDelta: 0.0421,
-                                    }}>
-                                        <Marker coordinate={coord} />
-                                    </MapView>
-                                </View>
+                                {/*<View style={styles.deliveryDetailsContainer}>*/}
+                                {/*    <OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryMap</OurText>*/}
+                                {/*    <MapView*/}
+                                {/*        style={{width: 320, height: 320}}*/}
+                                {/*        initialRegion={{*/}
+                                {/*            latitude: 37.78825,*/}
+                                {/*            longitude: -122.4324,*/}
+                                {/*            latitudeDelta: 0.0922,*/}
+                                {/*            longitudeDelta: 0.0421,*/}
+                                {/*    }}>*/}
+                                {/*        <Marker coordinate={coord} />*/}
+                                {/*    </MapView>*/}
+                                {/*</View>*/}
                             </>
                     }
                 </View>
