@@ -63,22 +63,23 @@ const OrderInfo = (props) => {
 
     const [abortController, setAbortController] = useState(new AbortController());
     const [coord, setCoord] = useState(null);
-    const [timer, setTimer] = useState(null);
+
+    const FetchCoordinates = async () => {
+        try {
+            const resp = await client.query({query: QUERY_GET_ORDER_INFO, variables: {id}, fetchPolicy: "no-cache", context: { fetchOptions: { signal: abortController2.signal } }});
+            const data = JSON.parse(resp.data.orderInfo.courier_data);
+            setCoord(data);
+        } catch(e) {
+            console.log("WELL SHIT", e);
+        }
+    };
 
     useEffect(() => {
+        FetchCoordinates();
         if ( timer ) {
             clearInterval(timer);
         }
-        setTimer(setInterval(async () => {
-            try {
-                const resp = await client.query({query: QUERY_GET_ORDER_INFO, variables: {id}, fetchPolicy: "no-cache"});
-                const data = JSON.parse(resp.data.orderInfo.courier_data);
-                console.log("RESP INTERVAL", data);
-                setCoord(data);
-            } catch(e) {
-                console.log("WELL SHIT", e);
-            }
-        }, 5000 ));
+        var timer = setInterval(FetchCoordinates, 5000 );
         return () => {
             if ( timer ) {
                 clearInterval(timer);
@@ -170,21 +171,22 @@ const OrderInfo = (props) => {
                                 </View>
                                 <View style={styles.deliveryDetailsContainer}>
                                     <OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryMap</OurText>
-                                    <MapView
-                                        style={{width: 320, height: 320}}
-                                        initialRegion={{
-                                            latitude: 0,
-                                            longitude: 0,
-                                        }}>
-                                        {
-                                            coord ?
+                                    {
+                                        coord ?
+                                            <MapView
+                                                style={{width: 320, height: 320}}
+                                                initialRegion={{
+                                                    ...coord,
+                                                    latitudeDelta: 0.0922,
+                                                    longitudeDelta: 0.0421,
+                                                }}>
                                                 <Marker opacity={.99} coordinate={coord}>
                                                     <CourierIcon />
                                                 </Marker>
-                                            :
-                                                <></>
-                                        }
-                                    </MapView>
+                                            </MapView>
+                                        :
+                                            <OurActivityIndicator containerStyle={{width: 320, height: 320, position: null}} />
+                                    }
                                 </View>
                             </>
                     }
