@@ -45,9 +45,15 @@ const LoginPage = (props) => {
         };
         dispatch(AddToast(toast, "LOGIN_MUTATION_ERROR"));
         console.log("ERROR LOGINING IN CUSTOMER:", err);
+        SyncStorage.set("user-uuid", null);
+        SyncStorage.set("user-id", null);
+        SyncStorage.set("auth", null);
+        SyncStorage.set("refresh-auth", null);
+        SyncStorage.set("auth-expires-at", null);
     };
     const onCompleted = (data) => {
         SyncStorage.set("user-uuid", customerId);
+        SyncStorage.set("user-id", data?.login?.user.databaseId);
         SyncStorage.set("auth", data.login.authToken);
         SyncStorage.set("refresh-auth", data.login.refreshToken);
         SyncStorage.set("auth-expires-at", Date.now() + AUTH_TOKEN_EXPIRE_TIME);
