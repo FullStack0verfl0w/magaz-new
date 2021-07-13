@@ -11,11 +11,18 @@ export const SetOrderList = (orderList=[]) => {
     return { type: ORDERS_SET_LIST, orderList };
 };
 
-export const FetchOrderList = async (dispatch) => {
+export const FetchOrderList = async (dispatch, getState) => {
     dispatch(SetOrdersLoading(true));
+
     try {
         const data = await client.query({ query: QUERY_GET_ORDERS, fetchPolicy: "no-cache" });
-        dispatch(SetOrderList(data.data?.orders?.nodes));
+        const result = [];
+        for ( const order of data?.data?.orders?.nodes) {
+            for ( const order2 of data?.data?.ordersInfo ) {
+                result.push({ data: order, status: order2 });
+            }
+        }
+        dispatch(SetOrderList(result));
     }
     catch (e) {
         console.log("Order fetching error", e);
@@ -61,8 +68,7 @@ export const AddOrder = (data) => async (dispatch) => {
                 phone: data.phone,
                 paymentMethod: "cod",
             },
-        })
-        //dispatch(FetchOrderList)
+        });
         const toast = {
             icon: faBoxOpen,
             text: i18n.t("orderAdded"),

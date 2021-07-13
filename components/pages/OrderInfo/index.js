@@ -3,7 +3,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useQuery } from "@apollo/client";
-import { QUERY_GET_ORDER, QUERY_GET_PRODUCT } from "~/apollo/queries";
+import {QUERY_GET_ORDER, QUERY_GET_ORDER_INFO, QUERY_GET_PRODUCT} from "~/apollo/queries";
 import { useTranslation } from "react-i18next";
 
 import { HeaderBackButton, HeaderCartButton } from "~/components/Header";
@@ -19,6 +19,10 @@ import OurIconButton from "~/components/OurIconButton";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
 import { ShowLoginModal } from "~/redux/ModalReducer/actions";
 import { useDispatch } from "react-redux";
+import client from "~/apollo";
+import {clear} from "react-native/Libraries/LogBox/Data/LogBoxData";
+import Svg, {G, Path} from "react-native-svg";
+import CourierIcon from "~/components/CourierIcon";
 
 const ProductCard = (props) => {
     const { name, imageUrl, price, quantity, id, variation, navigation } = props;
@@ -58,20 +62,29 @@ const OrderInfo = (props) => {
     const dispatch = useDispatch();
 
     const [abortController, setAbortController] = useState(new AbortController());
-    // const [coord, setCoord] = useState({
-    //     latitude: 37.78825,
-    //     longitude: -122.4324,
-    // });
+    const [coord, setCoord] = useState(null);
+    const [timer, setTimer] = useState(null);
 
-    // useEffect(() => {
-    //     setInterval(() => {
-    //         const a = {
-    //             latitude: Math.random() * 37.78825,
-    //             longitude: Math.random() * -122.4324,
-    //         }
-    //         setCoord(a)
-    //     }, Math.random() * 2000 )
-    // }, []);
+    useEffect(() => {
+        if ( timer ) {
+            clearInterval(timer);
+        }
+        setTimer(setInterval(async () => {
+            try {
+                const resp = await client.query({query: QUERY_GET_ORDER_INFO, variables: {id}, fetchPolicy: "no-cache"});
+                const data = JSON.parse(resp.data.orderInfo.courier_data);
+                console.log("RESP INTERVAL", data);
+                setCoord(data);
+            } catch(e) {
+                console.log("WELL SHIT", e);
+            }
+        }, 5000 ));
+        return () => {
+            if ( timer ) {
+                clearInterval(timer);
+            }
+        };
+    }, []);
 
     const [gradStart, gradEnd] = ["#fdc830", "#f37335"];
 
@@ -155,19 +168,24 @@ const OrderInfo = (props) => {
                                                              text={data?.order?.billing?.postcode}/>
                                     </View>
                                 </View>
-                                {/*<View style={styles.deliveryDetailsContainer}>*/}
-                                {/*    <OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryMap</OurText>*/}
-                                {/*    <MapView*/}
-                                {/*        style={{width: 320, height: 320}}*/}
-                                {/*        initialRegion={{*/}
-                                {/*            latitude: 37.78825,*/}
-                                {/*            longitude: -122.4324,*/}
-                                {/*            latitudeDelta: 0.0922,*/}
-                                {/*            longitudeDelta: 0.0421,*/}
-                                {/*    }}>*/}
-                                {/*        <Marker coordinate={coord} />*/}
-                                {/*    </MapView>*/}
-                                {/*</View>*/}
+                                <View style={styles.deliveryDetailsContainer}>
+                                    <OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryMap</OurText>
+                                    <MapView
+                                        style={{width: 320, height: 320}}
+                                        initialRegion={{
+                                            latitude: 0,
+                                            longitude: 0,
+                                        }}>
+                                        {
+                                            coord ?
+                                                <Marker opacity={.99} coordinate={coord}>
+                                                    <CourierIcon />
+                                                </Marker>
+                                            :
+                                                <></>
+                                        }
+                                    </MapView>
+                                </View>
                             </>
                     }
                 </View>

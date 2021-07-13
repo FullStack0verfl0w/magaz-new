@@ -76,13 +76,12 @@ const en = {
         orderViewInfo: "View the info",
         orderNumber: "Order №{{id}}",
         orderStatus: "Status",
-        orderStatus_PROCESSING: "Processing",
-        orderStatus_PENDING: "Pending",
-        orderStatus_ON_HOLD: "On hold",
-        orderStatus_COMPLETED: "Completed",
-        orderStatus_CANCELED: "Canceled",
-        orderStatus_FAILED: "Failed",
-        orderStatus_REFUNDED: "Refunded",
+        orderStatus_0: "Looking for courier",
+        orderStatus_1: "In progress",
+        orderStatus_2: "Waiting for client",
+        orderStatus_3: "Completed",
+        orderStatus_4: "Failed",
+        orderStatus_5: "Denied",
 
         orderInfoProducts: "Products",
 
@@ -103,6 +102,8 @@ const en = {
 
         errorFetch: "An error occurred while fetching data. Check internet connection and try again.",
         errorApp: "An error occurred.",
+
+        logoutTitle: "Are you sure you want to log out?",
     },
 };
 export default en;

@@ -299,6 +299,13 @@ export const QUERY_GET_ORDERS = gql`
                 status
             }
         }
+        ordersInfo {
+            order_status_date
+            order_status
+            courier_data
+            courier_id
+            id
+        }
     }
 `;
 
@@ -347,4 +354,25 @@ export const QUERY_GET_ORDER = gql`
             }
         }
     }
+`;
+
+export const QUERY_GET_ORDER_INFO = gql`
+query GetOrderInfo($id: Int!) {
+  orderInfo(id: $id) {
+    courier_data
+    courier_id
+    order_status
+    id
+  }
+}
+`;
+
+export const QUERY_GET_ORDER_STATUS = gql`
+query GetOrderStatus($id: Int!) {
+  orderStatus(id: $id) {
+    id
+    date
+    order_status
+  }
+}
 `;

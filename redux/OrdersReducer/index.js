@@ -20,9 +20,8 @@ const ordersReducer = ( state = initialOrdersState, action ) => {
 
             if ( orderList )
                 orderList.forEach( (v, i) => {
-                    orders.set( v.databaseId, v );
+                    orders.set( v.data.databaseId, v );
                 } );
-
 
             newState.orderList = orders;
             return newState;

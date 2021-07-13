@@ -74,13 +74,12 @@ const ru = {
         orderViewInfo: "Информация",
         orderNumber: "Заказ №{{id}}",
         orderStatus: "Статус",
-        orderStatus_PROCESSING: "Обработка",
-        orderStatus_PENDING: "В ожидании оплаты",
-        orderStatus_ON_HOLD: "На удержании",
-        orderStatus_COMPLETED: "Выполнен",
-        orderStatus_CANCELED: "Отменён",
-        orderStatus_FAILED: "Не удался",
-        orderStatus_REFUNDED: "Возврат",
+        orderStatus_0: "Ищем курьера",
+        orderStatus_1: "В процессе",
+        orderStatus_2: "Ожидание клиента",
+        orderStatus_3: "Завершён",
+        orderStatus_4: "Неудачная доставка",
+        orderStatus_5: "Отклонён",
 
         orderInfoProducts: "Товары",
 
@@ -98,6 +97,8 @@ const ru = {
         productAddedMessage: "Товар {{product}} добавлен в вашу корзину!",
         productVariations: "Вариации",
         productsPickerSearch: "Поиск...",
+
+        logoutTitle: "Вы действительно хотите выйти из аккаунта?",
 
         errorFetch: "Произошла ошибка при получении данных. Проверьте интернет соединение и повторите попытку.",
         errorApp: "Произошла ошибка.",
