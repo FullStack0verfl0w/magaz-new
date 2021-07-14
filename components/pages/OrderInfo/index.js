@@ -175,6 +175,7 @@ const OrderInfo = (props) => {
                                         coord ?
                                             <MapView
                                                 style={{width: 320, height: 320}}
+                                                mapPadding={{bottom: 32}}
                                                 initialRegion={{
                                                     ...coord,
                                                     latitudeDelta: 0.0922,
