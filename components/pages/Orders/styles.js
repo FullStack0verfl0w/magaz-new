@@ -17,9 +17,12 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     flatList: {
+        height: "100%",
+        width: "100%",
         paddingTop: 12,
     },
     emptyTextContainer: {
+        position: "absolute",
         alignItems: "center",
         marginTop: 12,
     },
