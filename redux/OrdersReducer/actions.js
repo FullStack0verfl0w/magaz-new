@@ -19,7 +19,8 @@ export const FetchOrderList = async (dispatch, getState) => {
         const result = [];
         for ( const order of data?.data?.orders?.nodes) {
             for ( const order2 of data?.data?.ordersInfo ) {
-                result.push({ data: order, status: order2 });
+                if ( order.databaseId === order2.id )
+                    result.push({ data: order, status: order2 });
             }
         }
         dispatch(SetOrderList(result));

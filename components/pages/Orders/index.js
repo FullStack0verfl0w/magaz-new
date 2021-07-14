@@ -17,11 +17,7 @@ import { ShowLoginModal } from "~/redux/ModalReducer/actions";
 
 
 const LocallyAnimatedFlatList = ({data, navigation, refreshing, onRefresh}) => {
-    const renderItemsBlock = ({item, index}) => {
-        return (
-            <OrderItem navigation={navigation} data={item}/>
-        );
-    };
+    const renderItemsBlock = ({item, index}) => <OrderItem navigation={navigation} data={item}/>;
 
     return (
         <FlatList

@@ -66,7 +66,7 @@ const OrderInfo = (props) => {
 
     const FetchCoordinates = async () => {
         try {
-            const resp = await client.query({query: QUERY_GET_ORDER_INFO, variables: {id}, fetchPolicy: "no-cache", context: { fetchOptions: { signal: abortController2.signal } }});
+            const resp = await client.query({query: QUERY_GET_ORDER_INFO, variables: {id}, fetchPolicy: "no-cache"});
             const data = JSON.parse(resp.data.orderInfo.courier_data);
             setCoord(data);
         } catch(e) {
