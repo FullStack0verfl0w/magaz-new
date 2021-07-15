@@ -27,7 +27,7 @@ const OrderItem = (props) => {
     const { data, navigation } = props;
 
     const [gradStart, gradEnd] = ["#931DC4", "#F33BC8"];
-    console.log("HEY DATA", data);
+
     return (
         <View style={styles.mainContainer}>
             <TouchableOpacity onPress={() => navigation.navigate("OrderInfo", { id: data.data.databaseId, status: data.status.order_status })}>

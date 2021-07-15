@@ -3,7 +3,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useQuery } from "@apollo/client";
-import {QUERY_GET_ORDER, QUERY_GET_ORDER_INFO, QUERY_GET_PRODUCT} from "~/apollo/queries";
+import { QUERY_GET_ORDER, QUERY_GET_ORDER_INFO } from "~/apollo/queries";
 import { useTranslation } from "react-i18next";
 
 import { HeaderBackButton, HeaderCartButton } from "~/components/Header";
@@ -12,16 +12,13 @@ import OurText from "~/components/OurText";
 import OurImage from "~/components/OurImage";
 import styles from "./styles";
 import countries from "~/CountriesEnum.json";
-import MapView, { Marker, UrlTile } from "react-native-maps";
-import MapViewDirections from "react-native-maps-directions";
+import MapView, {Marker, PROVIDER_DEFAULT, UrlTile} from "react-native-maps";
 import SyncStorage from "sync-storage";
 import OurIconButton from "~/components/OurIconButton";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
 import { ShowLoginModal } from "~/redux/ModalReducer/actions";
 import { useDispatch } from "react-redux";
 import client from "~/apollo";
-import {clear} from "react-native/Libraries/LogBox/Data/LogBoxData";
-import Svg, {G, Path} from "react-native-svg";
 import CourierIcon from "~/components/CourierIcon";
 
 const ProductCard = (props) => {
@@ -176,11 +173,18 @@ const OrderInfo = (props) => {
                                             <MapView
                                                 style={{width: 320, height: 320}}
                                                 mapPadding={{bottom: 32}}
+                                                mapType={"none"}
+                                                provider={"google"}
                                                 initialRegion={{
                                                     ...coord,
-                                                    latitudeDelta: 0.0922,
-                                                    longitudeDelta: 0.0421,
+                                                    latitudeDelta: 0.00922,
+                                                    longitudeDelta: 0.00421,
                                                 }}>
+                                                <UrlTile
+                                                    shouldReplaceMapContent={true}
+                                                    tileSize={1}
+                                                    urlTemplate="https://tile.openstreetmap.de/{z}/{x}/{y}.png"
+                                                />
                                                 <Marker opacity={.99} coordinate={coord}>
                                                     <CourierIcon />
                                                 </Marker>
