@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import SyncStorage from "sync-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { useRoute, useNavigationState } from "@react-navigation/native";
 import { View, TouchableOpacity, LayoutAnimation } from "react-native";
@@ -10,21 +11,35 @@ import OurText from "~/components/OurText";
 import OurIconButton from "~/components/OurIconButton";
 import styles from "./styles.js";
 
-
-const isFirstRouteInParent = () => {
-    const route = useRoute();
-    const isFirstRouteInParent = useNavigationState(
-        state => state.routes[0].key === route.key
-    );
-
-    return isFirstRouteInParent;
-};
-
 export const HeaderBackButton = (props) => {
     const { navigation } = props;
+    const dispatch = useDispatch();
 
     const goBack = (e) => {
-        navigation.goBack();
+        if ( !navigation.canGoBack() && SyncStorage.get("auth") ) {
+            const data = {
+                title: { text: "logoutTitle", params: {} },
+                text: { text: "", params: {} },
+                animationIn: "bounceInDown",
+                animationOut: "bounceOutUp",
+                buttons: [{
+                    text: "ok",
+                    onPress: () => {
+                        SyncStorage.set("user-uuid", null);
+                        SyncStorage.set("auth", null);
+                        SyncStorage.set("refresh-auth", null);
+                        SyncStorage.set("auth-expires-at", null);
+                        navigation.navigate("LoginPage");
+                    },
+                },
+                {
+                    text: "cancel",
+                }]
+            };
+            dispatch(ShowModal(data));
+        }
+        else
+            navigation.goBack();
     };
 
     return (
