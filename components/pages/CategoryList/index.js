@@ -11,7 +11,7 @@ import { ShowLoginModal, ShowModal } from "~/redux/ModalReducer/actions";
 import { expo } from "~/app.json";
 import SyncStorage from "sync-storage";
 
-import { HeaderTitle, HeaderCartButton } from "~/components/Header";
+import { HeaderTitle, HeaderBackButton, HeaderCartButton } from "~/components/Header";
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import CategoryItem from "./CategoryItem";
 import styles from "./styles";
@@ -40,17 +40,34 @@ const CategoryList = (props) => {
             }]
         };
         dispatch(ShowModal(data));
-        SyncStorage.set("session", null);
-        SyncStorage.set("auth", null);
-        SyncStorage.set("refresh-auth", null);
-        SyncStorage.set("user-uuid", null);
-        SyncStorage.set("auth-expires-at", null);
     };
 
     useLayoutEffect( () => {
         navigation.setOptions({
-            headerLeft: (props)=><HeaderTitle navigation={navigation} title={"categoryListTitle"} onPress={showAppInfo}/>,
-            headerCenter: (props)=>{},
+            headerLeft: (props)=> {
+                return (
+                    <>
+                        {
+                            SyncStorage.get("auth") ?
+                                <HeaderBackButton navigation={navigation} />
+                            :
+                                <HeaderTitle navigation={navigation} title={"categoryListTitle"} onPress={showAppInfo}/>
+                        }
+                    </>
+                );
+            },
+            headerCenter: (props)=> {
+                return (
+                    <>
+                        {
+                            SyncStorage.get("auth") ?
+                                <HeaderTitle navigation={navigation} title={"categoryListTitle"} onPress={showAppInfo}/>
+                            :
+                                <></>
+                        }
+                    </>
+                );
+            },
             headerRight: (props)=> {
                 const auth = SyncStorage.get("auth");
                 const refresh = SyncStorage.get("refresh-auth");
