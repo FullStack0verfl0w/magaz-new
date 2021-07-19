@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     mainContainer: {
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 8,
     },
     textInput: {
+        height: 32,
         width: 48,
         fontFamily: "Gilroy-Light",
         textAlign: "center",
