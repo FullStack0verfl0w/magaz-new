@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { CloseModal } from "~/redux/ModalReducer/actions";
 
@@ -19,10 +19,11 @@ const OurModal = (props) => {
     ];
 
     useEffect( () => {
-        if ( modal.visible )
-            StatusBar.setBackgroundColor(`rgba(0, 0, 0, ${BACKDROP_OPACITY})`);
-        else
-            StatusBar.setBackgroundColor("rgba(0, 0, 0, 0)");
+        if ( Platform.OS === "android" )
+            if ( modal.visible )
+                StatusBar.setBackgroundColor(`rgba(0, 0, 0, ${BACKDROP_OPACITY})`);
+            else
+                StatusBar.setBackgroundColor("rgba(0, 0, 0, 0)");
     }, [modal.visible]);
 
     return (

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, Platform } from "react-native";
 import Modal from 'react-native-modal';
 
 import OurImage from "~/components/OurImage";
@@ -13,10 +13,11 @@ const OurImageSlider = (props) => {
     const { data, isModalVisible, toggleModal } = props;
 
     useEffect( () => {
-        if ( isModalVisible )
-            StatusBar.setBackgroundColor(`rgba(0, 0, 0, ${BACKDROP_OPACITY})`);
-        else
-            StatusBar.setBackgroundColor("rgba(0, 0, 0, 0)");
+        if ( Platform.OS === "android" )
+            if ( isModalVisible )
+                StatusBar.setBackgroundColor(`rgba(0, 0, 0, ${BACKDROP_OPACITY})`);
+            else
+                StatusBar.setBackgroundColor("rgba(0, 0, 0, 0)");
     }, [isModalVisible]);
 
     return (
