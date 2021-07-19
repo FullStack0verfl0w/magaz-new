@@ -39,6 +39,19 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         paddingHorizontal: 10,
     },
+    bottomSignInContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        flexWrap: "wrap",
+    },
+    bottomSignInText: {
+        color: "#fff",
+        fontSize: 18,
+        flexWrap: "wrap"
+    },
+    bottomSignInButton: {
+        marginLeft: 8,
+    },
     button: {
         marginVertical: 10,
         elevation: 1,

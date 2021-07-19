@@ -24,6 +24,8 @@ const en = {
         loginPageErrorWrongData: "Incorrect username or password!",
         loginPageEmptyUsername: "Enter a username!",
         loginPageEmptyPassword: "Enter a password!",
+        loginPageRegisterText: "Don't have an account?",
+        loginPageRegisterButton: "Sign in.",
 
         categoryListTitle: "Edoprovod",
 

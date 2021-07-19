@@ -21,6 +21,8 @@ const ru = {
         loginPageErrorWrongData: "Неверные имя пользователя или пароль!",
         loginPageEmptyUsername: "Введите имя пользователя!",
         loginPageEmptyPassword: "Введите пароль!",
+        loginPageRegisterText: "Нет аккаунта?",
+        loginPageRegisterButton: "Зарегистрируйтесь.",
 
         categoryListTitle: "Едопровод",
 

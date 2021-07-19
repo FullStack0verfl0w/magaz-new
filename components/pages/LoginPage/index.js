@@ -13,6 +13,7 @@ import SyncStorage from "sync-storage";
 
 import { HeaderTitle, HeaderBackButton } from "~/components/Header";
 import OurTextField from "~/components/OurTextField";
+import OurText from "~/components/OurText";
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import OurTextButton from "~/components/OurTextButton";
 import styles from "./styles";
@@ -102,6 +103,12 @@ const LoginPage = (props) => {
                                                 model={[password, setPassword]}/>
                             </ScrollView>
                             <View style={styles.bottomContainer}>
+                                <View style={styles.bottomSignInContainer}>
+                                    <OurText translate={true} style={styles.bottomSignInText}>loginPageRegisterText</OurText>
+                                    <OurText style={[styles.bottomSignInText, styles.bottomSignInButton]} onPress={() => {
+                                        navigation.navigate("RegisterPage");
+                                    }} translate={true}>loginPageRegisterButton</OurText>
+                                </View>
                                 <OurTextButton onPress={() => {
                                     loginCustomer({
                                         variables: {
