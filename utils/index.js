@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 /**
  * Метод сравнения двух объектов
  * @param  {any} x - первый объект
@@ -75,3 +77,6 @@ export const randomString = (len) => {
     }
     return result;
 };
+
+export const isIOS = () => Platform.OS === "ios";
+export const isAndroid = () => Platform.OS === "android";
