@@ -7,15 +7,12 @@ import OurText from "~/components/OurText";
 import styles from "./styles";
 
 const ANIMATION_DURATION = 200;
-const TOAST_HEIGHT_MIN = 0;
-const TOAST_HEIGHT_MAX = 48;
 
 const ToastItem = (props) => {
     const { id, duration, text, icon, color, translate, postDelete } = props;
     const dispatch = useDispatch();
     const [timer, setTimer] = useState(null);
     const anim = useRef(new Animated.Value(0)).current;
-    //const posX = useRef(new Animated.Value(Dimensions.get("screen").width)).current;
     
     // Анимация появления
     const animIn = () => {
@@ -70,8 +67,8 @@ const ToastItem = (props) => {
     });
 
     return (
-        <Animated.View style={[styles.mainContainer, {height: TOAST_HEIGHT_MAX, opacity, transform: [{ translateY }] }]}>
-            <View style={{position: "absolute", backgroundColor: color, height: TOAST_HEIGHT_MAX, width: 16, left: 0}}/>
+        <Animated.View style={[styles.mainContainer, { opacity, transform: [{ translateY }] }]}>
+            <View style={[styles.leftBorder, { backgroundColor: color }]}/>
             <>
             {
                 icon ?

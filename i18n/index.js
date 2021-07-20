@@ -5,17 +5,17 @@ import en from "./lang/en";
 import ru from "./lang/ru";
 
 i18n.use(initReactI18next)
-    .init({
-        resources: {
-            en,
-            ru,
-        },
-        lng: Localization.locale.replace(/-(.*)/, ""),
-        fallbackLng: "en",
+	.init({
+		resources: {
+			en,
+			ru,
+		},
+		lng: Localization.locale.replace(/-(.*)/, ""),
+		fallbackLng: "en",
 
-        interpolation: {
-            escapeValue: false
-        }
-    });
+		interpolation: {
+			escapeValue: false
+		}
+	});
 
 export default i18n;

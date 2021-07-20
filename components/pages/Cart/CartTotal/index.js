@@ -5,13 +5,13 @@ import styles from "./styles";
 
 /** Компонент, который показывает итоговую цену */
 const CartTotal = (props) => {
-    const { total } = props;
+	const { total } = props;
 
-    return (
-        <View style={styles.container}>
-            <OurText style={styles.text} params={{total}}>cartTotal</OurText>
-        </View>
-    );
+	return (
+		<View style={styles.container}>
+			<OurText style={styles.text} params={{ total }}>cartTotal</OurText>
+		</View>
+	);
 };
 
 export default React.memo(CartTotal); 

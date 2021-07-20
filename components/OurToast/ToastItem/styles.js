@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     mainContainer: {
@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
         overflow: "hidden",
+
+        minHeight: 48,
 
         backgroundColor: "#fffe",
         paddingLeft: 28,
@@ -15,6 +17,12 @@ const styles = StyleSheet.create({
 
         borderRadius: 8,
         elevation: 2,
+    },
+    leftBorder: {
+        position: "absolute",
+        height: Dimensions.get("screen").height,
+        width: 16,
+        left: 0
     },
     iconContainer: {
         paddingRight: 14,

@@ -7,85 +7,84 @@ import SyncStorage from "sync-storage";
 import i18n from "~/i18n";
 import client from "~/apollo";
 
-export const SetOrderList = (orderList=[]) => {
-    return { type: ORDERS_SET_LIST, orderList };
+export const SetOrderList = (orderList = []) => {
+	return { type: ORDERS_SET_LIST, orderList };
 };
 
 export const FetchOrderList = async (dispatch, getState) => {
-    dispatch(SetOrdersLoading(true));
+	dispatch(SetOrdersLoading(true));
 
-    try {
-        const data = await client.query({ query: QUERY_GET_ORDERS, fetchPolicy: "no-cache" });
-        const result = [];
-        for ( const order of data?.data?.orders?.nodes) {
-            for ( const order2 of data?.data?.ordersInfo ) {
-                if ( order.databaseId === order2.id )
-                    result.push({ data: order, status: order2 });
-            }
-        }
-        dispatch(SetOrderList(result));
-    }
-    catch (e) {
-        console.log("Order fetching error", e);
-        const toast = {
-            icon: faBoxOpen,
-            text: i18n.t("activityError"),
-            duration: 3000,
-            color: "#fc0341",
-        };
-        dispatch(AddToast(toast, "ORDER_FETCH_ERROR"));
-    }
-    dispatch(SetOrdersLoading(false));
+	try {
+		const data = await client.query({ query: QUERY_GET_ORDERS, fetchPolicy: "no-cache" });
+		const result = [];
+		for (const order of data?.data?.orders?.nodes) {
+			for (const order2 of data?.data?.ordersInfo) {
+				if ( order.databaseId === order2.id )
+					result.push({ data: order, status: order2 });
+			}
+		}
+		dispatch(SetOrderList(result));
+	} catch (e) {
+		console.log("Order fetching error", e);
+		const toast = {
+			icon: faBoxOpen,
+			text: i18n.t("activityError"),
+			duration: 3000,
+			color: "#fc0341",
+		};
+		dispatch(AddToast(toast, "ORDER_FETCH_ERROR"));
+	}
+	dispatch(SetOrdersLoading(false));
 };
 
-export const SetOrdersLoading = (loading=false) => {
-    return { type: ORDERS_SET_LOADING, loading };
+export const SetOrdersLoading = (loading = false) => {
+	return { type: ORDERS_SET_LOADING, loading };
 };
 
 export const AddOrder = (data) => async (dispatch) => {
-    try {
-        let mutationId = SyncStorage.get("user-uuid");
-        if ( !mutationId ) {
-            mutationId = uuidv4();
-            SyncStorage.set("user-uuid", mutationId);
-        }
-        const address = data.address.split(", ");
+	try {
+		let mutationId = SyncStorage.get("user-uuid");
+		if ( !mutationId ) {
+			mutationId = uuidv4();
+			SyncStorage.set("user-uuid", mutationId);
+		}
+		const address = data.address.split(", ");
 
-        await client.mutate({
-            mutation: MUTATION_CHECKOUT,
-            variables: {
-                clientMutationId: mutationId,
-                isPaid: false,
-                customerNote: data.notes,
-                country: data.country,
-                state: address[0] || "",
-                city: address[1] || "",
-                address1: address[2] || "",
-                address2: address[3] || "",
-                email: data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                postcode: data.postcode,
-                phone: data.phone,
-                paymentMethod: "cod",
-            },
-        });
-        const toast = {
-            icon: faBoxOpen,
-            text: i18n.t("orderAdded"),
-            duration: 3000,
-            color: "#499eda",
-        };
-        dispatch(AddToast(toast, "ORDER_ADD_SUCCESS"));
-        dispatch(FetchCartProductList);
-    } catch (e) {
-        console.log("Order adding error", e);
-        const toast = {
-            icon: faBoxOpen,
-            text: i18n.t("activityError"),
-            duration: 3000,
-            color: "#fc0341",
-        };
-        dispatch(AddToast(toast, "ORDER_ADD_ERROR"));
-    }
+		await client.mutate({
+			mutation: MUTATION_CHECKOUT,
+			variables: {
+				clientMutationId: mutationId,
+				isPaid: false,
+				customerNote: data.notes,
+				country: data.country,
+				state: address[0] || "",
+				city: address[1] || "",
+				address1: address[2] || "",
+				address2: address[3] || "",
+				email: data.email,
+				firstName: data.firstName,
+				lastName: data.lastName,
+				postcode: data.postcode,
+				phone: data.phone,
+				paymentMethod: "cod",
+			},
+		});
+		const toast = {
+			icon: faBoxOpen,
+			text: i18n.t("orderAdded"),
+			duration: 3000,
+			color: "#499eda",
+		};
+		dispatch(AddToast(toast, "ORDER_ADD_SUCCESS"));
+		dispatch(FetchCartProductList);
+	} catch (e) {
+		console.log("Order adding error", e);
+		const toast = {
+			icon: faBoxOpen,
+			text: i18n.t("activityError"),
+			duration: 3000,
+			color: "#fc0341",
+		};
+		dispatch(AddToast(toast, "ORDER_ADD_ERROR"));
+	}
 };

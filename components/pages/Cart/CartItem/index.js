@@ -1,28 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { ShowModal } from "~/redux/ModalReducer/actions";
-import { ChangeProductQuantity, DeleteProductFromCart } from "~/redux/CartReducer/actions";
+import { ChangeProductQuantity } from "~/redux/CartReducer/actions";
 import { Animated, View, LayoutAnimation, TouchableOpacity } from "react-native";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-
-import { STORE_ADDRESS } from "~/utils/config";
 
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import OurText from "~/components/OurText";
 import OurIconButton from "~/components/OurIconButton";
 import OurImage from "~/components/OurImage";
-import OurImageSlider from "~/components/OurImageSlider";
 import OurCounter from "~/components/OurCounter";
 import styles from "./styles";
-
-const ANIMATION_DURATION = 200;
-const PRODUCT_MIN_HEIGHT = 0.0001;
-
-const linear = LayoutAnimation.create(
-    ANIMATION_DURATION,
-    LayoutAnimation.Types.linear,
-    LayoutAnimation.Properties.scaleY,
-);
 
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 999;
@@ -98,8 +86,6 @@ const CartItem = (props) => {
             <View style={styles.bottomContainer}>
                 <View style={styles.counterContainer}>
                     <OurCounter onChange={onQuantityChange} value={quantity} color="#E81C1C"/>
-                    {/*<OurText style={[styles.itemPrice, {marginLeft: 8}]} translate={true}>productQuantity</OurText>*/}
-                    
                     {
                         loading ?
                             <OurActivityIndicator size={32} oneState={true} containerStyle={{position: null}} />

@@ -12,16 +12,16 @@ const db = SQLite.openDatabase(DATABASE_NAME, DATABASE_VERSION);
  * @param  {function} err - коллбэк при ошибке
  */
 const executeSql = (sql, args, onSuccess, err) => {
-    db.transaction( (tr) => {
-        tr.executeSql(sql, args, onSuccess, err);
-    });
+	db.transaction((tr) => {
+		tr.executeSql(sql, args, onSuccess, err);
+	});
 };
 
 /**
  * Создаёт таблицы в бд
  */
 export const createDBTables = () => {
-    executeSql(`CREATE TABLE IF NOT EXISTS Images(
+	executeSql(`CREATE TABLE IF NOT EXISTS Images(
         imageLink TEXT UNIQUE,
         imageData TEXT)`, [], null, (tr, err) => console.log("SOMETHING WENT WRONG", err));
 };
@@ -32,7 +32,7 @@ export const createDBTables = () => {
  * @param {string} imageData - картинка в формате base64
  */
 export const addImageToDB = (imageLink, imageData) => {
-    executeSql(`INSERT OR REPLACE INTO Images(
+	executeSql(`INSERT OR REPLACE INTO Images(
     	imageLink,
         imageData) VALUES(?, ?)`, [imageLink, imageData]);
 };
@@ -44,5 +44,5 @@ export const addImageToDB = (imageLink, imageData) => {
  * @param {function} err - коллбэк при ошибке
  */
 export const getImageFromDB = (imageLink, cb, err) => {
-    executeSql(`SELECT imageData, imageLink FROM Images WHERE imageLink='${imageLink}' LIMIT 1`, [], cb, err);
+	executeSql(`SELECT imageData, imageLink FROM Images WHERE imageLink='${imageLink}' LIMIT 1`, [], cb, err);
 };

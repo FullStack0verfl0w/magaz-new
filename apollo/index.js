@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, ApolloLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
 import { STORE_ADDRESS } from "~/utils/config";
 import SyncStorage from "sync-storage";
 
@@ -38,7 +38,7 @@ export const middleware = new ApolloLink((operation, forward) => {
 export const afterware = new ApolloLink((operation, forward) => {
 	return forward(operation).map((response) => {
 		/**
-		 * Check for session header and update session in local storage accordingly. 
+		 * Check for session header and update session in local storage accordingly.
 		 */
 		const context = operation.getContext();
 		const { response: { headers } } = context;

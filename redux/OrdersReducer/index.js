@@ -1,52 +1,52 @@
-import { ORDERS_SET_LIST, ORDERS_SET_LOADING, ORDERS_SET_ERROR, } from "./types";
+import { ORDERS_SET_ERROR, ORDERS_SET_LIST, ORDERS_SET_LOADING, } from "./types";
 
 export const initialOrdersState = {
-    orderList: new Map(), // Список товаров
-    loading: false,
-    error: false,
+	orderList: new Map(), // Список товаров
+	loading: false,
+	error: false,
 };
 
-const ordersReducer = ( state = initialOrdersState, action ) => {
-    switch (action.type) {        
+const ordersReducer = (state = initialOrdersState, action) => {
+	switch (action.type) {
 
-        /*
-         * Устанавливает список заказов
-         */
-        case ORDERS_SET_LIST: {
-            const newState = {...state};
-            const { orderList } = action;
+		/*
+		 * Устанавливает список заказов
+		 */
+		case ORDERS_SET_LIST: {
+			const newState = { ...state };
+			const { orderList } = action;
 
-            const orders = new Map();
+			const orders = new Map();
 
-            if ( orderList )
-                orderList.forEach( (v, i) => {
-                    orders.set( v.data.databaseId, v );
-                } );
+			if ( orderList )
+				orderList.forEach((v, i) => {
+					orders.set(v.data.databaseId, v);
+				});
 
-            newState.orderList = orders;
-            return newState;
-        }
+			newState.orderList = orders;
+			return newState;
+		}
 
-        case ORDERS_SET_LOADING: {
-            const newState = {...state};
-            const { loading } = action;
+		case ORDERS_SET_LOADING: {
+			const newState = { ...state };
+			const { loading } = action;
 
-            newState.loading = loading;
-            return newState;
-        }
+			newState.loading = loading;
+			return newState;
+		}
 
-        case ORDERS_SET_ERROR: {
-            const newState = {...state};
-            const { error } = action;
+		case ORDERS_SET_ERROR: {
+			const newState = { ...state };
+			const { error } = action;
 
-            newState.error = error;
-            return newState;
-        }
+			newState.error = error;
+			return newState;
+		}
 
-        default: {
-            return state;
-        }
-    }
+		default: {
+			return state;
+		}
+	}
 };
 
 export default ordersReducer;

@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers, compose } from "redux";
+import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 
 import cartReducer from "./CartReducer";
@@ -10,21 +10,20 @@ import deliveryDetailsReducer from "./DeliveryDetailsReducer";
 const isDebuggingEnabled = (typeof DedicatedWorkerGlobalScope) !== 'undefined';
 
 const reducer = combineReducers({
-    cartReducer,
-    modalReducer,
-    toastReducer,
-    ordersReducer,
-    deliveryDetailsReducer,
+	cartReducer,
+	modalReducer,
+	toastReducer,
+	ordersReducer,
+	deliveryDetailsReducer,
 });
 
 const store = __DEV__ && isDebuggingEnabled ?
-            createStore(reducer, compose(
-                applyMiddleware(thunk),
-                 (window && (window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)() 
-            ))
-            :
-            createStore(reducer, applyMiddleware(thunk) );
-
+	createStore(reducer, compose(
+		applyMiddleware(thunk),
+		(window && (window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__)()
+	))
+	:
+	createStore(reducer, applyMiddleware(thunk));
 
 
 export default store;
