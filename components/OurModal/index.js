@@ -25,6 +25,7 @@ const OurModal = (props) => {
             else
                 StatusBar.setBackgroundColor("rgba(0, 0, 0, 0)");
     }, [modal.visible]);
+    console.log("MODAL", modal.bottomStyle)
 
     return (
         <Modal {...props} isVisible={modal.visible} animationIn={modal.animationIn} animationOut={modal.animationOut} backdropOpacity={BACKDROP_OPACITY} backdropTransitionOutTiming={0}>
@@ -35,7 +36,7 @@ const OurModal = (props) => {
                 <View style={styles.middleContainer}>
                     <OurText style={styles.text} translate={true} params={modal.text.params}>{modal.text.text}</OurText>
                 </View>
-                <View style={styles.bottomContainer}>
+                <View style={[styles.bottomContainer, modal.bottomStyle ?? {}]}>
                     {
                         modal.buttons.length === 0 ?
                             defaultButtons.map( (button, index) => {

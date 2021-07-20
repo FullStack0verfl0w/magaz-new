@@ -36,6 +36,11 @@ const showAppInfo = (navigation, dispatch) => {
 		text: { text: "appInfo", params: { version: expo.version } },
 		animationIn: "bounceInDown",
 		animationOut: "bounceOutUp",
+		bottomStyle: {
+			flexDirection: "column",
+			justifyContent: "center",
+			alignSelf: "center",
+		},
 		buttons: [
 			{
 				onPress: () => {

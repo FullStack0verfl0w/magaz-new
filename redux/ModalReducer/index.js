@@ -4,6 +4,7 @@ export const initialModalState = {
 	visible: false, // Видимость окна
 	title: { text: "", params: {} }, // Заголовок
 	text: { text: "", params: {} }, // Текст
+	bottomStyle: {},
 	animationIn: "slideInRight", // Анимация появления
 	animationOut: "slideOutLeft", // Анимация исчезновения
 	buttons: [], // Кнопки

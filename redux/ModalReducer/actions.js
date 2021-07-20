@@ -16,6 +16,11 @@ export const ShowLoginModal = (dispatch, navigation) => {
 	const data = {
 		title: { text: "cartLoginTitle", params: {} },
 		text: { text: "cartLoginMessage", params: {} },
+		bottomStyle: {
+			flexDirection: "column",
+			justifyContent: "center",
+			alignSelf: "center",
+		},
 		animationIn: "fadeInUp",
 		animationOut: "fadeOutDown",
 		buttons: [
