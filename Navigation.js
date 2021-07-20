@@ -22,8 +22,40 @@ import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import OurIconButton from "~/components/OurIconButton";
+import MarkdownPage from "~/components/pages/MarkdownPage";
+
+import termsAndConditions from "./TermsAndConditions";
+import privacyPolicy from "./PrivacyPolicy";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { Navigator, Screen } = createStackNavigator();
+
+const showAppInfo = (navigation, dispatch) => {
+	const data = {
+		title: { text: expo.name, params: {} },
+		text: { text: "appInfo", params: { version: expo.version } },
+		animationIn: "bounceInDown",
+		animationOut: "bounceOutUp",
+		buttons: [
+			{
+				onPress: () => {
+					navigation.navigate("MarkdownPage", { markdown: termsAndConditions, title: "termsAndConditions" })
+				},
+				text: "termsAndConditions",
+			},
+			{
+				onPress: () => {
+					navigation.navigate("MarkdownPage", { markdown: privacyPolicy, title: "privacyPolicy" })
+				},
+				text: "privacyPolicy",
+			},
+			{
+				text: "close",
+			},
+		]
+	};
+	dispatch(ShowModal(data));
+};
 
 /**
  * Стэк навигация
@@ -34,6 +66,7 @@ const AppStackNavigator = () => {
 	useEffect(() => {
 		StatusBar.setBarStyle("light-content", true);
 	}, []);
+	const [gradStart, gradEnd] = ["#cfd9df", "#e2ebf0"];
 
 	return (
 		<Navigator
@@ -46,6 +79,7 @@ const AppStackNavigator = () => {
 				},
 				headerLeft: (props) => {
 					const { canGoBack } = props;
+					const navigation = useNavigation();
 
 					return (
 						<>
@@ -53,7 +87,7 @@ const AppStackNavigator = () => {
 								SyncStorage.get("auth") || canGoBack ?
 									<HeaderBackButton/>
 									:
-									<HeaderTitle title={"CategoryListTitle"}/>
+									<HeaderTitle onPress={() => showAppInfo(navigation, dispatch)} title={"CategoryListTitle"}/>
 							}
 						</>
 					);
@@ -64,27 +98,13 @@ const AppStackNavigator = () => {
 					const state = navigation.dangerouslyGetState();
 					const currentScreen = state.routes[state.index];
 
-					const showAppInfo = (e) => {
-						const data = {
-							title: { text: expo.name, params: {} },
-							text: { text: "appInfo", params: { version: expo.version } },
-							animationIn: "bounceInDown",
-							animationOut: "bounceOutUp",
-							buttons: [{
-								text: "ok",
-							}]
-						};
-						dispatch(ShowModal(data));
-					};
-
 					return (
 						<>
 							{
 								!SyncStorage.get("auth") && !navigation.canGoBack() ?
 									<></>
 									:
-									<HeaderTitle onPress={showAppInfo}
-												 title={currentScreen?.params?.currentCategory ? currentScreen.params.currentCategory.name : `${currentScreen.name}Title`}/>
+									<HeaderTitle onPress={!navigation.canGoBack() ? () => { showAppInfo(navigation, dispatch) } : null} title={currentScreen?.params?.currentCategory ? currentScreen.params.currentCategory.name : `${currentScreen.name}Title`}/>
 							}
 						</>
 					)
@@ -120,6 +140,9 @@ const AppStackNavigator = () => {
 			<Screen
 				name="LoginPage"
 				component={LoginPage}/>
+			<Screen
+				name={"MarkdownPage"}
+				component={MarkdownPage}/>
 			<Screen
 				name="CategoryList"
 				component={CategoryList}/>

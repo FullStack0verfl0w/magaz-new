@@ -47,7 +47,9 @@ const ru = {
 		close: "Закрыть",
 		ok: "Ок",
 
-		appInfo: "Версия: {{version}}\n\nАвторы:\nVladislav Drogin\nSergey Nameless\nDanil Stavnichiy\nMaxim Saryev",
+		appInfo: "Версия: {{version}}",
+		termsAndConditions: "Правила и условия",
+		privacyPolicy: "Политика конфиденциальности",
 
 		notAvailable: "н/д",
 
