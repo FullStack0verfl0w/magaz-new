@@ -64,6 +64,7 @@ const en = {
 		ordersEmpty: "There's too empty here(",
 
 		OrderInfoTitle: "",
+		orderInfoCourierDataNotAvailable: "No data available. :(",
 		orderAdded: "Your order has been placed!",
 		orderInfoCheck: "Please, check your order information.",
 		orderInfoCheckEdit: "Edit info",

@@ -56,7 +56,7 @@ const OrderInfo = (props) => {
 	const dispatch = useDispatch();
 
 	const [abortController, setAbortController] = useState(new AbortController());
-	const [coord, setCoord] = useState(null);
+	const [coord, setCoord] = useState(false);
 
 	const FetchCoordinates = async () => {
 		try {
@@ -163,14 +163,21 @@ const OrderInfo = (props) => {
 								<View style={styles.deliveryDetailsContainer}>
 									<OurText style={styles.deliveryDetailsTitle} translate={true}>deliveryMap</OurText>
 									{
-										coord ?
+										coord === false ?
+											<OurActivityIndicator
+												containerStyle={{ width: 320, height: 320, position: null }}/>
+										:
+										coord === null ?
+											<OurText style={styles.fieldText} translate={true}>orderInfoCourierDataNotAvailable</OurText>
+										:
 											<MapView
 												style={{ width: 320, height: 320 }}
 												mapPadding={{ bottom: 32 }}
 												mapType={"none"}
 												provider={null}
 												initialRegion={{
-													...coord,
+													latitude: coord.latitude,
+													longitude: coord.longitude,
 													latitudeDelta: 0.00922,
 													longitudeDelta: 0.00421,
 												}}>
@@ -179,13 +186,15 @@ const OrderInfo = (props) => {
 													tileSize={1}
 													urlTemplate="https://tile.openstreetmap.de/{z}/{x}/{y}.png"
 												/>
-												<Marker opacity={.99} coordinate={coord}>
-													<CourierIcon/>
-												</Marker>
+												{
+													coord.latitude && coord.longitude ?
+														<Marker opacity={.99} coordinate={coord}>
+															<CourierIcon/>
+														</Marker>
+													:
+														<></>
+												}
 											</MapView>
-											:
-											<OurActivityIndicator
-												containerStyle={{ width: 320, height: 320, position: null }}/>
 									}
 								</View>
 							</>

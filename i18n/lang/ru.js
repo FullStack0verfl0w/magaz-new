@@ -59,6 +59,7 @@ const ru = {
 		ordersEmpty: "Здесь пусто(",
 
 		OrderInfoTitle: "",
+		orderInfoCourierDataNotAvailable: "Данные недоступны :(",
 		orderAdded: "Ваш заказ размещён!",
 		orderInfoCheck: "Пожалуйста, проверьте информацию.",
 		orderInfoCheckEdit: "Редактировать",
