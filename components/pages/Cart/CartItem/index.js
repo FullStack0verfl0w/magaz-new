@@ -30,21 +30,25 @@ const CartItem = (props) => {
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-    const onQuantityChange = (quantity) => {
+    const onQuantityChange = (newQuantity) => {
 
-        if ( quantity !== 0 )
-            setQuantity(quantity);
+        if ( newQuantity !== 0 )
+            setQuantity(newQuantity);
 
         if ( timer )
             clearTimeout(timer);
 
         setTimer( setTimeout( () => {
-            if ( typeof quantity === "string")
-                quantity = Number(quantity.replace(/[^0-9]/g, ''));
+            if ( typeof newQuantity === "string")
+                newQuantity = Number(newQuantity.replace(/[^0-9]/g, ''));
 
-            quantity = Math.clamp(quantity, MIN_QUANTITY, MAX_QUANTITY);
-            setQuantity(quantity);
-            dispatch(ChangeProductQuantity(id, quantity));
+            newQuantity = Math.clamp(newQuantity, MIN_QUANTITY, MAX_QUANTITY);
+
+            if ( newQuantity === quantity )
+                return;
+
+            setQuantity(newQuantity);
+            dispatch(ChangeProductQuantity(id, newQuantity));
         }, QUANTITY_CHANGE_DELAY) );
     };
 
