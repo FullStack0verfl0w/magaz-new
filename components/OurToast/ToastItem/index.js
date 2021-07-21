@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef }  from "react";
-import { Animated, Easing, Dimensions, View, LayoutAnimation } from "react-native";
+import { Animated, Easing, Dimensions, View, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { DeleteToast } from "~/redux/ToastReducer/actions";
 import OurText from "~/components/OurText";
 import styles from "./styles";
 
 const ANIMATION_DURATION = 200;
+
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 const ToastItem = (props) => {
     const { id, duration, text, icon, color, translate, postDelete } = props;
@@ -67,7 +69,7 @@ const ToastItem = (props) => {
     });
 
     return (
-        <Animated.View style={[styles.mainContainer, { opacity, transform: [{ translateY }] }]}>
+        <AnimatedTouchableOpacity onPress={animOut} style={[styles.mainContainer, { opacity, transform: [{ translateY }] }]}>
             <View style={[styles.leftBorder, { backgroundColor: color }]}/>
             <>
             {
@@ -81,7 +83,7 @@ const ToastItem = (props) => {
             <View style={styles.textContainer}>
                 <OurText style={[styles.text, {color}]} translate={translate}>{text}</OurText>
             </View>
-        </Animated.View>
+        </AnimatedTouchableOpacity>
     );
 };
 
