@@ -48,6 +48,7 @@ const ru = {
 		ok: "Ок",
 
 		appInfo: "Версия: {{version}}",
+		MarkdownPageTitle: "",
 		termsAndConditions: "Правила и условия",
 		privacyPolicy: "Политика конфиденциальности",
 

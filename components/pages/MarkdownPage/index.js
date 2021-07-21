@@ -16,8 +16,12 @@ const MarkdownPage = (props) => {
 
 	useLayoutEffect(() => {
 		navigation.setOptions({
-			headerTitle: () => <HeaderTitle title={title}/>,
-			headerRight: null,
+			headerRight: () => <HeaderTitle style={{ textAlign: "right" }} title={title}/>,
+			headerRightContainerStyle: {
+				width: "100%",
+				marginRight: 8,
+			},
+			headerTitle: null,
 			headerStyle: HeaderStyle(gradStart),
 		})
 	}, [navigation])

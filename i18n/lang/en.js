@@ -53,6 +53,7 @@ const en = {
 		ok: "Ok",
 
 		appInfo: "Version: {{version}}",
+		MarkdownPageTitle: "",
 		termsAndConditions: "Terms and Conditions",
 		privacyPolicy: "Privacy Policy",
 
