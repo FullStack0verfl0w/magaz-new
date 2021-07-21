@@ -174,7 +174,7 @@ const OrderInfo = (props) => {
 												style={{ width: 320, height: 320 }}
 												mapPadding={{ bottom: 32 }}
 												mapType={"none"}
-												provider={null}
+												provider={"google"}
 												initialRegion={{
 													latitude: coord.latitude,
 													longitude: coord.longitude,
@@ -183,7 +183,6 @@ const OrderInfo = (props) => {
 												}}>
 												<UrlTile
 													shouldReplaceMapContent={true}
-													tileSize={1}
 													urlTemplate="https://tile.openstreetmap.de/{z}/{x}/{y}.png"
 												/>
 												{
