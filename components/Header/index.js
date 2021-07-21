@@ -24,19 +24,24 @@ export const HeaderBackButton = (props) => {
 				text: { text: "", params: {} },
 				animationIn: "bounceInDown",
 				animationOut: "bounceOutUp",
-				buttons: [{
-					text: "ok",
-					onPress: () => {
-						SyncStorage.set("user-uuid", null);
-						SyncStorage.set("auth", null);
-						SyncStorage.set("refresh-auth", null);
-						SyncStorage.set("auth-expires-at", null);
-						navigation.navigate("LoginPage");
-					},
-				},
+				buttons: [
 					{
 						text: "cancel",
-					}]
+						textStyle: {
+							color: "#383838",
+						},
+					},
+					{
+						text: "ok",
+						onPress: () => {
+							SyncStorage.set("user-uuid", null);
+							SyncStorage.set("auth", null);
+							SyncStorage.set("refresh-auth", null);
+							SyncStorage.set("auth-expires-at", null);
+							navigation.navigate("LoginPage");
+						},
+					},
+				]
 			};
 			dispatch(ShowModal(data));
 		} else
@@ -51,7 +56,7 @@ export const HeaderBackButton = (props) => {
 };
 
 export const HeaderTitle = (props) => {
-	const { title, onPress } = props;
+	const { title, onPress, style } = props;
 
 	const doPress = (e) => {
 		if ( onPress )
@@ -62,7 +67,7 @@ export const HeaderTitle = (props) => {
 		<View style={styles.container}>
 			<View style={styles.titleContainer}>
 				<TouchableOpacity activeOpacity={onPress ? 0.2 : 1} onPress={doPress}>
-					<OurText style={styles.title} translate={true}>{title}</OurText>
+					<OurText style={[styles.title, style]} translate={true}>{title}</OurText>
 				</TouchableOpacity>
 			</View>
 		</View>
