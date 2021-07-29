@@ -108,6 +108,9 @@ const OrderInfo = (props) => {
 		}
 	});
 
+	const products = data?.order?.lineItems?.nodes?.filter(
+		product => product?.databaseId && ( product?.product || product?.variation ) ) || [];
+
 	return (
 		<>
 			<LinearGradient
@@ -129,20 +132,28 @@ const OrderInfo = (props) => {
 							:
 							<>
 								<View style={styles.orderProducts}>
-									<OurText style={styles.productsTitle} translate={true}>orderInfoProducts</OurText>
 									{
-										data?.order?.lineItems?.nodes?.length && data.order.lineItems.nodes.map(v => {
-											return <ProductCard key={v.databaseId} navigation={navigation}
-																variation={v.variation} id={v.product.databaseId}
-																quantity={v.quantity} price={v.product.price}
-																name={v.product.name}
-																imageUrl={v.product.image.sourceUrl}/>
-										})
+										products.length ?
+											<>
+											<OurText style={styles.productsTitle}
+													 translate={true}>orderInfoProducts</OurText>
+											{
+												products.map(v => {
+												return <ProductCard key={v.databaseId} navigation={navigation}
+																	variation={v.variation} id={v.product.databaseId}
+																	quantity={v.quantity} price={v.product.price}
+																	name={v.product.name}
+																	imageUrl={v.product.image.sourceUrl}/>
+												})
+											}
+											</>
+										:
+										<></>
 									}
 								</View>
 								<View style={styles.deliveryDetailsContainer}>
 									<OurText style={styles.deliveryDetailsTitle}
-											 translate={true}>deliveryDetailsTitle</OurText>
+											 translate={true}>DeliveryDetailsTitle</OurText>
 									<View style={styles.deliveryDetailsInfo}>
 										<DeliveryDetailsItem field={"orderFormFirstName"}
 															 text={data?.order?.billing?.firstName}/>
