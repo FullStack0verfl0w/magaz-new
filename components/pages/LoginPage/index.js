@@ -20,7 +20,8 @@ import { isIOS } from "~/utils";
 
 const ERROR_TO_TRANSLATE = {
 	"invalid_username": "loginPageErrorWrongData",
-	"invalid_password": "loginPageErrorWrongData",
+	"incorrect_username": "loginPageErrorWrongData",
+	"incorrect_password": "loginPageErrorWrongData",
 	"empty_username": "loginPageEmptyUsername",
 	"empty_password": "loginPageEmptyPassword",
 };
