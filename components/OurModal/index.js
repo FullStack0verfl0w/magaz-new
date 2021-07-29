@@ -25,7 +25,6 @@ const OurModal = (props) => {
             else
                 StatusBar.setBackgroundColor("rgba(0, 0, 0, 0)");
     }, [modal.visible]);
-    console.log("MODAL", modal.bottomStyle)
 
     return (
         <Modal {...props} isVisible={modal.visible} animationIn={modal.animationIn} animationOut={modal.animationOut} backdropOpacity={BACKDROP_OPACITY} backdropTransitionOutTiming={0}>
