@@ -26,7 +26,6 @@ import MarkdownPage from "~/components/pages/MarkdownPage";
 
 import termsAndConditions from "./TermsAndConditions";
 import privacyPolicy from "./PrivacyPolicy";
-import { LinearGradient } from 'expo-linear-gradient';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -56,6 +55,9 @@ const showAppInfo = (navigation, dispatch) => {
 			},
 			{
 				text: "close",
+				textStyle: {
+					color: "#383838",
+				},
 			},
 		]
 	};
@@ -134,7 +136,7 @@ const AppStackNavigator = () => {
 				},
 				headerStyle: HeaderStyle(),
 			}}
-			headerMode={isIOS ? "float" : "screen"}
+			headerMode="float"
 			defaultNavigationOptions={{
 				tabBarVisible: true,
 				headerHideShadow: true,
