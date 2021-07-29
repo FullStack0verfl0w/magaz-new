@@ -23,10 +23,18 @@
 			"**/*"
 		],
 		"ios": {
+			"config": {
+				"googleMapsApiKey": ""
+			},
 			"supportsTablet": true
 		},
 		"android": {
 			"package": "com.code26.edoprovod",
+			"config": {
+				"googleMaps": {
+					"apiKey": ""
+				}
+			},
 			"permissions": [
 				"INTERNET"
 			],
