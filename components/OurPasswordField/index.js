@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import OurTextField from "~/components/OurTextField";
 import OurIconButton from "~/components/OurIconButton";
+import OurTextField from "~/components/OurTextField";
 import styles from "~/components/OurPasswordField/styles";
 
 const OurPasswordField = (props) => {
-	const { model } = props;
+	const { model, validate } = props;
 
 	const [toggleSecure, setToggleSecure] = useState(true);
-
-	const validateForm = (value) => {
-		return value.trim() !== "";
-	};
 
 	const changeSecure = () => {
 		setToggleSecure(value => !value);
@@ -24,7 +20,7 @@ const OurPasswordField = (props) => {
 							autoCapitalize="none"
 							autoCompleteType="password"
 							secureTextEntry={toggleSecure}
-							onValidate={validateForm}
+							onValidate={validate}
 							model={model} />
 			<OurIconButton style={styles.eye} onPress={changeSecure} size={32} icon={toggleSecure ? faEyeSlash : faEye} />
 		</View>
