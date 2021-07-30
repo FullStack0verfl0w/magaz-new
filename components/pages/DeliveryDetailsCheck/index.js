@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import { ScrollView, View } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -84,13 +84,15 @@ const DeliveryDetailsCheck = (props) => {
 				</ScrollView>
 				{
 					!isOrderMade ?
-						<View style={styles.bottomContainer}>
-							<OurTextButton style={styles.button} onPress={goToDetailsEdit}
-										   textStyle={{ color: gradEnd }}
-										   translate={true}>orderInfoCheckEdit</OurTextButton>
-							<OurTextButton style={styles.button} onPress={makeAnOrder} textStyle={{ color: gradEnd }}
-										   translate={true}>orderInfoCheckOrder</OurTextButton>
-						</View>
+						<SafeAreaView>
+							<View style={styles.bottomContainer}>
+								<OurTextButton style={styles.button} onPress={goToDetailsEdit}
+											   textStyle={{ color: gradEnd }}
+											   translate={true}>orderInfoCheckEdit</OurTextButton>
+								<OurTextButton style={styles.button} onPress={makeAnOrder} textStyle={{ color: gradEnd }}
+											   translate={true}>orderInfoCheckOrder</OurTextButton>
+							</View>
+						</SafeAreaView>
 						: <></>
 				}
 			</View>

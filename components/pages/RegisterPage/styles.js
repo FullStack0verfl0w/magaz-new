@@ -14,9 +14,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 	},
 	topContainer: {
-		height: "100%",
-		width: "100%",
-		justifyContent: "space-between",
+		flex: 1,
 		paddingTop: 10,
 	},
 	scrollContainer: {

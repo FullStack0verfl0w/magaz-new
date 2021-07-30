@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useQuery } from "@apollo/client";
@@ -117,6 +117,7 @@ const OrderInfo = (props) => {
 				style={styles.background}
 				locations={[.2, 1]}
 				colors={[gradStart, gradEnd]}/>
+			<SafeAreaView>
 			<ScrollView contentContainerStyle={styles.mainContainer}>
 				<View style={styles.orderNumberContainer}>
 					<OurText style={styles.orderNumber} translate={true} params={{ id }}>orderNumber</OurText>
@@ -211,6 +212,7 @@ const OrderInfo = (props) => {
 					}
 				</View>
 			</ScrollView>
+			</SafeAreaView>
 		</>
 	);
 };

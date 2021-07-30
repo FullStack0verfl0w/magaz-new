@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useDispatch } from "react-redux";
@@ -150,6 +150,7 @@ const ProductInfo = (props) => {
 				style={styles.background}
 				locations={[0, 1.0]}
 				colors={[gradStart, gradEnd]}/>
+			<SafeAreaView>
 			<ScrollView contentContainerStyle={styles.mainContainer}>
 				<View style={styles.productNameContainer}>
 					<OurText style={styles.productName}>{name}</OurText>
@@ -180,6 +181,7 @@ const ProductInfo = (props) => {
 					}
 				</View>
 			</ScrollView>
+			</SafeAreaView>
 		</>
 	);
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, SafeAreaView, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import { FetchCartProductList } from "~/redux/CartReducer/actions";
@@ -114,15 +114,17 @@ const Cart = (props) => {
 											   onRefresh={() => dispatch(FetchCartProductList)}
 											   data={Array.from(state.productList.values())} navigation={navigation}/>
 				<CartTotal total={state.total}/>
-				<View style={styles.bottomContainer}>
-					<OurTextButton
-						translate={true}
-						disabled={!state.productList.size || state.loading}
-						onPress={toDeliveryDetails}
-						style={styles.checkoutButton}
-						textStyle={{ color: gradEnd }}
-					>{state.loading ? "activityLoading" : "cartCheckout"}</OurTextButton>
-				</View>
+				<SafeAreaView style={styles.bottomSafeAreaContainer}>
+					<View style={styles.bottomContainer}>
+						<OurTextButton
+							translate={true}
+							disabled={!state.productList.size || state.loading}
+							onPress={toDeliveryDetails}
+							style={styles.checkoutButton}
+							textStyle={{ color: gradEnd }}
+						>{state.loading ? "activityLoading" : "cartCheckout"}</OurTextButton>
+					</View>
+				</SafeAreaView>
 			</View>
 		</>
 	);

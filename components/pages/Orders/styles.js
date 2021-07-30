@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
 	mainContainer: {
 		flex: 1,
 		flexDirection: "column",
-		alignItems: "center",
 		justifyContent: "space-between",
 		width: "100%",
 	},
@@ -22,6 +21,7 @@ const styles = StyleSheet.create({
 		paddingTop: 12,
 	},
 	emptyTextContainer: {
+		width: "100%",
 		position: "absolute",
 		alignItems: "center",
 		marginTop: 12,

@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, SafeAreaView, View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch, useSelector } from "react-redux";
 import { FetchOrderList } from "~/redux/OrdersReducer/actions";
@@ -56,8 +56,10 @@ const Orders = (props) => {
 						</View>
 						: <></>
 				}
+				<SafeAreaView>
 				<MemoedLocallyAnimatedFlatList refreshing={state.loading} onRefresh={() => dispatch(FetchOrderList)}
 											   navigation={navigation} data={Array.from(state.orderList.values())}/>
+				</SafeAreaView>
 			</View>
 		</>
 	);

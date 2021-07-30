@@ -38,9 +38,11 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-end",
 		marginBottom: 8,
 	},
+	bottomSafeAreaContainer: {
+		width: "100%",
+	},
 	bottomContainer: {
 		paddingHorizontal: 12,
-		width: "100%",
 	},
 	checkoutButton: {
 		width: "100%",
@@ -48,7 +50,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		bottom: 0,
 		marginTop: 8,
-		marginBottom: 30,
+		marginBottom: 20,
 	},
 	loadingContainer: {
 		alignItems: "center",

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { KeyboardAvoidingView, ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView, ScrollView, View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,8 +15,9 @@ import OurText from "~/components/OurText";
 import OurActivityIndicator from "~/components/OurActivityIndicator";
 import OurTextButton from "~/components/OurTextButton";
 import styles from "./styles";
-import { AUTH_TOKEN_EXPIRE_TIME, HeaderStyle } from "~/utils/config";
+import { AUTH_TOKEN_EXPIRE_TIME, HEADER_HEIGHT, HeaderStyle } from "~/utils/config";
 import { isIOS } from "~/utils";
+import OurPasswordField from "~/components/OurPasswordField";
 
 const ERROR_TO_TRANSLATE = {
 	"invalid_username": "loginPageErrorWrongData",
@@ -84,43 +85,37 @@ const LoginPage = (props) => {
 				loading ?
 					<OurActivityIndicator/>
 					:
-					<View style={styles.mainContainer}>
-						<KeyboardAvoidingView style={styles.topContainer} behavior={isIOS() ? "padding" : null}
-											  keyboardVerticalOffset={isIOS() ? 52 : 0}>
+						<KeyboardAvoidingView style={styles.topContainer} behavior={isIOS() ? "padding" : null} keyboardVerticalOffset={HEADER_HEIGHT}>
 							<ScrollView contentContainerStyle={styles.scrollContainer}>
 								<OurTextField placeholder="registerPageFormUsername"
 											  onValidate={validateForm}
 											  autoCompleteType="username"
 											  model={[username, setUsername]}/>
-								<OurTextField placeholder="registerPageFormPassword"
-											  autoCapitalize="none"
-											  autoCompleteType="password"
-											  secureTextEntry={true}
-											  onValidate={validateForm}
-											  model={[password, setPassword]}/>
+								<OurPasswordField validate={validateForm} model={[password, setPassword]}/>
 							</ScrollView>
-							<View style={styles.bottomContainer}>
-								<View style={styles.bottomSignInContainer}>
-									<OurText translate={true}
-											 style={styles.bottomSignInText}>loginPageRegisterText</OurText>
-									<OurText style={[styles.bottomSignInText, styles.bottomSignInButton]}
-											 onPress={() => {
-												 navigation.navigate("RegisterPage");
-											 }} translate={true}>loginPageRegisterButton</OurText>
+							<SafeAreaView>
+								<View style={styles.bottomContainer}>
+									<View style={styles.bottomSignInContainer}>
+										<OurText translate={true}
+												 style={styles.bottomSignInText}>loginPageRegisterText</OurText>
+										<OurText style={[styles.bottomSignInText, styles.bottomSignInButton]}
+												 onPress={() => {
+													 navigation.navigate("RegisterPage");
+												 }} translate={true}>loginPageRegisterButton</OurText>
+									</View>
+									<OurTextButton onPress={() => {
+										loginCustomer({
+											variables: {
+												uuid: customerId,
+												username: username,
+												password: password,
+											},
+										});
+									}} style={styles.button} textStyle={{ color: gradEnd, fontSize: 20 }}
+												   translate={true}>welcomePageLogin</OurTextButton>
 								</View>
-								<OurTextButton onPress={() => {
-									loginCustomer({
-										variables: {
-											uuid: customerId,
-											username: username,
-											password: password,
-										},
-									});
-								}} style={styles.button} textStyle={{ color: gradEnd, fontSize: 20 }}
-											   translate={true}>welcomePageLogin</OurTextButton>
-							</View>
+							</SafeAreaView>
 						</KeyboardAvoidingView>
-					</View>
 			}
 		</>
 	);

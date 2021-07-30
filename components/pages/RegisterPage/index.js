@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { KeyboardAvoidingView, ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView, ScrollView, View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,7 +15,9 @@ import OurActivityIndicator from "~/components/OurActivityIndicator";
 import OurTextButton from "~/components/OurTextButton";
 import styles from "./styles";
 import SyncStorage from "sync-storage";
-import { AUTH_TOKEN_EXPIRE_TIME, HeaderStyle } from "~/utils/config";
+import { AUTH_TOKEN_EXPIRE_TIME, HEADER_HEIGHT, HeaderStyle } from "~/utils/config";
+import OurPasswordField from "~/components/OurPasswordField";
+import { isIOS } from "~/utils";
 
 const USERNAME_MIN_LENGTH = 4;
 
@@ -38,8 +40,6 @@ const RegisterPage = (props) => {
 	const [usernameValid, setUsernameValid] = useState(false);
 	const [password, setPassword] = useState("");
 	const [passwordValid, setPasswordValid] = useState(false);
-	const [passwordRetype, setPasswordRetype] = useState("");
-	const [passwordRetypeValid, setPasswordRetypeValid] = useState(false);
 
 	const [gradStart, gradMiddle, gradEnd] = ["#B0E8E4", "#86A8E7", "#7F7FD5"];
 
@@ -107,7 +107,6 @@ const RegisterPage = (props) => {
 	const validateFormPassword = (value) => {
 		if ( value.trim() !== "" ) {
 			if ( value.toLowerCase().match(PASSWORD_PATTERN) ) {
-				setPasswordRetype("");
 				setPasswordValid(true);
 				return true;
 			} else {
@@ -123,24 +122,6 @@ const RegisterPage = (props) => {
 			}
 		}
 	};
-	const validateFormRetypePassword = (value) => {
-		if ( value.trim() !== "" ) {
-			if ( password === value ) {
-				setPasswordRetypeValid(true);
-				return true;
-			} else {
-				const toast = {
-					icon: faInfoCircle,
-					text: "registerPageErrorPasswordsDontMatch",
-					translate: true,
-					duration: 3000,
-					color: gradEnd,
-				};
-				dispatch(AddToast(toast, "REG_RETYPE_PASSWORD_TOAST"));
-				setPasswordRetypeValid(false);
-			}
-		}
-	};
 
 	return (
 		<>
@@ -152,8 +133,9 @@ const RegisterPage = (props) => {
 				loading ?
 					<OurActivityIndicator/>
 					:
-					<View style={styles.mainContainer}>
-						<KeyboardAvoidingView style={styles.topContainer}>
+						<KeyboardAvoidingView style={styles.topContainer}
+											  behavior={isIOS() ? "padding" : null}
+											  keyboardVerticalOffset={HEADER_HEIGHT}>
 							<ScrollView contentContainerStyle={styles.scrollContainer}>
 								<OurTextField placeholder="registerPageFormEmail"
 											  onValidate={validateFormEmail}
@@ -164,25 +146,14 @@ const RegisterPage = (props) => {
 											  autoCompleteType="username"
 											  onValidate={validateFormUsername}
 											  model={[username, setUsername]}/>
-								<OurTextField placeholder="registerPageFormPassword"
-											  autoCapitalize="none"
-											  autoCompleteType="password"
-											  secureTextEntry={true}
-											  onValidate={validateFormPassword}
-											  model={[password, setPassword]}/>
-								<OurTextField placeholder="registerPageFormPasswordRetype"
-											  autoCapitalize="none"
-											  autoCompleteType="password"
-											  secureTextEntry={true}
-											  onValidate={validateFormRetypePassword}
-											  model={[passwordRetype, setPasswordRetype]}/>
+								<OurPasswordField validate={validateFormPassword} model={[password, setPassword]} />
 							</ScrollView>
+							<SafeAreaView>
 							<View style={styles.bottomContainer}>
 								<OurTextButton disabled={!(
 									emailValid &&
 									usernameValid &&
-									passwordValid &&
-									passwordRetypeValid)} onPress={() => {
+									passwordValid)} onPress={() => {
 									regCustomer({
 										variables: {
 											uuid: customerId,
@@ -194,8 +165,8 @@ const RegisterPage = (props) => {
 								}} style={styles.button} textStyle={{ color: gradEnd, fontSize: 20 }}
 											   translate={true}>welcomePageRegister</OurTextButton>
 							</View>
+							</SafeAreaView>
 						</KeyboardAvoidingView>
-					</View>
 			}
 		</>
 	);

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef } from "react";
-import { Animated, FlatList } from "react-native";
+import { Animated, FlatList, SafeAreaView } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { useQuery } from "@apollo/client";
@@ -79,6 +79,7 @@ const ProductsList = (props) => {
 				style={styles.productList}
 				locations={[0, 1.0]}
 				colors={[gradStart, gradEnd]}/>
+			<SafeAreaView>
 			{
 				(loading || error || abortController.signal.aborted) ?
 					<OurActivityIndicator error={error} abortController={abortController} doRefresh={refetch}
@@ -89,6 +90,7 @@ const ProductsList = (props) => {
 						refetch()
 					}}/>
 			}
+		</SafeAreaView>
 		</>
 	);
 };

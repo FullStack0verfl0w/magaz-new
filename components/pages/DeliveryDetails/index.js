@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import { KeyboardAvoidingView, ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView, ScrollView, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { useTranslation } from "react-i18next";
@@ -10,7 +10,8 @@ import OurTextButton from "~/components/OurTextButton";
 import OurTextField from "~/components/OurTextField";
 import styles from "./styles";
 import OurCountryPicker from "~/components/OurCountryPicker";
-import { HeaderStyle } from "~/utils/config";
+import { HEADER_HEIGHT, HeaderStyle } from "~/utils/config";
+import { isIOS } from "~/utils";
 
 const DeliveryDetails = (props) => {
 	const state = useSelector(state => state.deliveryDetailsReducer);
@@ -69,7 +70,7 @@ const DeliveryDetails = (props) => {
 		<>
 			<LinearGradient style={styles.background} locations={[0, 1.0]} colors={[gradStart, gradEnd]}/>
 			<View style={styles.mainContainer}>
-				<KeyboardAvoidingView style={styles.infoContainer}>
+				<KeyboardAvoidingView style={styles.infoContainer} behavior={isIOS() ? "padding" : null} keyboardVerticalOffset={HEADER_HEIGHT}>
 					<ScrollView style={styles.scrollView} contentContainerStyle={styles.details}>
 						<OurTextField name="firstname"
 									  autoCompleteType="name"
@@ -110,10 +111,12 @@ const DeliveryDetails = (props) => {
 									  placeholder={t("orderFormNotes")}/>
 					</ScrollView>
 				</KeyboardAvoidingView>
-				<View style={styles.bottomContainer}>
-					<OurTextButton disabled={!state.allFieldsAreValid} onPress={goToDetailsCheck}
-								   textStyle={{ color: gradEnd }} translate={true}>orderInfoCheckOrder</OurTextButton>
-				</View>
+				<SafeAreaView>
+					<View style={styles.bottomContainer}>
+						<OurTextButton disabled={!state.allFieldsAreValid} onPress={goToDetailsCheck}
+									   textStyle={{ color: gradEnd }} translate={true}>orderInfoCheckOrder</OurTextButton>
+					</View>
+				</SafeAreaView>
 			</View>
 		</>
 	);

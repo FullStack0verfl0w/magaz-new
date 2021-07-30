@@ -9,14 +9,8 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		minHeight: "100%",
 	},
-	mainContainer: {
-		flex: 1,
-		justifyContent: "space-between",
-	},
 	topContainer: {
-		height: "100%",
-		width: "100%",
-		justifyContent: "space-between",
+		flex: 1,
 		paddingTop: 10,
 	},
 	scrollContainer: {
@@ -37,7 +31,6 @@ const styles = StyleSheet.create({
 	},
 	bottomContainer: {
 		alignItems: "center",
-		justifyContent: "space-between",
 		paddingBottom: 10,
 		paddingHorizontal: 10,
 	},
