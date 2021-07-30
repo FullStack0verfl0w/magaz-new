@@ -23,6 +23,7 @@
 			"**/*"
 		],
 		"ios": {
+			"icon": "./assets/icon_ios.png",
 			"config": {
 				"googleMapsApiKey": ""
 			},
