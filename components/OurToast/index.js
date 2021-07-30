@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyboardAvoidingView, LayoutAnimation } from "react-native";
+import { KeyboardAvoidingView, LayoutAnimation, SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 
 import ToastItem from "./ToastItem";
@@ -21,11 +21,13 @@ const OurToast = (props) => {
 
     return (
         <KeyboardAvoidingView behavior={"padding"} pointerEvents="box-none" style={styles.mainContainer}>
+            <SafeAreaView>
             {
                 toasts.map( (toast, index) => 
                     <ToastItem postDelete={postDelete} duration={toast.duration} id={toast.id} text={toast.text} translate={toast.translate} color={toast.color} icon={toast.icon} key={toast.id} />
                 )
             }
+            </SafeAreaView>
         </KeyboardAvoidingView>
     );
 };
